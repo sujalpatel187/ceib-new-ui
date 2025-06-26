@@ -1,0 +1,22 @@
+@use '../assets/css/_var';
+@use '../assets/css/_mixin' as mixin;
+
+.mainSection {
+    .mainLayout{
+        padding-top: 83px;
+        padding-left:240px;
+    }    
+    &.fullPage{
+        .mainLayout{
+            padding-left: 0;
+        }
+    }
+}
+// Responsive
+@media screen and (max-width: 1199px) {
+    .mainSection {
+        .mainLayout{
+            padding-left: 0;
+        }
+    }
+}

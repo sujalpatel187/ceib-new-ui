@@ -1,0 +1,73 @@
+.upload-audit-log {
+  .card {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    background-color: #f8f9fa;
+  }
+
+  .card-body {
+    padding: 20px;
+  }
+
+  .table {
+    margin-bottom: 0;
+
+    thead {
+      background-color: #fff;
+
+      th {
+        color: #495057;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+    }
+
+    tbody {
+      tr {
+        &:hover {
+          background-color: #e9ecef;
+        }
+
+        td {
+          vertical-align: middle;
+          color: #495057;
+
+          &.bg-success {
+            background-color: #28a745 !important;
+          }
+
+          &.bg-warning {
+            background-color: #ffc107 !important;
+          }
+
+          &.bg-danger {
+            background-color: #dc3545 !important;
+          }
+
+          &.action-upload {
+            background-color: #d4edda;
+            color: #155724;
+          }
+
+          &.action-update {
+            background-color: #fff3cd;
+            color: #856404;
+          }
+
+          &.action-delete {
+            background-color: #f8d7da;
+            color: #721c24;
+          }
+        }
+      }
+    }
+  }
+
+  .text-muted {
+    color: #6c757d !important;
+  }
+
+  .text-dark {
+    color: #343a40 !important;
+  }
+}
