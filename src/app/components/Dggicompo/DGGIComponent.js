@@ -5,43 +5,221 @@ import styles from './DGGIForm.module.scss';
 const DGGIForm = ({ onSubmit, onReset }) => {
   const [activeTab, setActiveTab] = useState('search_seizure');
   const [formData, setFormData] = useState({
-    search_seizure: {
-      file_no: '',
-      enquiry_initiated_id: '',
-      date_of_incident_report: '',
-      total_taxable_value: '',
-      tax: '',
-      interest: '',
-      penalty: '',
-      total: '',
-      whether_search_made: '',
-      whether_seizure_made: '',
-      date_of_search: '',
-      total_amount_of_seizure: '',
-      property_type_seized: '',
-      brief_facts_case: '',
-      supply_details: [{ custom_tariff_id: '', customs_tariff_code: '', customs_tariff_description: '', description_impugned_supply: '' }],
-      tax_deposit: [{ tax_cash: '', tax_credit: '', interest: '', penalty: '' }],
-      seizure_address_records: [{ master_address_type: '', name_of_business: '', designation_role: '', flat_house_no: '', post_office: '', premises_building: '', country_id: '', state_code: '', district_code: '', town_city: '', pincode: '' }],
-      goods_trades: [{ name_of_goods: '', quantity: '', unit: '', value: '', remarks: '' }],
-      electronics_digital: [{ device_type: '', quantity: '', value: '', remarks: '' }],
-      currencies: [{ currency: '', denomination: '', number: '', total_faced_value: '', total_faced_value_inr: '', remarks: '' }],
-      arms_ammunitions: [{ arms_name: '', quantity: '', value: '', remarks: '' }],
-      ndps: [{ drug_name: '', quantity: '', unit: '', mode_of_packaging: '', value: '', remarks: '' }],
-      ficns: [{ quality: '', denomination: '', number: '', total_face_value: '', remarks: '' }],
-      vehicles: [{ vehicle_no: '', name_of_owner: '', value: '', remarks: '' }],
-      bank_seizure_accounts: [{ account_no: '', ifsc: '', bank_name: '', branch_name: '', amount: '', remarks: '' }],
-      jewellery_gems: [{ type_jewellery_gems: '', quantity: '', unit: '', value: '', remark: '' }],
-      precious_metals: [{ details: '', quantity: '', unit: '', value: '', remarks: '' }],
-      share_certificates: [{ name_of_company: '', face_value: '', quantity: '', market_value: '', date_of_issue: '', value: '', remarks: '' }],
-      deposit_certificates: [{ type_of_certificates: '', principal_amount: '', maturity_date: '', value: '', remarks: '' }],
-      crypto_wallets: [{ name_of_wallet: '', name_of_coins: '', quantity: '', value: '', remarks: '' }],
-      demate_account_details: [{ demat_account_no: '', agent_name: '', depository_name: '', value: '', remarks: '' }],
-      flora_faunas: [{ name: '', quantity: '', unit: '', value: '', remarks: '' }],
-      plant_machineries: [{ name: '', quantity: '', unit: '', value: '', remarks: '' }],
-      im_address_details: [{ address_type: '', flat_house_no: '', post_office: '', premises_building: '', town_city: '', pincode: '', country_id: '', state_code: '', district_code: '', Value: '', remarks: '' }],
-      document_details: [{ document_name: '', document_file: '' }]
-    },
+    "search_seizure": 
+            {
+                "file_no": "DCG/NV/CST/AT/RRI/GA 22.05.2024 1782",
+                "enquiry_initiated_id": "Search",
+                "date_of_incident_report": "2024-05-22",
+                "total_taxable_value": "575000000",
+                "tax": "",
+                "interest": "",
+                "penality": "",
+                "total": "",
+                "whether_search_made": "No",
+                "whether_seizure_made": "No",
+                "date_of_search": "",
+                "total_amount_of_seizure": "",
+                "property_type_seized": "",
+                "brief_facts_case": "**Introduction**\n<ul>\n  <li>Subject: GST Evasion Case against M/s Global Enterprises</li>\n  <li>Investigating Body: Directorate General of GST Intelligence (DGGI)</li>\n</ul>\n\n**Case Details**\n<ul>\n  <li><strong>Evasion Amount</strong>: Approximately Rs. 5.75 crore</li>\n  <li><strong>Product Involved</strong>: Unmanufactured Tobacco (branded as SWAGAT/SWAGAT GOLD Khaini)</li>\n  <li><strong>Company Involved</strong>: M/s Global Enterprises (Manufacturer)</li>\n  <li><strong>Brand Owner</strong>: Shakti Zarda Factory India Pvt Ltd</li>\n</ul>\n\n**Investigation Findings**\n<ul>\n  <li>Unaccounted supplies to Global Enterprises uncovered at Shakti Zarda Factory India Pvt Ltd premises</li>\n  <li>Key persons, buyers, and suppliers admitted to:</li>\n    <ul>\n      <li>Evasion of GST</li>\n      <li>Use of cash transactions</li>\n      <li>Clandestine transportation methods</li>\n    </ul>\n  <li><strong>Investigation Status</strong>: Ongoing with further actions pending</li>\n</ul>\n\n**Case References & Signatories**\n<ul>\n  <li><strong>File No.</strong>: DCG/NV/CST/AT/RRI/GA 22.05.2024 1782</li>\n  <li><strong>Diary No.</strong>: 1781412</li>\n  <li><strong>Digit Entry No.</strong>: 20240607115451 478</li>\n  <li><strong>Signatories</strong>:\n    <ul>\n      <li>Brij Bhushan Gupta, Pr. Additional Director General (Document Date: 22/05/2024, Signature Date: 28/05/2024)</li>\n      <li>RNIBATRRE Chatterjee, Director (Signature Date: 29/05/2024)</li>\n    </ul>\n  </li>\n</ul>",
+                "supply_details": [
+                    {
+                        "custom_tariff_id": "HSN/SAC",
+                        "customs_tariff_code": "Hsn_Sac_tariff_code_01",
+                        "customs_tariff_description": "2401 - Unmanufactured Tobacco",
+                        "description_impugned_supply": ""
+                    }
+                ],
+                "tax_deposit": [
+                    {
+                        "tax_cash": "",
+                        "tax_credit": "",
+                        "interest": "",
+                        "penalty": ""
+                    }
+                ],
+                "seizure_address_records": [
+                    {
+                        "master_address_type": "",
+                        "name_of_business": "",
+                        "designation_role": "",
+                        "flat_house_no": "",
+                        "post_office": "",
+                        "premises_building": "",
+                        "country_id": "",
+                        "state_code": "",
+                        "district_code": "",
+                        "town_city": "",
+                        "pincode": ""
+                    }
+                ],
+                "goods_trades": [
+                    {
+                        "name_of_goods": "",
+                        "quantity": "",
+                        "unit": "",
+                        "value": "",
+                        "remarks": ""
+                    }
+                ],
+                "electronics_digital": [
+                    {
+                        "device_type": "",
+                        "quantity": "",
+                        "value": "",
+                        "remarks": ""
+                    }
+                ],
+                "currencies": [
+                    {
+                        "currency": "",
+                        "denomination": "",
+                        "number": "",
+                        "total_faced_value": "",
+                        "total_faced_value_inr": "",
+                        "remarks": ""
+                    }
+                ],
+                "arms_ammunitions": [
+                    {
+                        "arms_name": "",
+                        "quantity": "",
+                        "value": "",
+                        "remarks": ""
+                    }
+                ],
+                "ndps": [
+                    {
+                        "drug_name": "",
+                        "quantity": "",
+                        "unit": "",
+                        "mode_of_packaging": "",
+                        "value": "",
+                        "remarks": ""
+                    }
+                ],
+                "ficns": [
+                    {
+                        "quality": "",
+                        "denomination": "",
+                        "number": "",
+                        "total_face_value": "",
+                        "remarks": ""
+                    }
+                ],
+                "vehicles": [
+                    {
+                        "vehicle_no": "",
+                        "name_of_owner": "",
+                        "value": "",
+                        "remarks": ""
+                    }
+                ],
+                "bank_seizure_accounts": [
+                    {
+                        "account_no": "",
+                        "ifsc": "",
+                        "bank_name": "",
+                        "branch_name": "",
+                        "amount": "",
+                        "remarks": ""
+                    }
+                ],
+                "jewellery_gems": [
+                    {
+                        "type_jewellery_gems": "",
+                        "quantity": "",
+                        "unit": "",
+                        "value": "",
+                        "remark": ""
+                    }
+                ],
+                "precious_metals": [
+                    {
+                        "details": "",
+                        "quantity": "",
+                        "unit": "",
+                        "value": "",
+                        "remarks": ""
+                    }
+                ],
+                "share_certificates": [
+                    {
+                        "name_of_company": "",
+                        "face_value": "",
+                        "quantity": "",
+                        "market_value": "",
+                        "date_of_issue": "",
+                        "value": "",
+                        "remarks": ""
+                    }
+                ],
+                "deposit_certificates": [
+                    {
+                        "type_of_certificates": "",
+                        "principal_amount": "",
+                        "maturity_date": "",
+                        "value": "",
+                        "remarks": ""
+                    }
+                ],
+                "crypto_wallets": [
+                    {
+                        "name_of_wallet": "",
+                        "name_of_coins": "",
+                        "quantity": "",
+                        "value": "",
+                        "remarks": ""
+                    }
+                ],
+                "demate_account_details": [
+                    {
+                        "demat_account_no": "",
+                        "agent_name": "",
+                        "depository_name": "",
+                        "value": "",
+                        "remarks": ""
+                    }
+                ],
+                "flora_faunas": [
+                    {
+                        "name": "",
+                        "quantity": "",
+                        "unit": "",
+                        "value": "",
+                        "remarks": ""
+                    }
+                ],
+                "plant_machineries": [
+                    {
+                        "name": "",
+                        "quantity": "",
+                        "unit": "",
+                        "value": "",
+                        "remarks": ""
+                    }
+                ],
+                "im_address_details": [
+                    {
+                        "address_type": "",
+                        "flat_house_no": "",
+                        "post_office": "",
+                        "premises_building": "",
+                        "town_city": "",
+                        "pincode": "",
+                        "country_id": "",
+                        "state_code": "",
+                        "district_code": "",
+                        "Value": "",
+                        "remarks": ""
+                    }
+                ],
+                "document_details": [
+                    {
+                        "document_name": "Search & seizure / Incident Report",
+                        "document_file": "https://ceibdev.php-staging.com/webroot/Default/upload_file/84103415387796291599440906432758269317_MS_GLOBAL_ENTERPRISES.pdf"
+                    }
+                ]
+            },
     show_cause_notice: {
       scn_closure: '',
       file_no: '',
@@ -344,12 +522,12 @@ const renderSearchSeizure = () => (
       </div>
       <div className={styles.formGrid}>
         {renderFormGroup('Whether Search Made', 'whether_search_made', 'select', [
-          { value: 'yes', label: 'Yes' },
-          { value: 'no', label: 'No' }
+          { value: 'Yes', label: 'Yes' },
+          { value: 'No', label: 'No' }
         ])}
         {renderFormGroup('Whether Seizure Made', 'whether_seizure_made', 'select', [
-          { value: 'yes', label: 'Yes' },
-          { value: 'no', label: 'No' }
+          { value: 'Yes', label: 'Yes' },
+          { value: 'No', label: 'No' }
         ])}
       </div>
       <div className={styles.formGrid}>

@@ -4,52 +4,46 @@ import styles from './CaseAttributes.module.scss';
 
 const CaseAttributes = () => {
   const [formData, setFormData] = useState({
-    // Case Identifiers
-    caseId: '',
-    fileNumber: '',
-    caseOrderNumber: '',
-    offenceDate: '',
-    caseName: '',
-    
-    // Case Attributes
-    caseAttributes: [
-      {
-        caseCategoryId: '',
-        relevantAct: [
-          {
-            actId: '',
-            offenceType: [
-              {
-                offenceTypeId: ''
-              }
-            ],
-            sectionName: ''
-          }
-        ]
-      }
-    ]
+    "case_attributes": [
+        {
+            "case_category_id": "GST",
+            "relevant_act": [
+                {
+                    "act_id": "Central Goods and Services Tax Act, 2017",
+                    "offence_type": [
+                        {
+                            "offence_type_id": "Clandestine removal of goods to evade payment of tax"
+                        },
+                        {
+                            "offence_type_id": "Clandestine removal of taxable goods to evade payment of tax"
+                        },
+                        {
+                            "offence_type_id": "Evaded payment of appropriate GST"
+                        },
+                        {
+                            "offence_type_id": "evaded payment of GST"
+                        },
+                        {
+                            "offence_type_id": "Not Payment Of GST"
+                        },
+                        {
+                            "offence_type_id": "Non payment of GST"
+                        },
+                        {
+                            "offence_type_id": "Mis-declaring of stock to evade the payment of tax"
+                        },
+                        {
+                            "offence_type_id": "Clandestine sale"
+                        }
+                    ],
+                    "section_name": ""
+                }
+            ]
+        }
+    ],
   });
 
   const [errors, setErrors] = useState({});
-
-  // Sample data for dropdowns (replace with actual API calls)
-  const caseCategories = [
-    { id: '1', name: 'Criminal Case' },
-    { id: '2', name: 'Civil Case' },
-    { id: '3', name: 'Commercial Case' }
-  ];
-
-  const acts = [
-    { id: '1', name: 'Indian Penal Code' },
-    { id: '2', name: 'Motor Vehicle Act' },
-    { id: '3', name: 'Narcotic Drugs Act' }
-  ];
-
-  const offenceTypes = [
-    { id: '1', name: 'Theft' },
-    { id: '2', name: 'Assault' },
-    { id: '3', name: 'Fraud' }
-  ];
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({
@@ -69,7 +63,7 @@ const CaseAttributes = () => {
   const handleCaseAttributeChange = (index, field, value) => {
     setFormData(prev => ({
       ...prev,
-      caseAttributes: prev.caseAttributes.map((attr, i) => 
+      case_attributes: prev.case_attributes.map((attr, i) => 
         i === index ? { ...attr, [field]: value } : attr
       )
     }));
@@ -78,10 +72,10 @@ const CaseAttributes = () => {
   const handleRelevantActChange = (attrIndex, actIndex, field, value) => {
     setFormData(prev => ({
       ...prev,
-      caseAttributes: prev.caseAttributes.map((attr, i) => 
+      case_attributes: prev.case_attributes.map((attr, i) => 
         i === attrIndex ? {
           ...attr,
-          relevantAct: attr.relevantAct.map((act, j) => 
+          relevant_act: attr.relevant_act.map((act, j) => 
             j === actIndex ? { ...act, [field]: value } : act
           )
         } : attr
@@ -92,14 +86,14 @@ const CaseAttributes = () => {
   const handleOffenceTypeChange = (attrIndex, actIndex, offenceIndex, value) => {
     setFormData(prev => ({
       ...prev,
-      caseAttributes: prev.caseAttributes.map((attr, i) => 
+      case_attributes: prev.case_attributes.map((attr, i) => 
         i === attrIndex ? {
           ...attr,
-          relevantAct: attr.relevantAct.map((act, j) => 
+          relevant_act: attr.relevant_act.map((act, j) => 
             j === actIndex ? {
               ...act,
-              offenceType: act.offenceType.map((offence, k) => 
-                k === offenceIndex ? { offenceTypeId: value } : offence
+              offence_type: act.offence_type.map((offence, k) => 
+                k === offenceIndex ? { offence_type_id: value } : offence
               )
             } : act
           )
@@ -111,15 +105,15 @@ const CaseAttributes = () => {
   const addCaseAttribute = () => {
     setFormData(prev => ({
       ...prev,
-      caseAttributes: [
-        ...prev.caseAttributes,
+      case_attributes: [
+        ...prev.case_attributes,
         {
-          caseCategoryId: '',
-          relevantAct: [
+          case_category_id: '',
+          relevant_act: [
             {
-              actId: '',
-              offenceType: [{ offenceTypeId: '' }],
-              sectionName: ''
+              act_id: '',
+              offence_type: [{ offence_type_id: '' }],
+              section_name: ''
             }
           ]
         }
@@ -130,15 +124,15 @@ const CaseAttributes = () => {
   const addRelevantAct = (attrIndex) => {
     setFormData(prev => ({
       ...prev,
-      caseAttributes: prev.caseAttributes.map((attr, i) => 
+      case_attributes: prev.case_attributes.map((attr, i) => 
         i === attrIndex ? {
           ...attr,
-          relevantAct: [
-            ...attr.relevantAct,
+          relevant_act: [
+            ...attr.relevant_act,
             {
-              actId: '',
-              offenceType: [{ offenceTypeId: '' }],
-              sectionName: ''
+              act_id: '',
+              offence_type: [{ offence_type_id: '' }],
+              section_name: ''
             }
           ]
         } : attr
@@ -149,13 +143,13 @@ const CaseAttributes = () => {
   const addOffenceType = (attrIndex, actIndex) => {
     setFormData(prev => ({
       ...prev,
-      caseAttributes: prev.caseAttributes.map((attr, i) => 
+      case_attributes: prev.case_attributes.map((attr, i) => 
         i === attrIndex ? {
           ...attr,
-          relevantAct: attr.relevantAct.map((act, j) => 
+          relevant_act: attr.relevant_act.map((act, j) => 
             j === actIndex ? {
               ...act,
-              offenceType: [...act.offenceType, { offenceTypeId: '' }]
+              offence_type: [...act.offence_type, { offence_type_id: '' }]
             } : act
           )
         } : attr
@@ -164,10 +158,10 @@ const CaseAttributes = () => {
   };
 
   const removeCaseAttribute = (index) => {
-    if (formData.caseAttributes.length > 1) {
+    if (formData.case_attributes.length > 1) {
       setFormData(prev => ({
         ...prev,
-        caseAttributes: prev.caseAttributes.filter((_, i) => i !== index)
+        case_attributes: prev.case_attributes.filter((_, i) => i !== index)
       }));
     }
   };
@@ -175,10 +169,10 @@ const CaseAttributes = () => {
   const removeRelevantAct = (attrIndex, actIndex) => {
     setFormData(prev => ({
       ...prev,
-      caseAttributes: prev.caseAttributes.map((attr, i) => 
+      case_attributes: prev.case_attributes.map((attr, i) => 
         i === attrIndex ? {
           ...attr,
-          relevantAct: attr.relevantAct.filter((_, j) => j !== actIndex)
+          relevant_act: attr.relevant_act.filter((_, j) => j !== actIndex)
         } : attr
       )
     }));
@@ -187,13 +181,13 @@ const CaseAttributes = () => {
   const removeOffenceType = (attrIndex, actIndex, offenceIndex) => {
     setFormData(prev => ({
       ...prev,
-      caseAttributes: prev.caseAttributes.map((attr, i) => 
+      case_attributes: prev.case_attributes.map((attr, i) => 
         i === attrIndex ? {
           ...attr,
-          relevantAct: attr.relevantAct.map((act, j) => 
+          relevant_act: attr.relevant_act.map((act, j) => 
             j === actIndex ? {
               ...act,
-              offenceType: act.offenceType.filter((_, k) => k !== offenceIndex)
+              offence_type: act.offence_type.filter((_, k) => k !== offenceIndex)
             } : act
           )
         } : attr
@@ -204,10 +198,24 @@ const CaseAttributes = () => {
   const validateForm = () => {
     const newErrors = {};
     
-    if (!formData.caseId.trim()) newErrors.caseId = 'Case ID is required';
-    if (!formData.fileNumber.trim()) newErrors.fileNumber = 'File Number is required';
-    if (!formData.caseOrderNumber.trim()) newErrors.caseOrderNumber = 'Case/Order Number is required';
-    if (!formData.offenceDate) newErrors.offenceDate = 'Offence Date is required';
+    // Add your validation logic here if needed
+    formData.case_attributes.forEach((attr, attrIndex) => {
+      if (!attr.case_category_id.trim()) {
+        newErrors[`case_category_${attrIndex}`] = 'Case Category is required';
+      }
+      
+      attr.relevant_act.forEach((act, actIndex) => {
+        if (!act.act_id.trim()) {
+          newErrors[`act_id_${attrIndex}_${actIndex}`] = 'Act is required';
+        }
+        
+        act.offence_type.forEach((offence, offenceIndex) => {
+          if (!offence.offence_type_id.trim()) {
+            newErrors[`offence_type_${attrIndex}_${actIndex}_${offenceIndex}`] = 'Offence Type is required';
+          }
+        });
+      });
+    });
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -217,7 +225,7 @@ const CaseAttributes = () => {
     e.preventDefault();
     
     if (validateForm()) {
-      console.log('Form Data:', formData);
+      // console.log('Form Data:', formData);
       // Here you would typically send the data to your API
       alert('Form submitted successfully!');
     }
@@ -225,21 +233,20 @@ const CaseAttributes = () => {
 
   const handleReset = () => {
     setFormData({
-      caseId: '',
-      fileNumber: '',
-      caseOrderNumber: '',
-      offenceDate: '',
-      caseName: '',
-      caseAttributes: [
+      "case_attributes": [
         {
-          caseCategoryId: '',
-          relevantAct: [
-            {
-              actId: '',
-              offenceType: [{ offenceTypeId: '' }],
-              sectionName: ''
-            }
-          ]
+            "case_category_id": "",
+            "relevant_act": [
+                {
+                    "act_id": "",
+                    "offence_type": [
+                        {
+                            "offence_type_id": ""
+                        }
+                    ],
+                    "section_name": ""
+                }
+            ]
         }
       ]
     });
@@ -249,81 +256,6 @@ const CaseAttributes = () => {
   return (
     <div className={styles.formContainer}>
       <form onSubmit={handleSubmit} className={styles.caseForm}>
-        {/* Case Identifiers Section */}
-        {/* <div className={styles.section}>
-          <h2 className={styles.sectionTitle}>Case Identifiers</h2>
-          
-          <div className={styles.row}>
-            <div className={styles.field}>
-              <label className={styles.label}>
-                Case ID <span className={styles.required}>*</span>
-              </label>
-              <input
-                type="text"
-                className={`${styles.input} ${errors.caseId ? styles.error : ''}`}
-                placeholder="Enter case ID..."
-                value={formData.caseId}
-                onChange={(e) => handleInputChange('caseId', e.target.value)}
-              />
-              {errors.caseId && <span className={styles.errorText}>{errors.caseId}</span>}
-            </div>
-            
-            <div className={styles.field}>
-              <label className={styles.label}>
-                File Number <span className={styles.required}>*</span>
-              </label>
-              <input
-                type="text"
-                className={`${styles.input} ${errors.fileNumber ? styles.error : ''}`}
-                placeholder="Enter file number..."
-                value={formData.fileNumber}
-                onChange={(e) => handleInputChange('fileNumber', e.target.value)}
-              />
-              {errors.fileNumber && <span className={styles.errorText}>{errors.fileNumber}</span>}
-            </div>
-          </div>
-
-          <div className={styles.row}>
-            <div className={styles.field}>
-              <label className={styles.label}>
-                Case/Order Number <span className={styles.required}>*</span>
-              </label>
-              <input
-                type="text"
-                className={`${styles.input} ${errors.caseOrderNumber ? styles.error : ''}`}
-                placeholder="Enter case/order number..."
-                value={formData.caseOrderNumber}
-                onChange={(e) => handleInputChange('caseOrderNumber', e.target.value)}
-              />
-              {errors.caseOrderNumber && <span className={styles.errorText}>{errors.caseOrderNumber}</span>}
-            </div>
-            
-            <div className={styles.field}>
-              <label className={styles.label}>
-                Offence Date <span className={styles.required}>*</span>
-              </label>
-              <input
-                type="date"
-                className={`${styles.input} ${errors.offenceDate ? styles.error : ''}`}
-                value={formData.offenceDate}
-                onChange={(e) => handleInputChange('offenceDate', e.target.value)}
-              />
-              {errors.offenceDate && <span className={styles.errorText}>{errors.offenceDate}</span>}
-            </div>
-          </div>
-
-          <div className={styles.field}>
-            <label className={styles.label}>Case Name</label>
-            <input
-              type="text"
-              className={styles.input}
-              placeholder="Enter case name..."
-              value={formData.caseName}
-              onChange={(e) => handleInputChange('caseName', e.target.value)}
-            />
-          </div>
-        </div> */}
-
         {/* Case Attributes Section */}
         <div className={styles.section}>
           <div className={styles.sectionHeader}>
@@ -337,11 +269,11 @@ const CaseAttributes = () => {
             </button>
           </div>
 
-          {formData.caseAttributes.map((caseAttr, attrIndex) => (
+          {formData.case_attributes.map((caseAttr, attrIndex) => (
             <div key={attrIndex} className={styles.caseAttribute}>
               <div className={styles.attributeHeader}>
                 <h3>Case Attribute {attrIndex + 1}</h3>
-                {formData.caseAttributes.length > 1 && (
+                {formData.case_attributes.length > 1 && (
                   <button
                     type="button"
                     className={styles.removeButton}
@@ -354,18 +286,16 @@ const CaseAttributes = () => {
 
               <div className={styles.field}>
                 <label className={styles.label}>Case Category</label>
-                <select
-                  className={styles.select}
-                  value={caseAttr.caseCategoryId}
-                  onChange={(e) => handleCaseAttributeChange(attrIndex, 'caseCategoryId', e.target.value)}
-                >
-                  <option value="">Select case category...</option>
-                  {caseCategories.map(category => (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
-                    </option>
-                  ))}
-                </select>
+                <input
+                  type="text"
+                  className={styles.input}
+                  placeholder="Enter case category..."
+                  value={caseAttr.case_category_id}
+                  onChange={(e) => handleCaseAttributeChange(attrIndex, 'case_category_id', e.target.value)}
+                />
+                {errors[`case_category_${attrIndex}`] && (
+                  <span className={styles.error}>{errors[`case_category_${attrIndex}`]}</span>
+                )}
               </div>
 
               {/* Relevant Acts */}
@@ -381,11 +311,11 @@ const CaseAttributes = () => {
                   </button>
                 </div>
 
-                {caseAttr.relevantAct.map((act, actIndex) => (
-                  <div key={actIndex} className={styles.relevantAct}>
+                {caseAttr.relevant_act.map((act, actIndex) => (
+                  <div key={actIndex} className={styles.relevant_act}>
                     <div className={styles.actHeader}>
                       <h5>Act {actIndex + 1}</h5>
-                      {caseAttr.relevantAct.length > 1 && (
+                      {caseAttr.relevant_act.length > 1 && (
                         <button
                           type="button"
                           className={styles.removeButton}
@@ -399,18 +329,16 @@ const CaseAttributes = () => {
                     <div className={styles.row}>
                       <div className={styles.field}>
                         <label className={styles.label}>Act</label>
-                        <select
-                          className={styles.select}
-                          value={act.actId}
-                          onChange={(e) => handleRelevantActChange(attrIndex, actIndex, 'actId', e.target.value)}
-                        >
-                          <option value="">Select act...</option>
-                          {acts.map(actOption => (
-                            <option key={actOption.id} value={actOption.id}>
-                              {actOption.name}
-                            </option>
-                          ))}
-                        </select>
+                        <input
+                          type="text"
+                          className={styles.input}
+                          placeholder="Enter act name..."
+                          value={act.act_id}
+                          onChange={(e) => handleRelevantActChange(attrIndex, actIndex, 'act_id', e.target.value)}
+                        />
+                        {errors[`act_id_${attrIndex}_${actIndex}`] && (
+                          <span className={styles.error}>{errors[`act_id_${attrIndex}_${actIndex}`]}</span>
+                        )}
                       </div>
 
                       <div className={styles.field}>
@@ -419,8 +347,8 @@ const CaseAttributes = () => {
                           type="text"
                           className={styles.input}
                           placeholder="Enter section name..."
-                          value={act.sectionName}
-                          onChange={(e) => handleRelevantActChange(attrIndex, actIndex, 'sectionName', e.target.value)}
+                          value={act.section_name}
+                          onChange={(e) => handleRelevantActChange(attrIndex, actIndex, 'section_name', e.target.value)}
                         />
                       </div>
                     </div>
@@ -438,11 +366,11 @@ const CaseAttributes = () => {
                         </button>
                       </div>
 
-                      {act.offenceType.map((offence, offenceIndex) => (
-                        <div key={offenceIndex} className={styles.offenceType}>
+                      {act.offence_type.map((offence, offenceIndex) => (
+                        <div key={offenceIndex} className={styles.offence_type}>
                           <div className={styles.offenceHeader}>
                             <label className={styles.label}>Offence Type {offenceIndex + 1}</label>
-                            {act.offenceType.length > 1 && (
+                            {act.offence_type.length > 1 && (
                               <button
                                 type="button"
                                 className={styles.removeButton}
@@ -452,18 +380,16 @@ const CaseAttributes = () => {
                               </button>
                             )}
                           </div>
-                          <select
-                            className={styles.select}
-                            value={offence.offenceTypeId}
+                          <input
+                            type="text"
+                            className={styles.input}
+                            placeholder="Enter offence type..."
+                            value={offence.offence_type_id}
                             onChange={(e) => handleOffenceTypeChange(attrIndex, actIndex, offenceIndex, e.target.value)}
-                          >
-                            <option value="">Select offence type...</option>
-                            {offenceTypes.map(offenceOption => (
-                              <option key={offenceOption.id} value={offenceOption.id}>
-                                {offenceOption.name}
-                              </option>
-                            ))}
-                          </select>
+                          />
+                          {errors[`offence_type_${attrIndex}_${actIndex}_${offenceIndex}`] && (
+                            <span className={styles.error}>{errors[`offence_type_${attrIndex}_${actIndex}_${offenceIndex}`]}</span>
+                          )}
                         </div>
                       ))}
                     </div>

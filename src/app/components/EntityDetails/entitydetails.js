@@ -3,75 +3,136 @@ import styles from './OffenderIdentityForm.module.scss';
 
 const OffenderIdentityForm = ({ onDataChange, initialData = null }) => {
   const [formData, setFormData] = useState(initialData || {
-    offender_identity_informations: [
-      {
-        offender_type_id: '',
-        offender_name: '',
-        details_available: '',
-        offender_identity_records: [
-          {
-            identifier_type_id: '',
-            identifier_number: '',
-            issue_place: '',
-            please_specify: ''
-          }
-        ],
-        personal_details: [
-          {
-            offender_name: '',
-            father_name: '',
-            mother_name: '',
-            type_of_dob: '',
-            age: '',
-            dob_range_start: '',
-            dob_range_end: '',
-            dob_year: '',
-            dob: '',
-            gender: '',
-            nationality_id: '',
-            entity_type_id: '',
-            business_category: '',
-            entity_origin_id: '',
-            incorporation_date: '',
-            personal_contact_informations: [
-              {
-                mobile_no: '',
-                email: '',
-                aliases_name: '',
-                spouce_name: ''
-              }
+    "offender_identity_informations": [
+        {
+            "offender_type_id": "Entity",
+            "offender_name": "Global Enterprises",
+            "details_available": "",
+            "offender_identity_records": [
+                {
+                    "identifier_type_id": "GSTIN",
+                    "identifier_number": "07AATFG8429N1ZH",
+                    "issue_place": "",
+                    "please_specify": ""
+                }
+            ],
+            "personal_details": [
+                {
+                    "offender_name": "Global Enterprises",
+                    "father_name": "",
+                    "mother_name": "",
+                    "type_of_dob": "",
+                    "age": "",
+                    "dob_range_start": "",
+                    "dob_range_end": "",
+                    "dob_year": "",
+                    "dob": "", // Will be populated in YYYY-MM-DD format
+                    "gender": "",
+                    "nationality_id": "",
+                    "entity_type_id": "",
+                    "business_category": "",
+                    "entity_origin_id": "",
+                    "incorporation_date": "", // Will be populated in YYYY-MM-DD format
+                    "personal_contact_informations": [
+                        {
+                            "mobile_no": "",
+                            "email": "",
+                            "aliases_name": "",
+                            "spouce_name": ""
+                        }
+                    ]
+                }
+            ],
+            "bank_details": [
+                {
+                    "account_type_id": "",
+                    "account_no": "",
+                    "ifsc": "",
+                    "bank_name": "",
+                    "branch_name": "",
+                    "depository_id": "",
+                    "agent_name": "",
+                    "mobile_number": ""
+                }
+            ],
+            "address_details": [
+                {
+                    "address_type_id": "Address Type (Business)",
+                    "master_address_type": "Business",
+                    "flat_house_no": "Khasra No. 81/173-174",
+                    "premises_building": "Village Bakoli",
+                    "post_office": "",
+                    "town_city": "Delhi",
+                    "pincode": "110036",
+                    "district_code": "",
+                    "state_code": "",
+                    "country_id": "India",
+                    "designation_role": "",
+                    "business_name": ""
+                }
             ]
-          }
-        ],
-        bank_details: [
-          {
-            account_type_id: '',
-            account_no: '',
-            ifsc: '',
-            bank_name: '',
-            branch_name: '',
-            depository_id: '',
-            agent_name: '',
-            mobile_number: ''
-          }
-        ],
-        address_details: [
-          {
-            address_type_id: '',
-            master_address_type: '',
-            flat_house_no: '',
-            premises_building: '',
-            post_office: '',
-            town_city: '',
-            pincode: '',
-            district_code: '',
-            state_code: '',
-            country_id: '',
-            designation_role: '',
-            business_name: ''
-          }
-        ]
-      }
+        },
+        {
+            "offender_type_id": "Entity",
+            "offender_name": "Shakti Zarda Factory India Pvt Ltd",
+            "details_available": "",
+            "offender_identity_records": [],
+            "personal_details": [
+                {
+                    "offender_name": "Shakti Zarda Factory India Pvt Ltd",
+                    "father_name": "",
+                    "mother_name": "",
+                    "type_of_dob": "",
+                    "age": "",
+                    "dob_range_start": "",
+                    "dob_range_end": "",
+                    "dob_year": "",
+                    "dob": "",
+                    "gender": "",
+                    "nationality_id": "",
+                    "entity_type_id": "",
+                    "business_category": "",
+                    "entity_origin_id": "",
+                    "incorporation_date": "",
+                    "personal_contact_informations": [
+                        {
+                            "mobile_no": "",
+                            "email": "",
+                            "aliases_name": "",
+                            "spouce_name": ""
+                        }
+                    ]
+                }
+            ],
+            "bank_details": [
+                {
+                    "account_type_id": "",
+                    "account_no": "",
+                    "ifsc": "",
+                    "bank_name": "",
+                    "branch_name": "",
+                    "depository_id": "",
+                    "agent_name": "",
+                    "mobile_number": ""
+                }
+            ],
+            "address_details": [
+                {
+                    "address_type_id": "Address Type (Business)",
+                    "master_address_type": "Business",
+                    "flat_house_no": "15",
+                    "premises_building": "Rajasthani Udyog Nagar",
+                    "post_office": "",
+                    "town_city": "Delhi",
+                    "pincode": "",
+                    "district_code": "",
+                    "state_code": "",
+                    "country_id": "India",
+                    "designation_role": "",
+                    "business_name": ""
+                }
+            ]
+        }
     ],
     unknown_contact_informations: [
       {
@@ -92,6 +153,27 @@ const OffenderIdentityForm = ({ onDataChange, initialData = null }) => {
     { id: 'address', title: 'Address Details', icon: '📍' },
     { id: 'unknown', title: 'Unknown Contacts', icon: '❓' }
   ];
+
+  // Helper functions for date format conversion
+  const convertToInputFormat = (dateStr) => {
+    if (!dateStr) return '';
+    // If date is in DD/MM/YYYY format, convert to YYYY-MM-DD
+    if (dateStr.includes('/')) {
+      const [day, month, year] = dateStr.split('/');
+      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    }
+    return dateStr;
+  };
+
+  const convertToDisplayFormat = (dateStr) => {
+    if (!dateStr) return '';
+    // If date is in YYYY-MM-DD format, convert to DD/MM/YYYY
+    if (dateStr.includes('-')) {
+      const [year, month, day] = dateStr.split('-');
+      return `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`;
+    }
+    return dateStr;
+  };
 
   const handleInputChange = (path, value) => {
     const pathArray = path.split('.');
@@ -447,15 +529,53 @@ const OffenderIdentityForm = ({ onDataChange, initialData = null }) => {
                 placeholder="Enter age"
               />
             </div>
+            
+            {/* Fixed Date of Birth field */}
             <div className={styles.formGroup}>
               <label className={styles.label}>Date of Birth</label>
               <input
                 type="date"
                 className={styles.input}
-                value={person.dob}
+                value={person.dob} // Now properly handles YYYY-MM-DD format
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].dob`, e.target.value)}
               />
             </div>
+            
+            {/* DOB Range Start field */}
+            <div className={styles.formGroup}>
+              <label className={styles.label}>DOB Range Start</label>
+              <input
+                type="date"
+                className={styles.input}
+                value={person.dob_range_start}
+                onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].dob_range_start`, e.target.value)}
+              />
+            </div>
+            
+            {/* DOB Range End field */}
+            <div className={styles.formGroup}>
+              <label className={styles.label}>DOB Range End</label>
+              <input
+                type="date"
+                className={styles.input}
+                value={person.dob_range_end}
+                onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].dob_range_end`, e.target.value)}
+              />
+            </div>
+            
+            <div className={styles.formGroup}>
+              <label className={styles.label}>DOB Year</label>
+              <input
+                type="number"
+                className={styles.input}
+                value={person.dob_year}
+                onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].dob_year`, e.target.value)}
+                placeholder="Enter birth year"
+                min="1900"
+                max={new Date().getFullYear()}
+              />
+            </div>
+            
             <div className={styles.formGroup}>
               <label className={styles.label}>Gender</label>
               <select
@@ -477,6 +597,47 @@ const OffenderIdentityForm = ({ onDataChange, initialData = null }) => {
                 value={person.nationality_id}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].nationality_id`, e.target.value)}
                 placeholder="Enter nationality ID"
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Entity Type ID</label>
+              <input
+                type="text"
+                className={styles.input}
+                value={person.entity_type_id}
+                onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].entity_type_id`, e.target.value)}
+                placeholder="Enter entity type ID"
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Business Category</label>
+              <input
+                type="text"
+                className={styles.input}
+                value={person.business_category}
+                onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].business_category`, e.target.value)}
+                placeholder="Enter business category"
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Entity Origin ID</label>
+              <input
+                type="text"
+                className={styles.input}
+                value={person.entity_origin_id}
+                onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].entity_origin_id`, e.target.value)}
+                placeholder="Enter entity origin ID"
+              />
+            </div>
+            
+            {/* Fixed Incorporation Date field */}
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Incorporation Date</label>
+              <input
+                type="date"
+                className={styles.input}
+                value={person.incorporation_date}
+                onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].incorporation_date`, e.target.value)}
               />
             </div>
           </div>

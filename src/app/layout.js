@@ -1,7 +1,7 @@
 import './globals.css'
 
 export const metadata = {
-  title: 'Canvas Split Layout App',
+  title: 'DGGI',
   description: 'A split layout application with canvas controls',
 }
 

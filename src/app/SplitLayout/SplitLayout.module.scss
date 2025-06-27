@@ -408,7 +408,7 @@ $transition: all 0.2s ease;
   background: $background-light;
   border-radius: $border-radius-sm;
   border: 2px dashed $border-color;
-  overflow: hidden;
+  overflow: auto;
   position: relative;
   
   // This ensures the canvas takes full available space

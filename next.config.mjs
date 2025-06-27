@@ -199,13 +199,15 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    // Uncomment if needed
-    // missingSuspenseWithCSRBailout: false,
-
+    webpack: (config) => {
+    config.resolve.alias.canvas = false;
+    config.resolve.alias.encoding = false;
+    return config;
+  },
     async headers() {
       return [
         {
-          source: "/:path*",
+          source: '/pdfs/:path*',
           headers: [
             {
               key: "X-Robots-Tag",
@@ -213,6 +215,10 @@ const nextConfig = {
             },
           ],
         },
+        // {
+        //   source: '/pdfs/:path*',
+        //   destination: '/api/pdf/:path*',
+        // },
       ];
     },
   };

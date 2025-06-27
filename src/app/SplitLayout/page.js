@@ -11,12 +11,11 @@ import CaseAttributes from '../components/CaseAttributes/CaseAtrributes';
 const SplitLayout = () => {
   const [activeTab, setActiveTab] = useState(1);
   const [formData, setFormData] = useState({
-    // Case Identifiers
-    case_id: '',
-    file_no: '',
-    case_order_no: '',
-    case_name: '',
-    offence_date: '',
+    case_id: "",
+    file_no: "DCG/NV/CST/AT/RRI/GA 22.05.2024 1782",
+    case_order_no: "",
+    case_name: "Global Enterprises",
+    offence_date: "2024-05-22", // Fixed: Changed to YYYY-MM-DD format
     // Entity Details
     reportingAgency: '',
     dateOfOffence: '',
@@ -38,6 +37,27 @@ const SplitLayout = () => {
     { id: 4, title: 'Offence Details', completed: false }
   ];
 
+  // Helper functions for date format conversion
+  const convertToInputFormat = (dateStr) => {
+    if (!dateStr) return '';
+    // If date is in DD/MM/YYYY format, convert to YYYY-MM-DD
+    if (dateStr.includes('/')) {
+      const [day, month, year] = dateStr.split('/');
+      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    }
+    return dateStr;
+  };
+
+  const convertToDisplayFormat = (dateStr) => {
+    if (!dateStr) return '';
+    // If date is in YYYY-MM-DD format, convert to DD/MM/YYYY
+    if (dateStr.includes('-')) {
+      const [year, month, day] = dateStr.split('-');
+      return `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`;
+    }
+    return dateStr;
+  };
+
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
@@ -53,6 +73,12 @@ const SplitLayout = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
+    // You can convert dates to display format here if needed
+    const submissionData = {
+      ...formData,
+      offence_date: convertToDisplayFormat(formData.offence_date)
+    };
+    console.log('Converted data:', submissionData);
   };
 
   const renderTabContent = () => {
@@ -118,7 +144,7 @@ const SplitLayout = () => {
                   type="date"
                   id="offence_date"
                   name="offence_date"
-                  value={formData.offence_date}
+                  value={formData.offence_date} // Now using correct YYYY-MM-DD format
                   onChange={handleInputChange}
                   className={styles.input}
                 />
@@ -213,31 +239,7 @@ const SplitLayout = () => {
         {/* Right Panel - Canvas */}
         <div className={styles.rightPanel}>
           <div className={styles.canvasWrapper}>
-            <div className={styles.canvasHeader}>
-              <h3 className={styles.canvasTitle}>Canvas Area</h3>
-              <div className={styles.canvasControls}>
-                <span className={styles.zoomLevel}>20%</span>
-                <div className={styles.controlButtons}>
-                  <button className={styles.controlButton} title="Search">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                  </button>
-                  <button className={styles.controlButton} title="Fullscreen">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-            
-            {/* Canvas Container - Maximized */}
-            <div className={styles.canvasContainer}>
-              <div className={styles.canvas}>
                 <Canvas />
-              </div>
-            </div>
           </div>
         </div>
       </div>
