@@ -124,7 +124,7 @@ const SplitLayout = () => {
               </div>
             </div>
 
-            <div className={styles.formRow}>
+            <div className={`${styles.formRow} ${styles.singleColumn}`}>
               <div className={styles.inputGroup}>
                 <label htmlFor="case_name" className={styles.label}>
                   Case Name
@@ -140,20 +140,23 @@ const SplitLayout = () => {
                 />
               </div>
             </div>
+
+            <div className={styles.buttonGroup}>
+              <button type="submit" className={styles.primaryButton}>
+                Save & Continue
+              </button>
+              <button type="button" className={styles.secondaryButton}>
+                Reset
+              </button>
+            </div>
           </div>
         );
       case 2:
-        return (
-          <OffenderIdentityForm/>
-        );
+        return <OffenderIdentityForm />;
       case 3:
-        return (
-         <CaseIdentifiers/>
-        );
+        return <CaseIdentifiers />;
       case 4:
-        return (
-          <DGGIForm/>
-        );
+        return <DGGIForm />;
       default:
         return <div>Select a tab</div>;
     }
@@ -165,72 +168,74 @@ const SplitLayout = () => {
       <div className={styles.header}>
         <div className={styles.headerContent}>
           <div className={styles.caseInfo}>
-            <span className={styles.caseLabel}>Case No. / Order No.:</span>
-            <span className={styles.caseNumber}>00062</span>
+            <span>Case No. / Order No.:</span>
+            <span>00062</span>
           </div>
           <div className={styles.eowBadge}>EOW</div>
           <div className={styles.partyInfo}>
-            <span className={styles.partyLabel}>Case Name/Party Name:</span>
-            <span className={styles.partyName}>MUKESH GARG</span>
+            <span>Case Name/Party Name:</span>
+            <span>MUKESH GARG</span>
           </div>
         </div>
       </div>
 
-      {/* Tabs Section */}
-      <div className={styles.tabsContainer}>
-        <div className={styles.tabsWrapper}>
-          {tabs.map((tab, index) => (
-            <div key={tab.id} className={styles.tabItem}>
-              <button
-                className={`${styles.tab} ${
-                  activeTab === tab.id ? styles.activeTab : ''
-                } ${tab.completed ? styles.completedTab : ''}`}
-                onClick={() => handleTabClick(tab.id)}
-              >
-                <span className={styles.tabNumber}>{tab.id}</span>
-                <span className={styles.tabTitle}>{tab.title}</span>
-                {tab.completed && (
-                  <span className={styles.checkIcon}>✓</span>
-                )}
-              </button>
-              {index < tabs.length - 1 && (
-                <div className={styles.tabConnector}></div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className={styles.contentContainer}>
-        {/* Left Side - Form */}
+      {/* Main Content */}
+      <div className={styles.mainContent}>
+        {/* Left Panel */}
         <div className={styles.leftPanel}>
-          <div className={styles.formWrapper}>
+          {/* Tabs - Compact and Scrollable */}
+          <div className={styles.tabsContainer}>
+            <div className={styles.tabsWrapper}>
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  className={`${styles.tab} ${
+                    activeTab === tab.id ? styles.activeTab : ''
+                  } ${tab.completed ? styles.completedTab : ''}`}
+                  onClick={() => handleTabClick(tab.id)}
+                >
+                  <span className={styles.tabNumber}>
+                    {tab.completed ? '✓' : tab.id}
+                  </span>
+                  <span className={styles.tabTitle}>{tab.title}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Form Content - Scrollable */}
+          <div className={styles.formContent}>
             {renderTabContent()}
-            
-            {activeTab !== 2 && (
-              <div className={styles.buttonGroup}>
-                <button type="submit" className={styles.primaryButton}>
-                  Save & Continue
-                </button>
-                <button type="button" className={styles.secondaryButton}>
-                  Reset
-                </button>
-              </div>
-            )}
           </div>
         </div>
 
-        {/* Right Side - Canvas Space */}
+        {/* Right Panel - Canvas */}
         <div className={styles.rightPanel}>
           <div className={styles.canvasWrapper}>
-            <h3 className={styles.canvasTitle}>Canvas Area</h3>
-            <div className={styles.canvasContainer}>
-              <Canvas/>
+            <div className={styles.canvasHeader}>
+              <h3 className={styles.canvasTitle}>Canvas Area</h3>
+              <div className={styles.canvasControls}>
+                <span className={styles.zoomLevel}>20%</span>
+                <div className={styles.controlButtons}>
+                  <button className={styles.controlButton} title="Search">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </button>
+                  <button className={styles.controlButton} title="Fullscreen">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
             </div>
             
-            <div className={styles.canvasInfo}>
-              <p>Canvas ready for implementation</p>
-              <p>Dimensions: 800 × 600px</p>
+            {/* Canvas Container - Maximized */}
+            <div className={styles.canvasContainer}>
+              <div className={styles.canvas}>
+                <Canvas />
+              </div>
             </div>
           </div>
         </div>

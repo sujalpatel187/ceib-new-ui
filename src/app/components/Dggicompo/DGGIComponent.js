@@ -189,114 +189,103 @@ const DGGIForm = ({ onSubmit, onReset }) => {
     onReset?.();
   };
 
-  const renderSearchSeizure = () => (
-    <div className={styles.tabContent}>
-      <h3>Search & Seizure Details</h3>
-      
-      <div className={styles.row}>
-        <div className={styles.field}>
-          <label>File Number</label>
-          <input
-            type="text"
-            value={formData.search_seizure.file_no}
-            onChange={(e) => handleInputChange('search_seizure', 'file_no', e.target.value)}
-            placeholder="Enter file number"
-          />
-        </div>
-        <div className={styles.field}>
-          <label>Enquiry Initiated ID</label>
-          <input
-            type="text"
-            value={formData.search_seizure.enquiry_initiated_id}
-            onChange={(e) => handleInputChange('search_seizure', 'enquiry_initiated_id', e.target.value)}
-            placeholder="Enter enquiry initiated ID"
-          />
-        </div>
-      </div>
-
-      <div className={styles.row}>
-        <div className={styles.field}>
-          <label>Date of Incident Report</label>
-          <input
-            type="date"
-            value={formData.search_seizure.date_of_incident_report}
-            onChange={(e) => handleInputChange('search_seizure', 'date_of_incident_report', e.target.value)}
-          />
-        </div>
-        <div className={styles.field}>
-          <label>Total Taxable Value</label>
-          <input
-            type="number"
-            value={formData.search_seizure.total_taxable_value}
-            onChange={(e) => handleInputChange('search_seizure', 'total_taxable_value', e.target.value)}
-            placeholder="Enter total taxable value"
-          />
-        </div>
-      </div>
-
-      <div className={styles.row}>
-        <div className={styles.field}>
-          <label>Tax</label>
-          <input
-            type="number"
-            value={formData.search_seizure.tax}
-            onChange={(e) => handleInputChange('search_seizure', 'tax', e.target.value)}
-            placeholder="Enter tax amount"
-          />
-        </div>
-        <div className={styles.field}>
-          <label>Interest</label>
-          <input
-            type="number"
-            value={formData.search_seizure.interest}
-            onChange={(e) => handleInputChange('search_seizure', 'interest', e.target.value)}
-            placeholder="Enter interest amount"
-          />
-        </div>
-      </div>
-
-      <div className={styles.row}>
-        <div className={styles.field}>
-          <label>Whether Search Made</label>
-          <select
-            value={formData.search_seizure.whether_search_made}
-            onChange={(e) => handleInputChange('search_seizure', 'whether_search_made', e.target.value)}
-          >
-            <option value="">Select</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
-        </div>
-        <div className={styles.field}>
-          <label>Whether Seizure Made</label>
-          <select
-            value={formData.search_seizure.whether_seizure_made}
-            onChange={(e) => handleInputChange('search_seizure', 'whether_seizure_made', e.target.value)}
-          >
-            <option value="">Select</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
-        </div>
-      </div>
-
-      <div className={styles.field}>
-        <label>Brief Facts of Case</label>
+  const renderFormGroup = (label, name, type = 'text', options = [], required = false, section = activeTab) => (
+    <div className={styles.formGroup}>
+      <label className={styles.label}>
+        {label}
+        {required && <span className={styles.required}>*</span>}
+      </label>
+      {type === 'select' ? (
+        <select
+          className={styles.select}
+          value={formData[section][name] || ''}
+          onChange={(e) => handleInputChange(section, name, e.target.value)}
+        >
+          <option value="">Select {label}</option>
+          {options.map(option => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      ) : type === 'textarea' ? (
         <textarea
-          value={formData.search_seizure.brief_facts_case}
-          onChange={(e) => handleInputChange('search_seizure', 'brief_facts_case', e.target.value)}
-          placeholder="Enter brief facts of the case"
+          className={styles.textarea}
+          value={formData[section][name] || ''}
+          onChange={(e) => handleInputChange(section, name, e.target.value)}
+          placeholder={`Enter ${label.toLowerCase()}`}
           rows={4}
         />
+      ) : (
+        <input
+          type={type}
+          className={styles.input}
+          value={formData[section][name] || ''}
+          onChange={(e) => handleInputChange(section, name, e.target.value)}
+          placeholder={`Enter ${label.toLowerCase()}`}
+        />
+      )}
+    </div>
+  );
+
+  const renderSearchSeizure = () => (
+    <div className={styles.section}>
+      <div className={styles.sectionHeader}>
+        <h3 className={styles.sectionTitle}>
+          🔍 Search & Seizure Details
+        </h3>
+      </div>
+
+      <div className={styles.subSection}>
+        <div className={styles.subSectionHeader}>
+          <h4 className={styles.subSectionTitle}>📁 Case Information</h4>
+        </div>
+        <div className={styles.formGrid}>
+          {renderFormGroup('File Number', 'file_no', 'text', [], true)}
+          {renderFormGroup('Enquiry Initiated ID', 'enquiry_initiated_id', 'text', [], true)}
+          {renderFormGroup('Date of Incident Report', 'date_of_incident_report', 'date', [], true)}
+        </div>
+      </div>
+
+      <div className={styles.subSection}>
+        <div className={styles.subSectionHeader}>
+          <h4 className={styles.subSectionTitle}>💰 Financial Details</h4>
+        </div>
+        <div className={styles.formGrid}>
+          {renderFormGroup('Total Taxable Value', 'total_taxable_value', 'number')}
+          {renderFormGroup('Tax', 'tax', 'number')}
+          {renderFormGroup('Interest', 'interest', 'number')}
+        </div>
+      </div>
+
+      <div className={styles.subSection}>
+        <div className={styles.subSectionHeader}>
+          <h4 className={styles.subSectionTitle}>🔎 Search & Seizure Status</h4>
+        </div>
+        <div className={styles.formGrid}>
+          {renderFormGroup('Whether Search Made', 'whether_search_made', 'select', [
+            { value: 'yes', label: 'Yes' },
+            { value: 'no', label: 'No' }
+          ])}
+          {renderFormGroup('Whether Seizure Made', 'whether_seizure_made', 'select', [
+            { value: 'yes', label: 'Yes' },
+            { value: 'no', label: 'No' }
+          ])}
+        </div>
+        <div className={styles.formGrid}>
+          {renderFormGroup('Brief Facts of Case', 'brief_facts_case', 'textarea')}
+        </div>
       </div>
 
       {/* Goods & Trades Section */}
-      <div className={styles.arraySection}>
-        <div className={styles.arrayHeader}>
-          <h4>Goods & Trades</h4>
+      <div className={styles.subSection}>
+        <div className={styles.subSectionHeader}>
+          <h4 className={styles.subSectionTitle}>📦 Goods & Trades</h4>
           <button
             type="button"
-            onClick={() => addArrayItem('search_seizure', 'goods_trades', { name_of_goods: '', quantity: '', unit: '', value: '', remarks: '' })}
+            onClick={() => addArrayItem('search_seizure', 'goods_trades', { 
+              name_of_goods: '', quantity: '', unit: '', value: '', remarks: '' 
+            })}
             className={styles.addButton}
           >
             + Add Item
@@ -306,7 +295,7 @@ const DGGIForm = ({ onSubmit, onReset }) => {
         {formData.search_seizure.goods_trades.map((item, index) => (
           <div key={index} className={styles.arrayItem}>
             <div className={styles.arrayItemHeader}>
-              <span>Item {index + 1}</span>
+              <span className={styles.itemNumber}>Item {index + 1}</span>
               <button
                 type="button"
                 onClick={() => removeArrayItem('search_seizure', 'goods_trades', index)}
@@ -315,66 +304,73 @@ const DGGIForm = ({ onSubmit, onReset }) => {
                 Remove
               </button>
             </div>
-            <div className={styles.row}>
-              <div className={styles.field}>
-                <label>Name of Goods</label>
+            <div className={styles.formGrid}>
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Name of Goods</label>
                 <input
                   type="text"
+                  className={styles.input}
                   value={item.name_of_goods}
                   onChange={(e) => handleInputChange('search_seizure', 'goods_trades', e.target.value, index, 'name_of_goods')}
                   placeholder="Enter name of goods"
                 />
               </div>
-              <div className={styles.field}>
-                <label>Quantity</label>
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Quantity</label>
                 <input
                   type="number"
+                  className={styles.input}
                   value={item.quantity}
                   onChange={(e) => handleInputChange('search_seizure', 'goods_trades', e.target.value, index, 'quantity')}
                   placeholder="Enter quantity"
                 />
               </div>
-            </div>
-            <div className={styles.row}>
-              <div className={styles.field}>
-                <label>Unit</label>
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Unit</label>
                 <input
                   type="text"
+                  className={styles.input}
                   value={item.unit}
                   onChange={(e) => handleInputChange('search_seizure', 'goods_trades', e.target.value, index, 'unit')}
                   placeholder="Enter unit"
                 />
               </div>
-              <div className={styles.field}>
-                <label>Value</label>
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Value</label>
                 <input
                   type="number"
+                  className={styles.input}
                   value={item.value}
                   onChange={(e) => handleInputChange('search_seizure', 'goods_trades', e.target.value, index, 'value')}
                   placeholder="Enter value"
                 />
               </div>
             </div>
-            <div className={styles.field}>
-              <label>Remarks</label>
-              <textarea
-                value={item.remarks}
-                onChange={(e) => handleInputChange('search_seizure', 'goods_trades', e.target.value, index, 'remarks')}
-                placeholder="Enter remarks"
-                rows={2}
-              />
+            <div className={styles.formGrid}>
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Remarks</label>
+                <textarea
+                  className={styles.textarea}
+                  value={item.remarks}
+                  onChange={(e) => handleInputChange('search_seizure', 'goods_trades', e.target.value, index, 'remarks')}
+                  placeholder="Enter remarks"
+                  rows={2}
+                />
+              </div>
             </div>
           </div>
         ))}
       </div>
 
       {/* Currencies Section */}
-      <div className={styles.arraySection}>
-        <div className={styles.arrayHeader}>
-          <h4>Currencies</h4>
+      <div className={styles.subSection}>
+        <div className={styles.subSectionHeader}>
+          <h4 className={styles.subSectionTitle}>💱 Currencies</h4>
           <button
             type="button"
-            onClick={() => addArrayItem('search_seizure', 'currencies', { currency: '', denomination: '', number: '', total_faced_value: '', total_faced_value_inr: '', remarks: '' })}
+            onClick={() => addArrayItem('search_seizure', 'currencies', { 
+              currency: '', denomination: '', number: '', total_faced_value: '', total_faced_value_inr: '', remarks: '' 
+            })}
             className={styles.addButton}
           >
             + Add Currency
@@ -384,7 +380,7 @@ const DGGIForm = ({ onSubmit, onReset }) => {
         {formData.search_seizure.currencies.map((item, index) => (
           <div key={index} className={styles.arrayItem}>
             <div className={styles.arrayItemHeader}>
-              <span>Currency {index + 1}</span>
+              <span className={styles.itemNumber}>Currency {index + 1}</span>
               <button
                 type="button"
                 onClick={() => removeArrayItem('search_seizure', 'currencies', index)}
@@ -393,40 +389,42 @@ const DGGIForm = ({ onSubmit, onReset }) => {
                 Remove
               </button>
             </div>
-            <div className={styles.row}>
-              <div className={styles.field}>
-                <label>Currency</label>
+            <div className={styles.formGrid}>
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Currency</label>
                 <input
                   type="text"
+                  className={styles.input}
                   value={item.currency}
                   onChange={(e) => handleInputChange('search_seizure', 'currencies', e.target.value, index, 'currency')}
                   placeholder="Enter currency type"
                 />
               </div>
-              <div className={styles.field}>
-                <label>Denomination</label>
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Denomination</label>
                 <input
                   type="text"
+                  className={styles.input}
                   value={item.denomination}
                   onChange={(e) => handleInputChange('search_seizure', 'currencies', e.target.value, index, 'denomination')}
                   placeholder="Enter denomination"
                 />
               </div>
-            </div>
-            <div className={styles.row}>
-              <div className={styles.field}>
-                <label>Number</label>
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Number</label>
                 <input
                   type="number"
+                  className={styles.input}
                   value={item.number}
                   onChange={(e) => handleInputChange('search_seizure', 'currencies', e.target.value, index, 'number')}
                   placeholder="Enter number"
                 />
               </div>
-              <div className={styles.field}>
-                <label>Total Face Value (INR)</label>
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Total Face Value (INR)</label>
                 <input
                   type="number"
+                  className={styles.input}
                   value={item.total_faced_value_inr}
                   onChange={(e) => handleInputChange('search_seizure', 'currencies', e.target.value, index, 'total_faced_value_inr')}
                   placeholder="Enter total face value in INR"
@@ -440,178 +438,127 @@ const DGGIForm = ({ onSubmit, onReset }) => {
   );
 
   const renderShowCauseNotice = () => (
-    <div className={styles.tabContent}>
-      <h3>Show Cause Notice</h3>
-      
-      <div className={styles.row}>
-        <div className={styles.field}>
-          <label>File Number</label>
-          <input
-            type="text"
-            value={formData.show_cause_notice.file_no}
-            onChange={(e) => handleInputChange('show_cause_notice', 'file_no', e.target.value)}
-            placeholder="Enter file number"
-          />
+    <div className={styles.section}>
+      <div className={styles.sectionHeader}>
+        <h3 className={styles.sectionTitle}>
+          📋 Show Cause Notice
+        </h3>
+      </div>
+
+      <div className={styles.subSection}>
+        <div className={styles.subSectionHeader}>
+          <h4 className={styles.subSectionTitle}>📁 Notice Details</h4>
         </div>
-        <div className={styles.field}>
-          <label>SCN Closure Number</label>
-          <input
-            type="text"
-            value={formData.show_cause_notice.scn_closure_no}
-            onChange={(e) => handleInputChange('show_cause_notice', 'scn_closure_no', e.target.value)}
-            placeholder="Enter SCN closure number"
-          />
+        <div className={styles.formGrid}>
+          {renderFormGroup('File Number', 'file_no', 'text', [], true)}
+          {renderFormGroup('SCN Closure Number', 'scn_closure_no', 'text', [], true)}
+          {renderFormGroup('SCN Closure Date', 'scn_closure_date', 'date', [], true)}
+          {renderFormGroup('Issuing Authority', 'issuing_authority', 'text', [], true)}
+        </div>
+        <div className={styles.formGrid}>
+          {renderFormGroup('Gist', 'gist', 'textarea')}
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderOrderInOriginal = () => (
+    <div className={styles.section}>
+      <div className={styles.sectionHeader}>
+        <h3 className={styles.sectionTitle}>
+          📄 Order in Original
+        </h3>
+      </div>
+
+      <div className={styles.subSection}>
+        <div className={styles.subSectionHeader}>
+          <h4 className={styles.subSectionTitle}>📁 Order Details</h4>
+        </div>
+        <div className={styles.formGrid}>
+          {renderFormGroup('File Number', 'file_no', 'text', [], true)}
+          {renderFormGroup('Order Number', 'order_no', 'text', [], true)}
+          {renderFormGroup('Order Date', 'order_date', 'date', [], true)}
+          {renderFormGroup('Issuing Authority', 'issuing_authority', 'text', [], true)}
         </div>
       </div>
 
-      <div className={styles.row}>
-        <div className={styles.field}>
-          <label>SCN Closure Date</label>
-          <input
-            type="date"
-            value={formData.show_cause_notice.scn_closure_date}
-            onChange={(e) => handleInputChange('show_cause_notice', 'scn_closure_date', e.target.value)}
-          />
+      <div className={styles.subSection}>
+        <div className={styles.subSectionHeader}>
+          <h4 className={styles.subSectionTitle}>💰 Amount Details</h4>
         </div>
-        <div className={styles.field}>
-          <label>Issuing Authority</label>
-          <input
-            type="text"
-            value={formData.show_cause_notice.issuing_authority}
-            onChange={(e) => handleInputChange('show_cause_notice', 'issuing_authority', e.target.value)}
-            placeholder="Enter issuing authority"
-          />
+        <div className={styles.formGrid}>
+          {renderFormGroup('Amount Confirmed', 'amount_confirmed', 'number')}
+          {renderFormGroup('Amount Reduced', 'amount_reduced', 'number')}
+          {renderFormGroup('Amount Dropped', 'amount_dropped', 'number')}
         </div>
-      </div>
-
-      <div className={styles.field}>
-        <label>Gist</label>
-        <textarea
-          value={formData.show_cause_notice.gist}
-          onChange={(e) => handleInputChange('show_cause_notice', 'gist', e.target.value)}
-          placeholder="Enter gist of the notice"
-          rows={4}
-        />
+        <div className={styles.formGrid}>
+          {renderFormGroup('Gist', 'gist', 'textarea')}
+        </div>
       </div>
     </div>
   );
 
   const renderProsecution = () => (
-    <div className={styles.tabContent}>
-      <h3>Prosecution Details</h3>
-      
-      <div className={styles.row}>
-        <div className={styles.field}>
-          <label>File Number</label>
-          <input
-            type="text"
-            value={formData.prosecution.file_no}
-            onChange={(e) => handleInputChange('prosecution', 'file_no', e.target.value)}
-            placeholder="Enter file number"
-          />
-        </div>
-        <div className={styles.field}>
-          <label>Is Arrest/Bail</label>
-          <select
-            value={formData.prosecution.is_arrest_bail}
-            onChange={(e) => handleInputChange('prosecution', 'is_arrest_bail', e.target.value)}
-          >
-            <option value="">Select</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
-        </div>
+    <div className={styles.section}>
+      <div className={styles.sectionHeader}>
+        <h3 className={styles.sectionTitle}>
+          ⚖️ Prosecution Details
+        </h3>
       </div>
 
-      <div className={styles.field}>
-        <label>Gist</label>
-        <textarea
-          value={formData.prosecution.gist}
-          onChange={(e) => handleInputChange('prosecution', 'gist', e.target.value)}
-          placeholder="Enter gist of prosecution"
-          rows={4}
-        />
+      <div className={styles.subSection}>
+        <div className={styles.subSectionHeader}>
+          <h4 className={styles.subSectionTitle}>📁 Case Information</h4>
+        </div>
+        <div className={styles.formGrid}>
+          {renderFormGroup('File Number', 'file_no', 'text', [], true)}
+          {renderFormGroup('Complaint Number', 'complaint_no', 'text')}
+          {renderFormGroup('Complaint Date', 'complaint_date', 'date')}
+          {renderFormGroup('Court Name', 'court_name', 'text')}
+        </div>
+        <div className={styles.formGrid}>
+          {renderFormGroup('Is Arrest/Bail', 'is_arrest_bail', 'select', [
+            { value: 'yes', label: 'Yes' },
+            { value: 'no', label: 'No' }
+          ])}
+        </div>
+        <div className={styles.formGrid}>
+          {renderFormGroup('Gist', 'gist', 'textarea')}
+        </div>
       </div>
     </div>
   );
 
-  const renderAppeals = (section, title) => (
-    <div className={styles.tabContent}>
-      <h3>{title}</h3>
-      
-      <div className={styles.row}>
-        <div className={styles.field}>
-          <label>Filed By ID</label>
-          <input
-            type="text"
-            value={formData[section].filed_by_id}
-            onChange={(e) => handleInputChange(section, 'filed_by_id', e.target.value)}
-            placeholder="Enter filed by ID"
-          />
-        </div>
-        <div className={styles.field}>
-          <label>Appeal Number</label>
-          <input
-            type="text"
-            value={formData[section].appeal_no}
-            onChange={(e) => handleInputChange(section, 'appeal_no', e.target.value)}
-            placeholder="Enter appeal number"
-          />
-        </div>
+  const renderAppeals = (section, title, icon) => (
+    <div className={styles.section}>
+      <div className={styles.sectionHeader}>
+        <h3 className={styles.sectionTitle}>
+          {icon} {title}
+        </h3>
       </div>
 
-      <div className={styles.row}>
-        <div className={styles.field}>
-          <label>Date of Filing</label>
-          <input
-            type="date"
-            value={formData[section].date_of_filing}
-            onChange={(e) => handleInputChange(section, 'date_of_filing', e.target.value)}
-          />
+      <div className={styles.subSection}>
+        <div className={styles.subSectionHeader}>
+          <h4 className={styles.subSectionTitle}>📁 Appeal Information</h4>
         </div>
-        <div className={styles.field}>
-          <label>Date of Order</label>
-          <input
-            type="date"
-            value={formData[section].date_of_order}
-            onChange={(e) => handleInputChange(section, 'date_of_order', e.target.value)}
-          />
+        <div className={styles.formGrid}>
+          {renderFormGroup('Filed By ID', 'filed_by_id', 'text', [], false, section)}
+          {renderFormGroup('Appeal Number', 'appeal_no', 'text', [], true, section)}
+          {renderFormGroup('Date of Filing', 'date_of_filing', 'date', [], true, section)}
+          {renderFormGroup('Date of Order', 'date_of_order', 'date', [], false, section)}
         </div>
-      </div>
-
-      <div className={styles.row}>
-        <div className={styles.field}>
-          <label>Amount Involved</label>
-          <input
-            type="number"
-            value={formData[section].amount_involved}
-            onChange={(e) => handleInputChange(section, 'amount_involved', e.target.value)}
-            placeholder="Enter amount involved"
-          />
+        <div className={styles.formGrid}>
+          {renderFormGroup('Amount Involved', 'amount_involved', 'number', [], false, section)}
+          {renderFormGroup('Status', 'status', 'select', [
+            { value: 'pending', label: 'Pending' },
+            { value: 'disposed', label: 'Disposed' },
+            { value: 'allowed', label: 'Allowed' },
+            { value: 'dismissed', label: 'Dismissed' }
+          ], true, section)}
         </div>
-        <div className={styles.field}>
-          <label>Status</label>
-          <select
-            value={formData[section].status}
-            onChange={(e) => handleInputChange(section, 'status', e.target.value)}
-          >
-            <option value="">Select Status</option>
-            <option value="pending">Pending</option>
-            <option value="disposed">Disposed</option>
-            <option value="allowed">Allowed</option>
-            <option value="dismissed">Dismissed</option>
-          </select>
+        <div className={styles.formGrid}>
+          {renderFormGroup('Gist', 'gist', 'textarea', [], false, section)}
         </div>
-      </div>
-
-      <div className={styles.field}>
-        <label>Gist</label>
-        <textarea
-          value={formData[section].gist}
-          onChange={(e) => handleInputChange(section, 'gist', e.target.value)}
-          placeholder="Enter gist of the appeal"
-          rows={4}
-        />
       </div>
     </div>
   );
@@ -623,54 +570,61 @@ const DGGIForm = ({ onSubmit, onReset }) => {
       case 'show_cause_notice':
         return renderShowCauseNotice();
       case 'order_in_original':
-        return (
-          <div className={styles.tabContent}>
-            <h3>Order in Original</h3>
-            <p>Order in Original form content will be implemented here...</p>
-          </div>
-        );
+        return renderOrderInOriginal();
       case 'prosecution':
         return renderProsecution();
       case 'commissioner_appeals':
-        return renderAppeals('commissioner_appeals', 'Commissioner Appeals');
+        return renderAppeals('commissioner_appeals', 'Commissioner Appeals', '📑');
       case 'cestat_appeals':
-        return renderAppeals('cestat_appeals', 'CESTAT Appeals');
+        return renderAppeals('cestat_appeals', 'CESTAT Appeals', '🏛️');
       case 'high_court_appeals':
-        return renderAppeals('high_court_appeals', 'High Court Appeals');
+        return renderAppeals('high_court_appeals', 'High Court Appeals', '🏛️');
       case 'supreme_court_appeals':
-        return renderAppeals('supreme_court_appeals', 'Supreme Court Appeals');
+        return renderAppeals('supreme_court_appeals', 'Supreme Court Appeals', '⚖️');
       default:
         return null;
     }
   };
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>DGGI Case Management</h1>
-      
-      <div className={styles.tabContainer}>
-        <div className={styles.tabList}>
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              className={`${styles.tab} ${activeTab === tab.id ? styles.active : ''}`}
-              onClick={() => setActiveTab(tab.id)}
-            >
-              <span className={styles.tabIcon}>{tab.icon}</span>
-              <span className={styles.tabLabel}>{tab.label}</span>
-            </button>
-          ))}
-        </div>
+    <div className={styles.formContainer}>
+      {/* Header Section */}
+      <div className={styles.formHeader}>
+        <h1 className={styles.formTitle}>DGGI Case Management System</h1>
+        <p className={styles.formSubtitle}>
+          Please fill out the case identification details. Fields marked with <span className={styles.required}>*</span> are required.
+        </p>
+      </div>
 
-        <form onSubmit={handleSubmit} className={styles.form}>
+      {/* Section Navigation Tabs */}
+      <div className={styles.sectionTabs}>
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            className={`${styles.sectionTab} ${activeTab === tab.id ? styles.activeTab : ''}`}
+            onClick={() => setActiveTab(tab.id)}
+          >
+            <span className={styles.tabIcon}>{tab.icon}</span>
+            <span>{tab.label}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Form Content */}
+      <div className={styles.formContent}>
+        <form onSubmit={handleSubmit}>
           {renderTabContent()}
 
-          <div className={styles.buttonGroup}>
-            <button type="submit" className={styles.saveButton}>
-              SAVE & CONTINUE
+          {/* Action Buttons */}
+          <div className={styles.actionButtons}>
+            <button type="button" className={styles.draftButton} onClick={handleReset}>
+              💾 Save as Draft
             </button>
-            <button type="button" className={styles.resetButton} onClick={handleReset}>
-              RESET
+            <button type="button" className={styles.secondaryButton} onClick={handleReset}>
+              🔄 Reset Form
+            </button>
+            <button type="submit" className={styles.primaryButton}>
+              ✅ Save & Continue
             </button>
           </div>
         </form>
