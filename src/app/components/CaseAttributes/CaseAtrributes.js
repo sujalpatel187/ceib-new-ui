@@ -2,46 +2,8 @@
 import { useState } from 'react';
 import styles from './CaseAttributes.module.scss';
 
-const CaseAttributes = () => {
-  const [formData, setFormData] = useState({
-    "case_attributes": [
-        {
-            "case_category_id": "GST",
-            "relevant_act": [
-                {
-                    "act_id": "Central Goods and Services Tax Act, 2017",
-                    "offence_type": [
-                        {
-                            "offence_type_id": "Clandestine removal of goods to evade payment of tax"
-                        },
-                        {
-                            "offence_type_id": "Clandestine removal of taxable goods to evade payment of tax"
-                        },
-                        {
-                            "offence_type_id": "Evaded payment of appropriate GST"
-                        },
-                        {
-                            "offence_type_id": "evaded payment of GST"
-                        },
-                        {
-                            "offence_type_id": "Not Payment Of GST"
-                        },
-                        {
-                            "offence_type_id": "Non payment of GST"
-                        },
-                        {
-                            "offence_type_id": "Mis-declaring of stock to evade the payment of tax"
-                        },
-                        {
-                            "offence_type_id": "Clandestine sale"
-                        }
-                    ],
-                    "section_name": ""
-                }
-            ]
-        }
-    ],
-  });
+const CaseAttributes = ({initialData}) => {
+  const [formData, setFormData] = useState(initialData);
 
   const [errors, setErrors] = useState({});
 
