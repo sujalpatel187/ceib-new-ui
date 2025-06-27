@@ -552,6 +552,243 @@ const SplitLayout = () => {
     }
   }
 
+  const CoordinatesData = {
+      "pdf_coordinates": {
+          "": {},
+          "DCG/NV/CST/AT/RRI/GA 22.05.2024 1782": [],
+          "Global Enterprises": {
+              "page_number": 1,
+              "width": 1786,
+              "height": 2552,
+              "coordinates": [
+                  [
+                      0.13719554871220607,
+                      0.3212890625
+                  ],
+                  [
+                      0.8209423992161254,
+                      0.3330078125
+                  ]
+              ]
+          },
+          "22.05.2024": {
+              "page_number": 1,
+              "width": 1786,
+              "height": 2552,
+              "coordinates": [
+                  [
+                      0.13998635218365063,
+                      0.2294921875
+                  ],
+                  [
+                      0.21952425111982082,
+                      0.2412109375
+                  ]
+              ]
+          },
+          "Entity": [],
+          "GSTIN": {
+              "page_number": 1,
+              "width": 1786,
+              "height": 2552,
+              "coordinates": [
+                  [
+                      0.13719554871220607,
+                      0.3525390625
+                  ],
+                  [
+                      0.1971978233482643,
+                      0.3681640625
+                  ]
+              ]
+          },
+          "07AATFG8429N1ZH": [],
+          "Address Type (Business)": [],
+          "Business": [],
+          "Khasra No. 81/173-174": {
+              "page_number": 1,
+              "width": 1786,
+              "height": 2552,
+              "coordinates": [
+                  [
+                      0.13719554871220607,
+                      0.3212890625
+                  ],
+                  [
+                      0.8209423992161254,
+                      0.3330078125
+                  ]
+              ]
+          },
+          "Village Bakoli": {
+              "page_number": 1,
+              "width": 1786,
+              "height": 2552,
+              "coordinates": [
+                  [
+                      0.13719554871220607,
+                      0.3212890625
+                  ],
+                  [
+                      0.8209423992161254,
+                      0.3330078125
+                  ]
+              ]
+          },
+          "Delhi": {
+              "page_number": 1,
+              "width": 1786,
+              "height": 2552,
+              "coordinates": [
+                  [
+                      0.02695881159014557,
+                      0.0166015625
+                  ],
+                  [
+                      0.3660414333706607,
+                      0.0263671875
+                  ]
+              ]
+          },
+          "110036": {
+              "page_number": 1,
+              "width": 1786,
+              "height": 2552,
+              "coordinates": [
+                  [
+                      0.3199931760918253,
+                      0.333984375
+                  ],
+                  [
+                      0.4288345114781635,
+                      0.3515625
+                  ]
+              ]
+          },
+          "India": {
+              "page_number": 1,
+              "width": 1786,
+              "height": 2552,
+              "coordinates": [
+                  [
+                      0.31720237262038076,
+                      0.13671875
+                  ],
+                  [
+                      0.5613976763717805,
+                      0.150390625
+                  ]
+              ]
+          },
+          "Shakti Zarda Factory India Pvt Ltd": [],
+          "15": {
+              "page_number": 1,
+              "width": 1786,
+              "height": 2552,
+              "coordinates": [
+                  [
+                      0.32557478303471443,
+                      0.4833984375
+                  ],
+                  [
+                      0.5502344624860023,
+                      0.498046875
+                  ]
+              ]
+          },
+          "Rajasthani Udyog Nagar": {
+              "page_number": 1,
+              "width": 1786,
+              "height": 2552,
+              "coordinates": [
+                  [
+                      0.13998635218365063,
+                      0.64453125
+                  ],
+                  [
+                      0.8251286044232923,
+                      0.65234375
+                  ]
+              ]
+          },
+          "GST": {
+              "page_number": 1,
+              "width": 1786,
+              "height": 2552,
+              "coordinates": [
+                  [
+                      0.02695881159014557,
+                      0.0166015625
+                  ],
+                  [
+                      0.3660414333706607,
+                      0.0263671875
+                  ]
+              ]
+          },
+          "Central Goods and Services Tax Act, 2017": [],
+          "Clandestine removal of goods to evade payment of tax": [],
+          "Clandestine removal of taxable goods to evade payment of tax": [],
+          "Evaded payment of appropriate GST": [],
+          "evaded payment of GST": [],
+          "Not Payment Of GST": [],
+          "Non payment of GST": [],
+          "Mis-declaring of stock to evade the payment of tax": [],
+          "Clandestine sale": [],
+          "Search": {
+              "page_number": 1,
+              "width": 1786,
+              "height": 2552,
+              "coordinates": [
+                  [
+                      0.20277943029115342,
+                      0.6083984375
+                  ],
+                  [
+                      0.8265240061590146,
+                      0.62890625
+                  ]
+              ]
+          },
+          "5.75 Crore": {
+              "page_number": 1,
+              "width": 1786,
+              "height": 2552,
+              "coordinates": [
+                  [
+                      0.35069201427771557,
+                      0.3994140625
+                  ],
+                  [
+                      0.43022991321388576,
+                      0.4140625
+                  ]
+              ]
+          },
+          "No": {
+              "page_number": 1,
+              "width": 1786,
+              "height": 2552,
+              "coordinates": [
+                  [
+                      0.13300934350503918,
+                      0.212890625
+                  ],
+                  [
+                      0.46232415313549835,
+                      0.228515625
+                  ]
+              ]
+          },
+          "**Introduction**\n<ul>\n  <li>Subject: GST Evasion Case against M/s Global Enterprises</li>\n  <li>Investigating Body: Directorate General of GST Intelligence (DGGI)</li>\n</ul>\n\n**Case Details**\n<ul>\n  <li><strong>Evasion Amount</strong>: Approximately Rs. 5.75 crore</li>\n  <li><strong>Product Involved</strong>: Unmanufactured Tobacco (branded as SWAGAT/SWAGAT GOLD Khaini)</li>\n  <li><strong>Company Involved</strong>: M/s Global Enterprises (Manufacturer)</li>\n  <li><strong>Brand Owner</strong>: Shakti Zarda Factory India Pvt Ltd</li>\n</ul>\n\n**Investigation Findings**\n<ul>\n  <li>Unaccounted supplies to Global Enterprises uncovered at Shakti Zarda Factory India Pvt Ltd premises</li>\n  <li>Key persons, buyers, and suppliers admitted to:</li>\n    <ul>\n      <li>Evasion of GST</li>\n      <li>Use of cash transactions</li>\n      <li>Clandestine transportation methods</li>\n    </ul>\n  <li><strong>Investigation Status</strong>: Ongoing with further actions pending</li>\n</ul>\n\n**Case References & Signatories**\n<ul>\n  <li><strong>File No.</strong>: DCG/NV/CST/AT/RRI/GA 22.05.2024 1782</li>\n  <li><strong>Diary No.</strong>: 1781412</li>\n  <li><strong>Digit Entry No.</strong>: 20240607115451 478</li>\n  <li><strong>Signatories</strong>:\n    <ul>\n      <li>Brij Bhushan Gupta, Pr. Additional Director General (Document Date: 22/05/2024, Signature Date: 28/05/2024)</li>\n      <li>RNIBATRRE Chatterjee, Director (Signature Date: 29/05/2024)</li>\n    </ul>\n  </li>\n</ul>": [],
+          "HSN/SAC": [],
+          "Hsn_Sac_tariff_code_01": [],
+          "2401 - Unmanufactured Tobacco": [],
+          "Search & seizure / Incident Report": [],
+          "https://ceibdev.php-staging.com/webroot/Default/upload_file/84103415387796291599440906432758269317_MS_GLOBAL_ENTERPRISES.pdf": []
+      }
+    }
+
   const renderTabContent = () => {
     switch (activeTab) {
       case 1:
@@ -711,7 +948,7 @@ const SplitLayout = () => {
         {/* Right Panel - Canvas */}
         <div className={styles.rightPanel}>
           <div className={styles.canvasWrapper}>
-                <Canvas />
+                <Canvas initialdata={CoordinatesData} />
           </div>
         </div>
       </div>
