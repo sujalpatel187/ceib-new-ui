@@ -227,215 +227,296 @@ const DGGIForm = ({ onSubmit, onReset }) => {
       )}
     </div>
   );
+const renderSearchSeizure = () => (
+  <div className={styles.section}>
+    <div className={styles.sectionHeader}>
+      <h3 className={styles.sectionTitle}>
+        🔍 Search & Seizure Details
+      </h3>
+    </div>
 
-  const renderSearchSeizure = () => (
-    <div className={styles.section}>
-      <div className={styles.sectionHeader}>
-        <h3 className={styles.sectionTitle}>
-          🔍 Search & Seizure Details
-        </h3>
+    <div className={styles.subSection}>
+      <div className={styles.subSectionHeader}>
+        <h4 className={styles.subSectionTitle}>📁 Case Information</h4>
       </div>
-
-      <div className={styles.subSection}>
-        <div className={styles.subSectionHeader}>
-          <h4 className={styles.subSectionTitle}>📁 Case Information</h4>
-        </div>
-        <div className={styles.formGrid}>
-          {renderFormGroup('File Number', 'file_no', 'text', [], true)}
-          {renderFormGroup('Enquiry Initiated ID', 'enquiry_initiated_id', 'text', [], true)}
-          {renderFormGroup('Date of Incident Report', 'date_of_incident_report', 'date', [], true)}
-        </div>
-      </div>
-
-      <div className={styles.subSection}>
-        <div className={styles.subSectionHeader}>
-          <h4 className={styles.subSectionTitle}>💰 Financial Details</h4>
-        </div>
-        <div className={styles.formGrid}>
-          {renderFormGroup('Total Taxable Value', 'total_taxable_value', 'number')}
-          {renderFormGroup('Tax', 'tax', 'number')}
-          {renderFormGroup('Interest', 'interest', 'number')}
-        </div>
-      </div>
-
-      <div className={styles.subSection}>
-        <div className={styles.subSectionHeader}>
-          <h4 className={styles.subSectionTitle}>🔎 Search & Seizure Status</h4>
-        </div>
-        <div className={styles.formGrid}>
-          {renderFormGroup('Whether Search Made', 'whether_search_made', 'select', [
-            { value: 'yes', label: 'Yes' },
-            { value: 'no', label: 'No' }
-          ])}
-          {renderFormGroup('Whether Seizure Made', 'whether_seizure_made', 'select', [
-            { value: 'yes', label: 'Yes' },
-            { value: 'no', label: 'No' }
-          ])}
-        </div>
-        <div className={styles.formGrid}>
-          {renderFormGroup('Brief Facts of Case', 'brief_facts_case', 'textarea')}
-        </div>
-      </div>
-
-      {/* Goods & Trades Section */}
-      <div className={styles.subSection}>
-        <div className={styles.subSectionHeader}>
-          <h4 className={styles.subSectionTitle}>📦 Goods & Trades</h4>
-          <button
-            type="button"
-            onClick={() => addArrayItem('search_seizure', 'goods_trades', { 
-              name_of_goods: '', quantity: '', unit: '', value: '', remarks: '' 
-            })}
-            className={styles.addButton}
-          >
-            + Add Item
-          </button>
-        </div>
-        
-        {formData.search_seizure.goods_trades.map((item, index) => (
-          <div key={index} className={styles.arrayItem}>
-            <div className={styles.arrayItemHeader}>
-              <span className={styles.itemNumber}>Item {index + 1}</span>
-              <button
-                type="button"
-                onClick={() => removeArrayItem('search_seizure', 'goods_trades', index)}
-                className={styles.removeButton}
-              >
-                Remove
-              </button>
-            </div>
-            <div className={styles.formGrid}>
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Name of Goods</label>
-                <input
-                  type="text"
-                  className={styles.input}
-                  value={item.name_of_goods}
-                  onChange={(e) => handleInputChange('search_seizure', 'goods_trades', e.target.value, index, 'name_of_goods')}
-                  placeholder="Enter name of goods"
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Quantity</label>
-                <input
-                  type="number"
-                  className={styles.input}
-                  value={item.quantity}
-                  onChange={(e) => handleInputChange('search_seizure', 'goods_trades', e.target.value, index, 'quantity')}
-                  placeholder="Enter quantity"
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Unit</label>
-                <input
-                  type="text"
-                  className={styles.input}
-                  value={item.unit}
-                  onChange={(e) => handleInputChange('search_seizure', 'goods_trades', e.target.value, index, 'unit')}
-                  placeholder="Enter unit"
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Value</label>
-                <input
-                  type="number"
-                  className={styles.input}
-                  value={item.value}
-                  onChange={(e) => handleInputChange('search_seizure', 'goods_trades', e.target.value, index, 'value')}
-                  placeholder="Enter value"
-                />
-              </div>
-            </div>
-            <div className={styles.formGrid}>
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Remarks</label>
-                <textarea
-                  className={styles.textarea}
-                  value={item.remarks}
-                  onChange={(e) => handleInputChange('search_seizure', 'goods_trades', e.target.value, index, 'remarks')}
-                  placeholder="Enter remarks"
-                  rows={2}
-                />
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Currencies Section */}
-      <div className={styles.subSection}>
-        <div className={styles.subSectionHeader}>
-          <h4 className={styles.subSectionTitle}>💱 Currencies</h4>
-          <button
-            type="button"
-            onClick={() => addArrayItem('search_seizure', 'currencies', { 
-              currency: '', denomination: '', number: '', total_faced_value: '', total_faced_value_inr: '', remarks: '' 
-            })}
-            className={styles.addButton}
-          >
-            + Add Currency
-          </button>
-        </div>
-        
-        {formData.search_seizure.currencies.map((item, index) => (
-          <div key={index} className={styles.arrayItem}>
-            <div className={styles.arrayItemHeader}>
-              <span className={styles.itemNumber}>Currency {index + 1}</span>
-              <button
-                type="button"
-                onClick={() => removeArrayItem('search_seizure', 'currencies', index)}
-                className={styles.removeButton}
-              >
-                Remove
-              </button>
-            </div>
-            <div className={styles.formGrid}>
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Currency</label>
-                <input
-                  type="text"
-                  className={styles.input}
-                  value={item.currency}
-                  onChange={(e) => handleInputChange('search_seizure', 'currencies', e.target.value, index, 'currency')}
-                  placeholder="Enter currency type"
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Denomination</label>
-                <input
-                  type="text"
-                  className={styles.input}
-                  value={item.denomination}
-                  onChange={(e) => handleInputChange('search_seizure', 'currencies', e.target.value, index, 'denomination')}
-                  placeholder="Enter denomination"
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Number</label>
-                <input
-                  type="number"
-                  className={styles.input}
-                  value={item.number}
-                  onChange={(e) => handleInputChange('search_seizure', 'currencies', e.target.value, index, 'number')}
-                  placeholder="Enter number"
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label className={styles.label}>Total Face Value (INR)</label>
-                <input
-                  type="number"
-                  className={styles.input}
-                  value={item.total_faced_value_inr}
-                  onChange={(e) => handleInputChange('search_seizure', 'currencies', e.target.value, index, 'total_faced_value_inr')}
-                  placeholder="Enter total face value in INR"
-                />
-              </div>
-            </div>
-          </div>
-        ))}
+      <div className={styles.formGrid}>
+        {renderFormGroup('File Number', 'file_no', 'text', [], true)}
+        {renderFormGroup('Enquiry Initiated ID', 'enquiry_initiated_id', 'text', [], true)}
+        {renderFormGroup('Date of Incident Report', 'date_of_incident_report', 'date', [], true)}
       </div>
     </div>
-  );
+
+    
+    {/* Supply Details Section */}
+    <div className={styles.subSection}>
+      <div className={styles.subSectionHeader}>
+        <h4 className={styles.subSectionTitle}>📋 Supply Details</h4>
+        <button
+          type="button"
+          onClick={() => addArrayItem('search_seizure', 'supply_details', { 
+            custom_tariff_id: '', 
+            customs_tariff_code: '', 
+            customs_tariff_description: '', 
+            description_impugned_supply: '' 
+          })}
+          className={styles.addButton}
+        >
+          + Add Supply Detail
+        </button>
+      </div>
+      
+      {formData.search_seizure.supply_details.map((item, index) => (
+        <div key={index} className={styles.arrayItem}>
+          <div className={styles.arrayItemHeader}>
+            <span className={styles.itemNumber}>Supply Detail {index + 1}</span>
+            <button
+              type="button"
+              onClick={() => removeArrayItem('search_seizure', 'supply_details', index)}
+              className={styles.removeButton}
+            >
+              Remove
+            </button>
+          </div>
+          <div className={styles.formGrid}>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Custom Tariff ID</label>
+              <input
+                type="text"
+                className={styles.input}
+                value={item.custom_tariff_id}
+                onChange={(e) => handleInputChange('search_seizure', 'supply_details', e.target.value, index, 'custom_tariff_id')}
+                placeholder="Enter custom tariff ID"
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Customs Tariff Code</label>
+              <input
+                type="text"
+                className={styles.input}
+                value={item.customs_tariff_code}
+                onChange={(e) => handleInputChange('search_seizure', 'supply_details', e.target.value, index, 'customs_tariff_code')}
+                placeholder="Enter customs tariff code"
+              />
+            </div>
+          </div>
+          <div className={styles.formGrid}>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Customs Tariff Description</label>
+              <textarea
+                className={styles.textarea}
+                value={item.customs_tariff_description}
+                onChange={(e) => handleInputChange('search_seizure', 'supply_details', e.target.value, index, 'customs_tariff_description')}
+                placeholder="Enter customs tariff description"
+                rows={3}
+              />
+            </div>
+          </div>
+          <div className={styles.formGrid}>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Description of Impugned Supply</label>
+              <textarea
+                className={styles.textarea}
+                value={item.description_impugned_supply}
+                onChange={(e) => handleInputChange('search_seizure', 'supply_details', e.target.value, index, 'description_impugned_supply')}
+                placeholder="Enter description of impugned supply"
+                rows={3}
+              />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div className={styles.subSection}>
+      <div className={styles.subSectionHeader}>
+        <h4 className={styles.subSectionTitle}>💰 Financial Details</h4>
+      </div>
+      <div className={styles.formGrid}>
+        {renderFormGroup('Total Taxable Value', 'total_taxable_value', 'number')}
+        {renderFormGroup('Tax', 'tax', 'number')}
+        {renderFormGroup('Interest', 'interest', 'number')}
+      </div>
+    </div>
+
+    <div className={styles.subSection}>
+      <div className={styles.subSectionHeader}>
+        <h4 className={styles.subSectionTitle}>🔎 Search & Seizure Status</h4>
+      </div>
+      <div className={styles.formGrid}>
+        {renderFormGroup('Whether Search Made', 'whether_search_made', 'select', [
+          { value: 'yes', label: 'Yes' },
+          { value: 'no', label: 'No' }
+        ])}
+        {renderFormGroup('Whether Seizure Made', 'whether_seizure_made', 'select', [
+          { value: 'yes', label: 'Yes' },
+          { value: 'no', label: 'No' }
+        ])}
+      </div>
+      <div className={styles.formGrid}>
+        {renderFormGroup('Brief Facts of Case', 'brief_facts_case', 'textarea')}
+      </div>
+    </div>
+
+
+    {/* Goods & Trades Section */}
+    <div className={styles.subSection}>
+      <div className={styles.subSectionHeader}>
+        <h4 className={styles.subSectionTitle}>📦 Goods & Trades</h4>
+        <button
+          type="button"
+          onClick={() => addArrayItem('search_seizure', 'goods_trades', { 
+            name_of_goods: '', quantity: '', unit: '', value: '', remarks: '' 
+          })}
+          className={styles.addButton}
+        >
+          + Add Item
+        </button>
+      </div>
+      
+      {formData.search_seizure.goods_trades.map((item, index) => (
+        <div key={index} className={styles.arrayItem}>
+          <div className={styles.arrayItemHeader}>
+            <span className={styles.itemNumber}>Item {index + 1}</span>
+            <button
+              type="button"
+              onClick={() => removeArrayItem('search_seizure', 'goods_trades', index)}
+              className={styles.removeButton}
+            >
+              Remove
+            </button>
+          </div>
+          <div className={styles.formGrid}>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Name of Goods</label>
+              <input
+                type="text"
+                className={styles.input}
+                value={item.name_of_goods}
+                onChange={(e) => handleInputChange('search_seizure', 'goods_trades', e.target.value, index, 'name_of_goods')}
+                placeholder="Enter name of goods"
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Quantity</label>
+              <input
+                type="number"
+                className={styles.input}
+                value={item.quantity}
+                onChange={(e) => handleInputChange('search_seizure', 'goods_trades', e.target.value, index, 'quantity')}
+                placeholder="Enter quantity"
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Unit</label>
+              <input
+                type="text"
+                className={styles.input}
+                value={item.unit}
+                onChange={(e) => handleInputChange('search_seizure', 'goods_trades', e.target.value, index, 'unit')}
+                placeholder="Enter unit"
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Value</label>
+              <input
+                type="number"
+                className={styles.input}
+                value={item.value}
+                onChange={(e) => handleInputChange('search_seizure', 'goods_trades', e.target.value, index, 'value')}
+                placeholder="Enter value"
+              />
+            </div>
+          </div>
+          <div className={styles.formGrid}>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Remarks</label>
+              <textarea
+                className={styles.textarea}
+                value={item.remarks}
+                onChange={(e) => handleInputChange('search_seizure', 'goods_trades', e.target.value, index, 'remarks')}
+                placeholder="Enter remarks"
+                rows={2}
+              />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {/* Currencies Section */}
+    <div className={styles.subSection}>
+      <div className={styles.subSectionHeader}>
+        <h4 className={styles.subSectionTitle}>💱 Currencies</h4>
+        <button
+          type="button"
+          onClick={() => addArrayItem('search_seizure', 'currencies', { 
+            currency: '', denomination: '', number: '', total_faced_value: '', total_faced_value_inr: '', remarks: '' 
+          })}
+          className={styles.addButton}
+        >
+          + Add Currency
+        </button>
+      </div>
+      
+      {formData.search_seizure.currencies.map((item, index) => (
+        <div key={index} className={styles.arrayItem}>
+          <div className={styles.arrayItemHeader}>
+            <span className={styles.itemNumber}>Currency {index + 1}</span>
+            <button
+              type="button"
+              onClick={() => removeArrayItem('search_seizure', 'currencies', index)}
+              className={styles.removeButton}
+            >
+              Remove
+            </button>
+          </div>
+          <div className={styles.formGrid}>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Currency</label>
+              <input
+                type="text"
+                className={styles.input}
+                value={item.currency}
+                onChange={(e) => handleInputChange('search_seizure', 'currencies', e.target.value, index, 'currency')}
+                placeholder="Enter currency type"
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Denomination</label>
+              <input
+                type="text"
+                className={styles.input}
+                value={item.denomination}
+                onChange={(e) => handleInputChange('search_seizure', 'currencies', e.target.value, index, 'denomination')}
+                placeholder="Enter denomination"
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Number</label>
+              <input
+                type="number"
+                className={styles.input}
+                value={item.number}
+                onChange={(e) => handleInputChange('search_seizure', 'currencies', e.target.value, index, 'number')}
+                placeholder="Enter number"
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Total Face Value (INR)</label>
+              <input
+                type="number"
+                className={styles.input}
+                value={item.total_faced_value_inr}
+                onChange={(e) => handleInputChange('search_seizure', 'currencies', e.target.value, index, 'total_faced_value_inr')}
+                placeholder="Enter total face value in INR"
+              />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
 
   const renderShowCauseNotice = () => (
     <div className={styles.section}>

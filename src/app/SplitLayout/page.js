@@ -6,6 +6,7 @@ import Canvas from '../components/Canvas/Canvas';
 import OffenderIdentityForm from '../components/EntityDetails/entitydetails';
 import CaseIdentifiers from '../components/CaseAttributes/CaseAtrributes';
 import DGGIForm from '../components/Dggicompo/DGGIComponent';
+import CaseAttributes from '../components/CaseAttributes/CaseAtrributes';
 
 const SplitLayout = () => {
   const [activeTab, setActiveTab] = useState(1);
@@ -154,7 +155,7 @@ const SplitLayout = () => {
       case 2:
         return <OffenderIdentityForm />;
       case 3:
-        return <CaseIdentifiers />;
+        return <CaseAttributes />;
       case 4:
         return <DGGIForm />;
       default:
