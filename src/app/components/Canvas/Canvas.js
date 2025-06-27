@@ -526,7 +526,7 @@ const PDFCanvasViewer = ({ pdfPath, initialdata }) => {
 
 // Demo component
 const Canvas = ({initialdata}) => {
-  const [pdfPath] = useState("MS_GLOBAL_ENTERPRISES.pdf");
+  const [pdfPath] = useState("59485582419588790776198814186081994117_Grurukrapa.pdf");
 
   return (
     <div style={styles.demo}>
