@@ -1,0 +1,442 @@
+// styles/AgencyForm.module.scss
+
+// Variables
+$primary-color: #2563eb;
+$primary-hover: #1d4ed8;
+$secondary-color: #64748b;
+$success-color: #059669;
+$error-color: #dc2626;
+$border-color: #e2e8f0;
+$background-color: #f8fafc;
+$white: #ffffff;
+$gray-50: #f9fafb;
+$gray-100: #f3f4f6;
+$gray-200: #e5e7eb;
+$gray-300: #d1d5db;
+$gray-400: #9ca3af;
+$gray-500: #6b7280;
+$gray-600: #4b5563;
+$gray-700: #374151;
+$gray-800: #1f2937;
+$gray-900: #111827;
+
+// Border radius
+$border-radius-sm: 0.375rem;
+$border-radius: 0.5rem;
+$border-radius-lg: 0.75rem;
+$border-radius-xl: 1rem;
+
+// Shadows
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+// Transitions
+$transition-all: all 0.2s ease-in-out;
+$transition-colors: color 0.2s ease-in-out, background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, $background-color 0%, $gray-100 100%);
+  padding: 2rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 768px) {
+    padding: 1rem 0.5rem;
+  }
+}
+
+.formWrapper {
+  width: 100%;
+  max-width: 28rem;
+  background: $white;
+  border-radius: $border-radius-xl;
+  box-shadow: $shadow-lg;
+  overflow: hidden;
+}
+
+.header {
+  padding: 2rem 2rem 1rem;
+  text-align: center;
+  background: linear-gradient(135deg, $primary-color 0%, $primary-hover 100%);
+  color: $white;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem 1.5rem 1rem;
+  }
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  line-height: 1.25;
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+  }
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  margin: 0;
+  opacity: 0.9;
+  line-height: 1.4;
+}
+
+.form {
+  padding: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $gray-700;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.selectWrapper {
+  position: relative;
+}
+
+.select {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 0.75rem;
+  border: 2px solid $border-color;
+  border-radius: $border-radius;
+  font-size: 0.875rem;
+  background-color: $white;
+  color: $gray-900;
+  transition: $transition-colors;
+  appearance: none;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+
+  &:hover {
+    border-color: $gray-300;
+  }
+}
+
+.selectIcon {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $gray-400;
+  pointer-events: none;
+  transition: $transition-all;
+
+  .select:focus + & {
+    color: $primary-color;
+  }
+}
+
+.fileUploadArea {
+  position: relative;
+  border: 2px dashed $border-color;
+  border-radius: $border-radius;
+  padding: 2rem 1rem;
+  text-align: center;
+  transition: $transition-colors;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $primary-color;
+    background-color: $gray-50;
+  }
+
+  &:focus-within {
+    border-color: $primary-color;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+}
+
+.fileInput {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.fileInputLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.uploadIcon {
+  color: $gray-400;
+  transition: $transition-colors;
+
+  .fileUploadArea:hover & {
+    color: $primary-color;
+  }
+}
+
+.uploadText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.uploadMainText {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $gray-700;
+}
+
+.uploadSubText {
+  font-size: 0.75rem;
+  color: $gray-500;
+}
+
+.filePreview {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: $gray-50;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.fileInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.fileIcon {
+  color: $gray-500;
+  flex-shrink: 0;
+}
+
+.fileDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+}
+
+.fileName {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $gray-900;
+  truncate: true;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fileSize {
+  font-size: 0.75rem;
+  color: $gray-500;
+}
+
+.removeFileBtn {
+  padding: 0.25rem;
+  border: none;
+  background: none;
+  color: $gray-400;
+  cursor: pointer;
+  border-radius: $border-radius-sm;
+  transition: $transition-colors;
+  flex-shrink: 0;
+
+  &:hover {
+    color: $error-color;
+    background-color: rgba(220, 38, 38, 0.1);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+  }
+}
+
+.formActions {
+  margin-top: 2rem;
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, $primary-color 0%, $primary-hover 100%);
+  color: $white;
+  border: none;
+  border-radius: $border-radius;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: $transition-all;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: $shadow-md;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Responsive design
+@media (max-width: 640px) {
+  .container {
+    padding: 1rem 0.5rem;
+  }
+
+  .formWrapper {
+    max-width: none;
+    margin: 0 0.5rem;
+  }
+
+  .fileUploadArea {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .uploadText {
+    gap: 0.125rem;
+  }
+
+  .uploadMainText {
+    font-size: 0.8125rem;
+  }
+
+  .uploadSubText {
+    font-size: 0.6875rem;
+  }
+}
+
+// Dark mode support (optional)
+@media (prefers-color-scheme: dark) {
+  .container {
+    background: linear-gradient(135deg, $gray-900 0%, $gray-800 100%);
+  }
+
+  .formWrapper {
+    background: $gray-800;
+    border: 1px solid $gray-700;
+  }
+
+  .label {
+    color: $gray-200;
+  }
+
+  .select {
+    background-color: $gray-700;
+    color: $gray-100;
+    border-color: $gray-600;
+
+    &:hover {
+      border-color: $gray-500;
+    }
+  }
+
+  .fileUploadArea {
+    border-color: $gray-600;
+    background-color: $gray-800;
+
+    &:hover {
+      background-color: $gray-700;
+    }
+  }
+
+  .uploadMainText {
+    color: $gray-200;
+  }
+
+  .uploadSubText {
+    color: $gray-400;
+  }
+
+  .filePreview {
+    background-color: $gray-700;
+    border-color: $gray-600;
+  }
+
+  .fileName {
+    color: $gray-100;
+  }
+}
+
+.successMessage {
+  padding: 12px 16px;
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.errorMessage {
+  padding: 12px 16px;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
