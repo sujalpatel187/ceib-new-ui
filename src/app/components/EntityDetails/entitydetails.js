@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import styles from './OffenderIdentityForm.module.scss';
+import { ValidatedInputWithTooltip, validateFieldStatus, getFieldValidationClass } from '../../utils/pdfValidation';
 
-const OffenderIdentityForm = ({ onDataChange, initialData}) => {
+
+const OffenderIdentityForm = ({ onDataChange, initialData, pdfCoordinates = {}, validationMap }) => {
   const [formData, setFormData] = useState(initialData);
 
   const [activeSection, setActiveSection] = useState('basic');
@@ -226,24 +228,26 @@ const OffenderIdentityForm = ({ onDataChange, initialData}) => {
           <label className={styles.label}>
             Offender Type ID <span className={styles.required}>*</span>
           </label>
-          <input
+          <ValidatedInputWithTooltip
             type="text"
             className={styles.input}
             value={offender.offender_type_id}
             onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].offender_type_id`, e.target.value)}
             placeholder="Enter offender type ID"
+            pdfCoordinates={pdfCoordinates}
           />
         </div>
         <div className={styles.formGroup}>
           <label className={styles.label}>
             Offender Name <span className={styles.required}>*</span>
           </label>
-          <input
+          <ValidatedInputWithTooltip
             type="text"
             className={styles.input}
             value={offender.offender_name}
             onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].offender_name`, e.target.value)}
             placeholder="Enter offender name"
+            pdfCoordinates={pdfCoordinates}
           />
         </div>
         <div className={styles.formGroup}>
@@ -282,42 +286,46 @@ const OffenderIdentityForm = ({ onDataChange, initialData}) => {
           <div className={`${styles.formGrid} ${styles.twoColumns}`}>
             <div className={styles.formGroup}>
               <label className={styles.label}>Identifier Type ID</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={record.identifier_type_id}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].offender_identity_records[${recordIndex}].identifier_type_id`, e.target.value)}
                 placeholder="Enter identifier type"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Identifier Number</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={record.identifier_number}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].offender_identity_records[${recordIndex}].identifier_number`, e.target.value)}
                 placeholder="Enter identifier number"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Issue Place</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={record.issue_place}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].offender_identity_records[${recordIndex}].issue_place`, e.target.value)}
                 placeholder="Enter issue place"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Please Specify</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={record.please_specify}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].offender_identity_records[${recordIndex}].please_specify`, e.target.value)}
                 placeholder="Please specify"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
           </div>
@@ -338,32 +346,35 @@ const OffenderIdentityForm = ({ onDataChange, initialData}) => {
           <div className={`${styles.formGrid} ${styles.threeColumns}`}>
             <div className={styles.formGroup}>
               <label className={styles.label}>Offender Name</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={person.offender_name}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].offender_name`, e.target.value)}
                 placeholder="Enter offender name"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Father Name</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={person.father_name}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].father_name`, e.target.value)}
                 placeholder="Enter father name"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Mother Name</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={person.mother_name}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].mother_name`, e.target.value)}
                 placeholder="Enter mother name"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
@@ -382,56 +393,61 @@ const OffenderIdentityForm = ({ onDataChange, initialData}) => {
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Age</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="number"
                 className={styles.input}
                 value={person.age}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].age`, e.target.value)}
                 placeholder="Enter age"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             
             {/* Fixed Date of Birth field */}
             <div className={styles.formGroup}>
               <label className={styles.label}>Date of Birth</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="date"
                 className={styles.input}
                 value={person.dob} // Now properly handles YYYY-MM-DD format
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].dob`, e.target.value)}
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             
             {/* DOB Range Start field */}
             <div className={styles.formGroup}>
               <label className={styles.label}>DOB Range Start</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="date"
                 className={styles.input}
                 value={person.dob_range_start}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].dob_range_start`, e.target.value)}
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             
             {/* DOB Range End field */}
             <div className={styles.formGroup}>
               <label className={styles.label}>DOB Range End</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="date"
                 className={styles.input}
                 value={person.dob_range_end}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].dob_range_end`, e.target.value)}
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             
             <div className={styles.formGroup}>
               <label className={styles.label}>DOB Year</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="number"
                 className={styles.input}
                 value={person.dob_year}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].dob_year`, e.target.value)}
                 placeholder="Enter birth year"
+                pdfCoordinates={pdfCoordinates}
                 min="1900"
                 max={new Date().getFullYear()}
               />
@@ -452,53 +468,58 @@ const OffenderIdentityForm = ({ onDataChange, initialData}) => {
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Nationality ID</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={person.nationality_id}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].nationality_id`, e.target.value)}
                 placeholder="Enter nationality ID"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Entity Type ID</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={person.entity_type_id}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].entity_type_id`, e.target.value)}
                 placeholder="Enter entity type ID"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Business Category</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={person.business_category}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].business_category`, e.target.value)}
                 placeholder="Enter business category"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Entity Origin ID</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={person.entity_origin_id}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].entity_origin_id`, e.target.value)}
                 placeholder="Enter entity origin ID"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             
             {/* Fixed Incorporation Date field */}
             <div className={styles.formGroup}>
               <label className={styles.label}>Incorporation Date</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="date"
                 className={styles.input}
                 value={person.incorporation_date}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].incorporation_date`, e.target.value)}
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
           </div>
@@ -520,42 +541,46 @@ const OffenderIdentityForm = ({ onDataChange, initialData}) => {
               <div key={contactIndex} className={`${styles.formGrid} ${styles.fourColumns}`}>
                 <div className={styles.formGroup}>
                   <label className={styles.label}>Mobile Number</label>
-                  <input
+                  <ValidatedInputWithTooltip
                     type="tel"
                     className={styles.input}
                     value={contact.mobile_no}
                     onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].personal_contact_informations[${contactIndex}].mobile_no`, e.target.value)}
                     placeholder="Enter mobile number"
+                    pdfCoordinates={pdfCoordinates}
                   />
                 </div>
                 <div className={styles.formGroup}>
                   <label className={styles.label}>Email</label>
-                  <input
+                  <ValidatedInputWithTooltip
                     type="email"
                     className={styles.input}
                     value={contact.email}
                     onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].personal_contact_informations[${contactIndex}].email`, e.target.value)}
                     placeholder="Enter email"
+                    pdfCoordinates={pdfCoordinates}
                   />
                 </div>
                 <div className={styles.formGroup}>
                   <label className={styles.label}>Aliases Name</label>
-                  <input
+                  <ValidatedInputWithTooltip
                     type="text"
                     className={styles.input}
                     value={contact.aliases_name}
                     onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].personal_contact_informations[${contactIndex}].aliases_name`, e.target.value)}
                     placeholder="Enter aliases"
+                    pdfCoordinates={pdfCoordinates}
                   />
                 </div>
                 <div className={styles.formGroup}>
                   <label className={styles.label}>Spouse Name</label>
-                  <input
+                  <ValidatedInputWithTooltip
                     type="text"
                     className={styles.input}
                     value={contact.spouce_name}
                     onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].personal_details[${personIndex}].personal_contact_informations[${contactIndex}].spouce_name`, e.target.value)}
                     placeholder="Enter spouse name"
+                    pdfCoordinates={pdfCoordinates}
                   />
                 </div>
               </div>
@@ -585,62 +610,68 @@ const OffenderIdentityForm = ({ onDataChange, initialData}) => {
           <div className={`${styles.formGrid} ${styles.threeColumns}`}>
             <div className={styles.formGroup}>
               <label className={styles.label}>Account Type ID</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={bank.account_type_id}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].bank_details[${bankIndex}].account_type_id`, e.target.value)}
                 placeholder="Enter account type ID"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Account Number</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={bank.account_no}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].bank_details[${bankIndex}].account_no`, e.target.value)}
                 placeholder="Enter account number"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>IFSC Code</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={bank.ifsc}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].bank_details[${bankIndex}].ifsc`, e.target.value)}
                 placeholder="Enter IFSC code"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Bank Name</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={bank.bank_name}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].bank_details[${bankIndex}].bank_name`, e.target.value)}
                 placeholder="Enter bank name"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Branch Name</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={bank.branch_name}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].bank_details[${bankIndex}].branch_name`, e.target.value)}
                 placeholder="Enter branch name"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Mobile Number</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="tel"
                 className={styles.input}
                 value={bank.mobile_number}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].bank_details[${bankIndex}].mobile_number`, e.target.value)}
                 placeholder="Enter mobile number"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
           </div>
@@ -668,62 +699,68 @@ const OffenderIdentityForm = ({ onDataChange, initialData}) => {
           <div className={`${styles.formGrid} ${styles.threeColumns}`}>
             <div className={styles.formGroup}>
               <label className={styles.label}>Flat/House No</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={address.flat_house_no}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].address_details[${addressIndex}].flat_house_no`, e.target.value)}
                 placeholder="Enter flat/house no"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Premises/Building</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={address.premises_building}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].address_details[${addressIndex}].premises_building`, e.target.value)}
                 placeholder="Enter premises/building"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Town/City</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={address.town_city}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].address_details[${addressIndex}].town_city`, e.target.value)}
                 placeholder="Enter town/city"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Pincode</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={address.pincode}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].address_details[${addressIndex}].pincode`, e.target.value)}
                 placeholder="Enter pincode"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>State Code</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={address.state_code}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].address_details[${addressIndex}].state_code`, e.target.value)}
                 placeholder="Enter state code"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Country ID</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={address.country_id}
                 onChange={(e) => handleInputChange(`offender_identity_informations[${offenderIndex}].address_details[${addressIndex}].country_id`, e.target.value)}
                 placeholder="Enter country ID"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
           </div>
@@ -751,32 +788,35 @@ const OffenderIdentityForm = ({ onDataChange, initialData}) => {
           <div className={`${styles.formGrid} ${styles.threeColumns}`}>
             <div className={styles.formGroup}>
               <label className={styles.label}>Person Identity Informations ID</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={contact.person_identity_informations_id}
                 onChange={(e) => handleInputChange(`unknown_contact_informations[${contactIndex}].person_identity_informations_id`, e.target.value)}
                 placeholder="Enter person identity informations ID"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Mobile Number</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="tel"
                 className={styles.input}
                 value={contact.mobile_no}
                 onChange={(e) => handleInputChange(`unknown_contact_informations[${contactIndex}].mobile_no`, e.target.value)}
                 placeholder="Enter mobile number"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Email</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="email"
                 className={styles.input}
                 value={contact.email}
                 onChange={(e) => handleInputChange(`unknown_contact_informations[${contactIndex}].email`, e.target.value)}
                 placeholder="Enter email"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
           </div>

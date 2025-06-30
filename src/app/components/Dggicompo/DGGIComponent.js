@@ -1,8 +1,9 @@
 // components/DGGIForm.jsx
 import { useState } from 'react';
 import styles from './DGGIForm.module.scss';
+import { ValidatedInputWithTooltip } from '@/app/utils/pdfValidation';
 
-const DGGIForm = ({ onSubmit, onReset, initialData }) => {
+const DGGIForm = ({ onSubmit, onReset, initialData, pdfCoordinates = {}, validationMap }) => {
   const [activeTab, setActiveTab] = useState('search_seizure');
   const [formData, setFormData] = useState(initialData);
 
@@ -69,8 +70,7 @@ const DGGIForm = ({ onSubmit, onReset, initialData }) => {
   };
 
   const renderFormGroup = (label, name, type = 'text', options = [], required = false, section = activeTab) => {
-    // console.log(section)
-    return (
+  return (
     <div className={styles.formGroup}>
       <label className={styles.label}>
         {label}
@@ -98,16 +98,20 @@ const DGGIForm = ({ onSubmit, onReset, initialData }) => {
           rows={4}
         />
       ) : (
-        <input
+        <ValidatedInputWithTooltip
           type={type}
           className={styles.input}
           value={formData[section][name] || ''}
           onChange={(e) => handleInputChange(section, name, e.target.value)}
           placeholder={`Enter ${label.toLowerCase()}`}
+          pdfCoordinates={pdfCoordinates}
         />
       )}
     </div>
-  )};
+  )
+};
+
+
 const renderSearchSeizure = () => (
   <div className={styles.section}>
     <div className={styles.sectionHeader}>
@@ -161,22 +165,24 @@ const renderSearchSeizure = () => (
           <div className={styles.formGrid}>
             <div className={styles.formGroup}>
               <label className={styles.label}>Custom Tariff ID</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={item.custom_tariff_id}
                 onChange={(e) => handleInputChange('search_seizure', 'supply_details', e.target.value, index, 'custom_tariff_id')}
                 placeholder="Enter custom tariff ID"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Customs Tariff Code</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={item.customs_tariff_code}
                 onChange={(e) => handleInputChange('search_seizure', 'supply_details', e.target.value, index, 'customs_tariff_code')}
                 placeholder="Enter customs tariff code"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
           </div>
@@ -269,42 +275,46 @@ const renderSearchSeizure = () => (
           <div className={styles.formGrid}>
             <div className={styles.formGroup}>
               <label className={styles.label}>Name of Goods</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={item.name_of_goods}
                 onChange={(e) => handleInputChange('search_seizure', 'goods_trades', e.target.value, index, 'name_of_goods')}
                 placeholder="Enter name of goods"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Quantity</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="number"
                 className={styles.input}
                 value={item.quantity}
                 onChange={(e) => handleInputChange('search_seizure', 'goods_trades', e.target.value, index, 'quantity')}
                 placeholder="Enter quantity"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Unit</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={item.unit}
                 onChange={(e) => handleInputChange('search_seizure', 'goods_trades', e.target.value, index, 'unit')}
                 placeholder="Enter unit"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Value</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="number"
                 className={styles.input}
                 value={item.value}
                 onChange={(e) => handleInputChange('search_seizure', 'goods_trades', e.target.value, index, 'value')}
                 placeholder="Enter value"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
           </div>
@@ -317,6 +327,7 @@ const renderSearchSeizure = () => (
                 onChange={(e) => handleInputChange('search_seizure', 'goods_trades', e.target.value, index, 'remarks')}
                 placeholder="Enter remarks"
                 rows={2}
+                
               />
             </div>
           </div>
@@ -354,42 +365,46 @@ const renderSearchSeizure = () => (
           <div className={styles.formGrid}>
             <div className={styles.formGroup}>
               <label className={styles.label}>Currency</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={item.currency}
                 onChange={(e) => handleInputChange('search_seizure', 'currencies', e.target.value, index, 'currency')}
                 placeholder="Enter currency type"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Denomination</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="text"
                 className={styles.input}
                 value={item.denomination}
                 onChange={(e) => handleInputChange('search_seizure', 'currencies', e.target.value, index, 'denomination')}
                 placeholder="Enter denomination"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Number</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="number"
                 className={styles.input}
                 value={item.number}
                 onChange={(e) => handleInputChange('search_seizure', 'currencies', e.target.value, index, 'number')}
                 placeholder="Enter number"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label}>Total Face Value (INR)</label>
-              <input
+              <ValidatedInputWithTooltip
                 type="number"
                 className={styles.input}
                 value={item.total_faced_value_inr}
                 onChange={(e) => handleInputChange('search_seizure', 'currencies', e.target.value, index, 'total_faced_value_inr')}
                 placeholder="Enter total face value in INR"
+                pdfCoordinates={pdfCoordinates}
               />
             </div>
           </div>

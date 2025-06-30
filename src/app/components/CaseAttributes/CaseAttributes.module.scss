@@ -1,22 +1,41 @@
-// styles/CaseForm.module.scss
+// CaseAttributes.module.scss
 
 .formContainer {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
   background-color: #f8f9fa;
   min-height: 100vh;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.formHeader {
+  background: linear-gradient(135deg, #4285f4 0%, #3367d6 100%);
+  color: white;
+  padding: 30px 40px;
+  text-align: center;
+  
+  h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+  }
+  
+  p {
+    opacity: 0.9;
+    font-size: 1rem;
+    margin: 0;
+  }
 }
 
 .caseForm {
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  padding: 0;
 }
 
 .section {
-  padding: 30px;
+  padding: 40px;
   border-bottom: 1px solid #e9ecef;
 
   &:last-child {
@@ -24,40 +43,536 @@
   }
 }
 
-.sectionTitle {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #2c3e50;
-  margin: 0 0 25px 0;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #3498db;
-}
-
+// Section Header Styles
 .sectionHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #e9ecef;
+}
 
-  .sectionTitle {
-    margin: 0;
-    border-bottom: none;
-    padding-bottom: 0;
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.itemCount {
+  background: #e9ecef;
+  color: #6c757d;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+// Button Styles
+.addButton {
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    background-color: #3367d6;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 }
 
-.row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-bottom: 20px;
+.formSummary {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: #6c757d;
+  font-size: 0.9rem;
+
+  span {
+    font-weight: 500;
+  }
 
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 15px;
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: center;
   }
 }
 
+// Responsive Design
+@media (max-width: 768px) {
+  .formContainer {
+    margin: 10px;
+    border-radius: 8px;
+  }
+
+  .formHeader {
+    padding: 20px;
+    
+    h1 {
+      font-size: 1.5rem;
+    }
+    
+    p {
+      font-size: 0.9rem;
+    }
+  }
+
+  .section {
+    padding: 20px;
+  }
+
+  .sectionHeader {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .headerContent {
+    justify-content: center;
+  }
+
+  .caseAttribute {
+    border-radius: 8px;
+  }
+
+  .attributeHeader {
+    padding: 15px;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .attributeContent {
+    padding: 15px;
+  }
+
+  .primaryField {
+    padding: 15px;
+  }
+
+  .subsectionHeader {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .actHeader {
+    padding: 10px 15px;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .actFields {
+    padding: 15px;
+  }
+
+  .offenceTypes {
+    padding: 15px;
+  }
+
+  .offenceItemHeader {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+}
+
+// Animation for adding/removing elements
+.caseAttribute,
+.relevantAct,
+.offenceItem {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Hover effects for interactive elements
+.caseAttribute {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.relevantAct {
+  transition: all 0.3s ease;
+  
+  &:hover {
+    border-color: #4285f4;
+    box-shadow: 0 2px 8px rgba(66, 133, 244, 0.15);
+  }
+}
+
+.offenceItem {
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: #e9ecef;
+    border-color: #4285f4;
+  }
+}
+
+// Focus states for better accessibility
+.addButton:focus,
+.addButtonSecondary:focus,
+.addButtonTertiary:focus,
+.removeButton:focus,
+.removeButtonSmall:focus,
+.removeButtonTiny:focus,
+.submitButton:focus,
+.resetButton:focus {
+  outline: 2px solid #4285f4;
+  outline-offset: 2px;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #4285f4;
+  box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+}
+
+// Loading state (optional)
+.loading {
+  .input,
+  .submitButton,
+  .addButton,
+  .addButtonSecondary,
+  .addButtonTertiary {
+    opacity: 0.6;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+}
+
+// Success state
+.success {
+  .input {
+    border-color: #28a745;
+    
+    &:focus {
+      border-color: #28a745;
+      box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+    }
+  }
+}
+
+// Print styles
+@media print {
+  .formActions,
+  .addButton,
+  .addButtonSecondary,
+  .addButtonTertiary,
+  .removeButton,
+  .removeButtonSmall,
+  .removeButtonTiny {
+    display: none !important;
+  }
+  
+  .formContainer {
+    background: white;
+    box-shadow: none;
+    max-width: none;
+    margin: 0;
+  }
+  
+  .formHeader {
+    background: white;
+    color: black;
+    border-bottom: 2px solid #000;
+  }
+  
+  .section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  
+  .caseAttribute {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border: 1px solid #000;
+    margin-bottom: 20px;
+  }
+}
+
+// Dark mode support (optional)
+@media (prefers-color-scheme: dark) {
+  .formContainer {
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+  }
+  
+  .caseForm {
+    background: #2d2d2d;
+  }
+  
+  .formHeader {
+    background: linear-gradient(135deg, #3367d6 0%, #2851a3 100%);
+  }
+  
+  .caseAttribute {
+    background: #3a3a3a;
+    border-color: #555;
+  }
+  
+  .attributeHeader {
+    background: #444;
+    border-color: #555;
+  }
+  
+  .primaryField {
+    background: #444;
+    border-left-color: #4285f4;
+  }
+  
+  .relevantAct {
+    background: #444;
+    border-color: #555;
+  }
+  
+  .actHeader {
+    background: #555;
+  }
+  
+  .offenceTypes {
+    background: #3a3a3a;
+    border-color: #555;
+  }
+  
+  .offenceItem {
+    background: #555;
+    border-color: #666;
+  }
+  
+  .input {
+    background: #444;
+    border-color: #555;
+    color: #e0e0e0;
+    
+    &::placeholder {
+      color: #999;
+    }
+  }
+  
+  .formActions {
+    background: #444;
+    border-color: #555;
+  }
+  
+  .label {
+    color: #e0e0e0;
+  }
+  
+  .itemCount {
+    background: #555;
+    color: #ccc;
+  }
+  
+  .attributeBadge {
+    background: #4285f4;
+  }
+}
+
+.addButtonSecondary {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #5a6268;
+    transform: translateY(-1px);
+  }
+}
+
+.addButtonTertiary {
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #138496;
+  }
+}
+
+.removeButton {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: #c82333;
+    transform: scale(1.1);
+  }
+}
+
+.removeButtonSmall {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: #c82333;
+  }
+}
+
+.removeButtonTiny {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: #c82333;
+  }
+}
+
+.buttonIcon {
+  font-size: 0.9rem;
+}
+
+// Attributes List
+.attributesList {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.caseAttribute {
+  background: #ffffff;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  padding: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    border-color: #4285f4;
+    box-shadow: 0 4px 15px rgba(66, 133, 244, 0.1);
+  }
+}
+
+.attributeHeader {
+  background: #f8f9fa;
+  padding: 20px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.attributeTitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  h3 {
+    color: #2c3e50;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+  }
+}
+
+.attributeBadge {
+  background: #4285f4;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.attributeContent {
+  padding: 25px;
+}
+
+// Primary Field (Case Category)
+.primaryField {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #4285f4;
+}
+
+// Form Fields
 .field {
   display: flex;
   flex-direction: column;
@@ -76,8 +591,14 @@
   margin-left: 3px;
 }
 
-.input,
-.select {
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
   padding: 12px 16px;
   border: 2px solid #e9ecef;
   border-radius: 6px;
@@ -105,79 +626,70 @@
   }
 }
 
-.select {
-  cursor: pointer;
-  
-  option {
-    padding: 10px;
-  }
+.validationIcon {
+  position: absolute;
+  right: 12px;
+  color: #28a745;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.warningIcon {
+  position: absolute;
+  right: 12px;
+  color: #ffc107;
+  font-weight: bold;
+  font-size: 1.1rem;
 }
 
 .errorText {
   color: #e74c3c;
-  font-size: 0.875rem;
-  margin-top: 5px;
+  font-size: 0.85rem;
+  margin-top: 6px;
   font-weight: 500;
 }
 
-// Case Attributes Styles
-.caseAttribute {
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 8px;
-  padding: 25px;
-  margin-bottom: 20px;
-}
-
-.attributeHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-
-  h3 {
-    color: #2c3e50;
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin: 0;
-  }
-}
-
+// Relevant Acts Section
 .relevantActs {
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
 .subsectionHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e9ecef;
 
-  h4, h6 {
+  h4 {
     color: #34495e;
     font-size: 1.1rem;
     font-weight: 600;
     margin: 0;
   }
+}
 
-  h6 {
-    font-size: 1rem;
-  }
+.actsList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .relevantAct {
-  background: white;
+  background: #f8f9fa;
   border: 1px solid #dee2e6;
-  border-radius: 6px;
-  padding: 20px;
-  margin-bottom: 15px;
+  border-radius: 8px;
+  padding: 0;
+  overflow: hidden;
 }
 
 .actHeader {
+  background: #e9ecef;
+  padding: 15px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
 
   h5 {
     color: #2c3e50;
@@ -187,72 +699,89 @@
   }
 }
 
-.offenceTypes {
-  margin-top: 20px;
-  padding-top: 15px;
-  border-top: 1px solid #e9ecef;
+.actFields {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
 }
 
-.offenceType {
-  background: #f1f3f4;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  padding: 15px;
-  margin-bottom: 10px;
+// Offence Types Section
+.offenceTypes {
+  margin-top: 20px;
+  padding: 20px;
+  background: white;
+  border-top: 1px solid #dee2e6;
 }
 
 .offenceHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 15px;
+
+  h6 {
+    color: #2c3e50;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+}
+
+.offenceGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 15px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.offenceItem {
+  background: #f1f3f4;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 15px;
+}
+
+.offenceItemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 10px;
 }
 
-// Button Styles
-.addButton {
-  background-color: #4285f4;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-size: 0.875rem;
+.offenceLabel {
+  font-size: 0.9rem;
   font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background-color: #3367d6;
-    transform: translateY(-1px);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-}
-
-.removeButton {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background-color: #c82333;
-  }
+  color: #495057;
 }
 
 // Form Actions
 .formActions {
-  padding: 25px 30px;
+  padding: 30px 40px;
   background-color: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch;
+  }
+}
+
+.actionButtons {
   display: flex;
   gap: 15px;
-  justify-content: flex-start;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -263,18 +792,20 @@
   background-color: #4285f4;
   color: white;
   border: none;
-  padding: 14px 32px;
-  border-radius: 6px;
+  padding: 14px 28px;
+  border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  min-width: 140px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 
   &:hover {
     background-color: #3367d6;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+    box-shadow: 0 6px 20px rgba(66, 133, 244, 0.3);
   }
 
   &:active {
@@ -286,110 +817,23 @@
   background-color: #6c757d;
   color: white;
   border: none;
-  padding: 14px 32px;
-  border-radius: 6px;
+  padding: 14px 28px;
+  border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  min-width: 140px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 
   &:hover {
     background-color: #5a6268;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+    box-shadow: 0 6px 20px rgba(108, 117, 125, 0.3);
   }
 
   &:active {
     transform: translateY(0);
-  }
-}
-
-// Responsive Design
-@media (max-width: 768px) {
-  .formContainer {
-    padding: 10px;
-  }
-
-  .section {
-    padding: 20px;
-  }
-
-  .sectionTitle {
-    font-size: 1.3rem;
-  }
-
-  .caseAttribute,
-  .relevantAct {
-    padding: 15px;
-  }
-
-  .sectionHeader,
-  .subsectionHeader,
-  .attributeHeader,
-  .actHeader,
-  .offenceHeader {
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
-
-    button {
-      align-self: flex-end;
-    }
-  }
-}
-
-// Animation for adding/removing elements
-.caseAttribute,
-.relevantAct,
-.offenceType {
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-// Loading state (optional)
-.loading {
-  .input,
-  .select,
-  .submitButton {
-    opacity: 0.6;
-    pointer-events: none;
-  }
-}
-
-// Focus states for better accessibility
-.addButton:focus,
-.removeButton:focus,
-.submitButton:focus,
-.resetButton:focus {
-  outline: 2px solid #4285f4;
-  outline-offset: 2px;
-}
-
-// Print styles
-@media print {
-  .formActions,
-  .addButton,
-  .removeButton {
-    display: none;
-  }
-  
-  .formContainer {
-    background: white;
-    box-shadow: none;
-  }
-  
-  .section {
-    break-inside: avoid;
   }
 }

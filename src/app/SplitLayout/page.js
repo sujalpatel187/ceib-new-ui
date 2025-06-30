@@ -7,6 +7,7 @@ import OffenderIdentityForm from '../components/EntityDetails/entitydetails';
 import CaseIdentifiers from '../components/CaseAttributes/CaseAtrributes';
 import DGGIForm from '../components/Dggicompo/DGGIComponent';
 import CaseAttributes from '../components/CaseAttributes/CaseAtrributes';
+import { useFieldValidation, ValidatedInputWithTooltip } from '../utils/pdfValidation';
 
 const SplitLayout = () => {
 
@@ -731,10 +732,8 @@ const SplitLayout = () => {
     }
 }
 
-// Helper functions for date format conversion
-  const convertToInputFormat = (dateStr) => {
+const convertToInputFormat = (dateStr) => {
     if (!dateStr) return '';
-    // If date is in DD/MM/YYYY format, convert to YYYY-MM-DD
     if (dateStr.includes('/')) {
       const [day, month, year] = dateStr.split('/');
       return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
@@ -744,13 +743,15 @@ const SplitLayout = () => {
 
   const convertToDisplayFormat = (dateStr) => {
     if (!dateStr) return '';
-    // If date is in YYYY-MM-DD format, convert to DD/MM/YYYY
     if (dateStr.includes('-')) {
       const [year, month, day] = dateStr.split('-');
       return `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`;
     }
     return dateStr;
   };
+
+  // Add validation hook
+  const validationMap = useFieldValidation(Data, Data.pdf_coordinates || {});
 
   const [activeTab, setActiveTab] = useState(1);
   const [formData, setFormData] = useState({
@@ -790,21 +791,39 @@ const SplitLayout = () => {
     console.log('Converted data:', submissionData);
   };
 
-  // Add your initial entity details data here
+  // Validation Legend Component
+  const ValidationLegend = () => (
+    <div className={styles.validationLegend}>
+      <div className={`${styles.legendItem} ${styles.success}`}>
+        <div className={styles.legendIcon}></div>
+        <span>Found with coordinates</span>
+      </div>
+      <div className={`${styles.legendItem} ${styles.warning}`}>
+        <div className={styles.legendIcon}></div>
+        <span>Found without coordinates</span>
+      </div>
+      <div className={`${styles.legendItem} ${styles.error}`}>
+        <div className={styles.legendIcon}></div>
+        <span>Not found in PDF</span>
+      </div>
+    </div>
+  );
+
+  // Add your initial data objects (keep existing)
   const initialEntityDetails = {
-     "offender_identity_informations": Data.offender_identity_informations || [],
-     "unknown_contact_informations": Data.unknown_contact_informations || [],
+    "offender_identity_informations": Data.offender_identity_informations || [],
+    "unknown_contact_informations": Data.unknown_contact_informations || [],
   };
 
-  const initialCaseAttributesDetails={
-   "case_attributes": Data.case_attributes || [],
-  }
+  const initialCaseAttributesDetails = {
+    "case_attributes": Data.case_attributes || [],
+  };
 
   const initialDGGIDetails = Data.dggi || {};
 
   const CoordinatesData = {
     "pdf_coordinates": Data.pdf_coordinates || {},
-    }
+  };
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -813,12 +832,15 @@ const SplitLayout = () => {
           <div className={styles.tabContent}>
             <h3>Case Identifiers</h3>
             
+            {/* Add validation legend */}
+            <ValidationLegend />
+            
             <div className={styles.formRow}>
               <div className={styles.inputGroup}>
                 <label htmlFor="case_id" className={styles.label}>
                   Case ID <span className={styles.required}>*</span>
                 </label>
-                <input
+                <ValidatedInputWithTooltip
                   type="text"
                   id="case_id"
                   name="case_id"
@@ -826,6 +848,7 @@ const SplitLayout = () => {
                   onChange={handleInputChange}
                   className={styles.input}
                   placeholder="Enter case ID..."
+                  pdfCoordinates={Data.pdf_coordinates || {}}
                 />
               </div>
               
@@ -833,7 +856,7 @@ const SplitLayout = () => {
                 <label htmlFor="file_no" className={styles.label}>
                   File Number <span className={styles.required}>*</span>
                 </label>
-                <input
+                <ValidatedInputWithTooltip
                   type="text"
                   id="file_no"
                   name="file_no"
@@ -841,6 +864,7 @@ const SplitLayout = () => {
                   onChange={handleInputChange}
                   className={styles.input}
                   placeholder="Enter file number..."
+                  pdfCoordinates={Data.pdf_coordinates || {}}
                 />
               </div>
             </div>
@@ -850,7 +874,7 @@ const SplitLayout = () => {
                 <label htmlFor="case_order_no" className={styles.label}>
                   Case/Order Number <span className={styles.required}>*</span>
                 </label>
-                <input
+                <ValidatedInputWithTooltip
                   type="text"
                   id="case_order_no"
                   name="case_order_no"
@@ -858,6 +882,7 @@ const SplitLayout = () => {
                   onChange={handleInputChange}
                   className={styles.input}
                   placeholder="Enter case/order number..."
+                  pdfCoordinates={Data.pdf_coordinates || {}}
                 />
               </div>
               
@@ -865,13 +890,14 @@ const SplitLayout = () => {
                 <label htmlFor="offence_date" className={styles.label}>
                   Offence Date <span className={styles.required}>*</span>
                 </label>
-                <input
+                <ValidatedInputWithTooltip
                   type="date"
                   id="offence_date"
                   name="offence_date"
-                  value={formData.offence_date} // Now using correct YYYY-MM-DD format
+                  value={formData.offence_date}
                   onChange={handleInputChange}
                   className={styles.input}
+                  pdfCoordinates={Data.pdf_coordinates || {}}
                 />
               </div>
             </div>
@@ -881,7 +907,7 @@ const SplitLayout = () => {
                 <label htmlFor="case_name" className={styles.label}>
                   Case Name
                 </label>
-                <input
+                <ValidatedInputWithTooltip
                   type="text"
                   id="case_name"
                   name="case_name"
@@ -889,6 +915,7 @@ const SplitLayout = () => {
                   onChange={handleInputChange}
                   className={styles.input}
                   placeholder="Enter case name..."
+                  pdfCoordinates={Data.pdf_coordinates || {}}
                 />
               </div>
             </div>
@@ -903,21 +930,42 @@ const SplitLayout = () => {
             </div>
           </div>
         );
+        
       case 2:
-        // Pass initialEntityDetails as initialData prop
-        return <OffenderIdentityForm initialData={initialEntityDetails} />;
+        return (
+          <OffenderIdentityForm 
+            initialData={initialEntityDetails} 
+            pdfCoordinates={Data.pdf_coordinates || {}}
+            validationMap={validationMap}
+          />
+        );
+        
       case 3:
-        return <CaseAttributes initialData={initialCaseAttributesDetails}/>;
+        return (
+          <CaseAttributes 
+            initialData={initialCaseAttributesDetails}
+            pdfCoordinates={Data.pdf_coordinates || {}}
+            validationMap={validationMap}
+          />
+        );
+        
       case 4:
-        return <DGGIForm initialData={initialDGGIDetails}/>;
+        return (
+          <DGGIForm 
+            initialData={initialDGGIDetails}
+            pdfcoordinates={Data.pdf_coordinates || {}}
+            validationMap={validationMap}
+          />
+        );
+        
       default:
         return <div>Select a tab</div>;
     }
   };
 
   return (
-    <div className={styles.container}>
-      {/* Header Section */}
+     <div className={styles.container}>
+      {/* Header Section - keep existing */}
       <div className={styles.header}>
         <div className={styles.headerContent}>
           <div className={styles.caseInfo}>
@@ -932,11 +980,11 @@ const SplitLayout = () => {
         </div>
       </div>
 
-      {/* Main Content */}
+      {/* Main Content - keep existing */}
       <div className={styles.mainContent}>
         {/* Left Panel */}
         <div className={styles.leftPanel}>
-          {/* Tabs - Compact and Scrollable */}
+          {/* Tabs - keep existing */}
           <div className={styles.tabsContainer}>
             <div className={styles.tabsWrapper}>
               {tabs.map((tab) => (
@@ -956,16 +1004,16 @@ const SplitLayout = () => {
             </div>
           </div>
 
-          {/* Form Content - Scrollable */}
+          {/* Form Content - Updated with validation */}
           <div className={styles.formContent}>
             {renderTabContent()}
           </div>
         </div>
 
-        {/* Right Panel - Canvas */}
+        {/* Right Panel - Canvas - keep existing */}
         <div className={styles.rightPanel}>
           <div className={styles.canvasWrapper}>
-                <Canvas initialdata={Data} />
+            <Canvas initialdata={Data} />
           </div>
         </div>
       </div>
