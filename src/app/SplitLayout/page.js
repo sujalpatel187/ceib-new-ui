@@ -9,97 +9,29 @@ import DGGIForm from '../components/Dggicompo/DGGIComponent';
 import CaseAttributes from '../components/CaseAttributes/CaseAtrributes';
 
 const SplitLayout = () => {
-  const [activeTab, setActiveTab] = useState(1);
-  const [formData, setFormData] = useState({
+
+  const Data = {
     "case_id": "",
-    "file_no": "DVG/NV/051/258/2023/89",
-    "case_order_no": "BZU/49/2024-25",
-    "case_name": "Gurukrupa Enterprise",
-    "offence_date": "24/06/2024",
-     // Fixed: Changed to YYYY-MM-DD format
-  });
-
-  const tabs = [
-    { id: 1, title: 'Case Identifiers', completed: true },
-    { id: 2, title: 'Entity Details', completed: false },
-    { id: 3, title: 'Case Attributes', completed: false },
-    { id: 4, title: 'Offence Details', completed: false }
-  ];
-
-  // Helper functions for date format conversion
-  const convertToInputFormat = (dateStr) => {
-    if (!dateStr) return '';
-    // If date is in DD/MM/YYYY format, convert to YYYY-MM-DD
-    if (dateStr.includes('/')) {
-      const [day, month, year] = dateStr.split('/');
-      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-    }
-    return dateStr;
-  };
-
-  const convertToDisplayFormat = (dateStr) => {
-    if (!dateStr) return '';
-    // If date is in YYYY-MM-DD format, convert to DD/MM/YYYY
-    if (dateStr.includes('-')) {
-      const [year, month, day] = dateStr.split('-');
-      return `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`;
-    }
-    return dateStr;
-  };
-
-  const handleTabClick = (tabId) => {
-    setActiveTab(tabId);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-    // You can convert dates to display format here if needed
-    const submissionData = {
-      ...formData,
-      offence_date: convertToDisplayFormat(formData.offence_date)
-    };
-    console.log('Converted data:', submissionData);
-  };
-
-  // Add your initial entity details data here
-  const initialEntityDetails = {
-     "offender_identity_informations": [
+    "file_no": "DCG/NV/CST/AT/RRI/GA 22.05.2024 1782",
+    "case_order_no": "",
+    "case_name": "Global Enterprises",
+    "offence_date": "22/05/2024",
+    "offender_identity_informations": [
         {
             "offender_type_id": "Entity",
-            "offender_name": "Gurukrupa Enterprise",
+            "offender_name": "Global Enterprises",
             "details_available": "",
             "offender_identity_records": [
                 {
                     "identifier_type_id": "GSTIN",
-                    "identifier_number": "21GJGPB4527N128",
-                    "issue_place": "",
-                    "please_specify": ""
-                },
-                {
-                    "identifier_type_id": "",
-                    "identifier_number": "",
-                    "issue_place": "",
-                    "please_specify": ""
-                },
-                {
-                    "identifier_type_id": "GSTIN",
-                    "identifier_number": "21GJGPB4527N1Z8",
+                    "identifier_number": "07AATFG8429N1ZH",
                     "issue_place": "",
                     "please_specify": ""
                 }
             ],
             "personal_details": [
                 {
-                    "offender_name": "Gurukrupa Enterprise",
+                    "offender_name": "Global Enterprises",
                     "father_name": "",
                     "mother_name": "",
                     "type_of_dob": "",
@@ -140,27 +72,27 @@ const SplitLayout = () => {
                 {
                     "address_type_id": "Address Type (Business)",
                     "master_address_type": "Business",
-                    "flat_house_no": "Plot No-256",
-                    "premises_building": "C/o-Jata Behera",
-                    "post_office": "Balanga",
-                    "town_city": "Nuasantha",
-                    "pincode": "752105",
-                    "district_code": "Puri",
-                    "state_code": "Odisha",
+                    "flat_house_no": "Khasra No. 81/173-174",
+                    "premises_building": "Village Bakoli",
+                    "post_office": "",
+                    "town_city": "Delhi",
+                    "pincode": "110036",
+                    "district_code": "",
+                    "state_code": "",
                     "country_id": "India",
                     "designation_role": "",
-                    "business_name": "Gurukrupa Enterprise"
+                    "business_name": ""
                 }
             ]
         },
         {
-            "offender_type_id": "Individual",
-            "offender_name": "Guruprasad Behera",
+            "offender_type_id": "Entity",
+            "offender_name": "Shakti Zarda Factory India Pvt Ltd",
             "details_available": "",
             "offender_identity_records": [],
             "personal_details": [
                 {
-                    "offender_name": "Guruprasad Behera",
+                    "offender_name": "Shakti Zarda Factory India Pvt Ltd",
                     "father_name": "",
                     "mother_name": "",
                     "type_of_dob": "",
@@ -197,67 +129,26 @@ const SplitLayout = () => {
                     "mobile_number": ""
                 }
             ],
-            "address_details": []
-        },
-        {
-            "offender_type_id": "Individual",
-            "offender_name": "Sandeep Mohanty",
-            "details_available": "",
-            "offender_identity_records": [
+            "address_details": [
                 {
-                    "identifier_type_id": "Aadhaar",
-                    "identifier_number": "782735389331",
-                    "issue_place": "",
-                    "please_specify": ""
+                    "address_type_id": "Address Type (Business)",
+                    "master_address_type": "Business",
+                    "flat_house_no": "15",
+                    "premises_building": "Rajasthani Udyog Nagar",
+                    "post_office": "",
+                    "town_city": "Delhi",
+                    "pincode": "",
+                    "district_code": "",
+                    "state_code": "",
+                    "country_id": "India",
+                    "designation_role": "",
+                    "business_name": ""
                 }
-            ],
-            "personal_details": [
-                {
-                    "offender_name": "Sandeep Mohanty",
-                    "father_name": "",
-                    "mother_name": "",
-                    "type_of_dob": "",
-                    "age": "",
-                    "dob_range_start": "",
-                    "dob_range_end": "",
-                    "dob_year": "",
-                    "dob": "",
-                    "gender": "",
-                    "nationality_id": "",
-                    "entity_type_id": "",
-                    "business_category": "",
-                    "entity_origin_id": "",
-                    "incorporation_date": "",
-                    "personal_contact_informations": [
-                        {
-                            "mobile_no": "",
-                            "email": "",
-                            "aliases_name": "",
-                            "spouce_name": ""
-                        }
-                    ]
-                }
-            ],
-            "bank_details": [
-                {
-                    "account_type_id": "",
-                    "account_no": "",
-                    "ifsc": "",
-                    "bank_name": "",
-                    "branch_name": "",
-                    "depository_id": "",
-                    "agent_name": "",
-                    "mobile_number": ""
-                }
-            ],
-            "address_details": []
+            ]
         }
     ],
     "unknown_contact_informations": [],
-  };
-
-  const initialCaseAttributesDetails={
-   "case_attributes": [
+    "case_attributes": [
         {
             "case_category_id": "GST",
             "relevant_act": [
@@ -265,19 +156,28 @@ const SplitLayout = () => {
                     "act_id": "Central Goods and Services Tax Act, 2017",
                     "offence_type": [
                         {
-                            "offence_type_id": "fraudulent Input Tax Credit"
+                            "offence_type_id": "Clandestine removal of goods to evade payment of tax"
                         },
                         {
-                            "offence_type_id": "Availment of Fake ITC"
+                            "offence_type_id": "Clandestine removal of taxable goods to evade payment of tax"
                         },
                         {
-                            "offence_type_id": "Availment of ineligible ITC from non-existing / fake entity"
+                            "offence_type_id": "Evaded payment of appropriate GST"
                         },
                         {
-                            "offence_type_id": "Non-existent Entity"
+                            "offence_type_id": "evaded payment of GST"
                         },
                         {
-                            "offence_type_id": "Non-existent Entity, obtained registration with false Information"
+                            "offence_type_id": "Not Payment Of GST"
+                        },
+                        {
+                            "offence_type_id": "Non payment of GST"
+                        },
+                        {
+                            "offence_type_id": "Mis-declaring of stock to evade the payment of tax"
+                        },
+                        {
+                            "offence_type_id": "Clandestine sale"
                         }
                     ],
                     "section_name": ""
@@ -285,15 +185,23 @@ const SplitLayout = () => {
             ]
         }
     ],
-  }
-
-  const initialDGGIDetails ={
-   "search_seizure":
+    "doc_status": "success",
+    "doc_id": "84103415387796291599440906432758269317",
+    "deviceId": "ffffffff-c7c2-9a12-ffff-ffffbb95f185-zAbPZ",
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOm51bGwsImV4cCI6MTcyOTYwMTYzNSwidWlkIjo5Mjh9.1gJbttSuwSdRRV7JIro8q5tywaprpDlmsuYuVflMyg0",
+    "agency": "DGGI & CGST",
+    "sub_agency_id": "2470",
+    "sub_agency_id_level_2": "2589",
+    "sub_agency_id_level_3": "0",
+    "sub_agency_id_level_4": "0",
+    "sub_agency_id_level_5": "0",
+    "dggi": {
+        "search_seizure": 
             {
-                "file_no": "DVG/NV/051/258/2023/89",
+                "file_no": "DCG/NV/CST/AT/RRI/GA 22.05.2024 1782",
                 "enquiry_initiated_id": "Search",
-                "date_of_incident_report": "24/06/2024",
-                "total_taxable_value": "19100000",
+                "date_of_incident_report": "22/05/2024",
+                "total_taxable_value": "575000000",
                 "tax": "",
                 "interest": "",
                 "penality": "",
@@ -303,12 +211,12 @@ const SplitLayout = () => {
                 "date_of_search": "",
                 "total_amount_of_seizure": "",
                 "property_type_seized": "",
-                "brief_facts_case": "<strong>Introduction</strong><br>\n<ul>\n    <li>Incident Report <b>BZU/49/2024-25</b> filed by Directorate General of Goods and Services Tax Intelligence (DGGI) against M/s. Gurukrupa Enterprise.</li>\n</ul>\n\n<strong>Entity Details</strong><br>\n<ul>\n    <li><b>Firm Name</b>: M/s. Gurukrupa Enterprise, <b>Proprietor</b>: Guruprasad Behera.</li>\n    <li><b>GSTINs</b>: Primary - 21GJGPB4527N128, Conflicting - 21GJGPB4527N1Z28, 21GJGPB4527N1Z8.</li>\n    <li><b>Declared Address</b>: Plot No-256, Balanga, Puri (found non-operational).</li>\n</ul>\n\n<strong>Case Summary</strong><br>\n<ul>\n    <li><b>Offense</b>: Fraudulent Input Tax Credit (ITC) claims without actual supply of goods.</li>\n    <li><b>Fraudulent Amount</b>: ₹1.91 crore via fake invoices.</li>\n    <li><b>Arrest</b>: Sandeep Mohanty (Aadhaar 782735389331) arrested.</li>\n</ul>\n\n<strong>Investigation & References</strong><br>\n<ul>\n    <li><b>Origin</b>: Intelligence developed by DGGI officers on 24 June 2024.</li>\n    <li><b>Registration Status</b>: Deemed fraudulent, no voluntary deposit made.</li>\n    <li><b>Case Status</b>: Ongoing under Bhubaneswar Zonal Unit.</li>\n    <li><b>References</b:;\n        <ul>\n            <li><b>File No.</b>: DVG/NV/051/258/2023/89.</li>\n            <li><b>Diary No.</b>: 3797387 (21/04/2024).</li>\n        </ul>\n    </li>\n</ul>\n\n<strong>Goods Involved</strong><br>\n<ul>\n    <li><b>Items</b>:\n        <ul>\n            <li>New Pneumatic Tyres (<b>HSN 4011</b>).</li>\n            <li>Ferrous Waste (<b>HSN 72044900</b>).</li>\n        </ul>\n    </li>\n</ul>",
+                "brief_facts_case": "**Introduction**\n<ul>\n  <li>Subject: GST Evasion Case against M/s Global Enterprises</li>\n  <li>Investigating Body: Directorate General of GST Intelligence (DGGI)</li>\n</ul>\n\n**Case Details**\n<ul>\n  <li><strong>Evasion Amount</strong>: Approximately Rs. 5.75 crore</li>\n  <li><strong>Product Involved</strong>: Unmanufactured Tobacco (branded as SWAGAT/SWAGAT GOLD Khaini)</li>\n  <li><strong>Company Involved</strong>: M/s Global Enterprises (Manufacturer)</li>\n  <li><strong>Brand Owner</strong>: Shakti Zarda Factory India Pvt Ltd</li>\n</ul>\n\n**Investigation Findings**\n<ul>\n  <li>Unaccounted supplies to Global Enterprises uncovered at Shakti Zarda Factory India Pvt Ltd premises</li>\n  <li>Key persons, buyers, and suppliers admitted to:</li>\n    <ul>\n      <li>Evasion of GST</li>\n      <li>Use of cash transactions</li>\n      <li>Clandestine transportation methods</li>\n    </ul>\n  <li><strong>Investigation Status</strong>: Ongoing with further actions pending</li>\n</ul>\n\n**Case References & Signatories**\n<ul>\n  <li><strong>File No.</strong>: DCG/NV/CST/AT/RRI/GA 22.05.2024 1782</li>\n  <li><strong>Diary No.</strong>: 1781412</li>\n  <li><strong>Digit Entry No.</strong>: 20240607115451 478</li>\n  <li><strong>Signatories</strong>:\n    <ul>\n      <li>Brij Bhushan Gupta, Pr. Additional Director General (Document Date: 22/05/2024, Signature Date: 28/05/2024)</li>\n      <li>RNIBATRRE Chatterjee, Director (Signature Date: 29/05/2024)</li>\n    </ul>\n  </li>\n</ul>",
                 "supply_details": [
                     {
                         "custom_tariff_id": "HSN/SAC",
                         "customs_tariff_code": "Hsn_Sac_tariff_code_01",
-                        "customs_tariff_description": "New pneumatic tyres (HSN 4011), Ferrous waste (HSN 72044900)",
+                        "customs_tariff_description": "2401 - Unmanufactured Tobacco",
                         "description_impugned_supply": ""
                     }
                 ],
@@ -499,433 +407,403 @@ const SplitLayout = () => {
                 "document_details": [
                     {
                         "document_name": "Search & seizure / Incident Report",
-                        "document_file": "https://ceibdev.php-staging.com/webroot/Default/upload_file/59485582419588790776198814186081994117_Grurukrapa.pdf"
+                        "document_file": "https://ceibdev.php-staging.com/webroot/Default/upload_file/84103415387796291599440906432758269317_MS_GLOBAL_ENTERPRISES.pdf"
                     }
                 ]
             },
-    show_cause_notice: {
-      scn_closure: '',
-      file_no: '',
-      scn_closure_no: '',
-      scn_closure_date: '',
-      gist: '',
-      issuing_authority: '',
-      adjudication_authority: '',
-      gst_offenders_records: [{ entity: [{ entity_id: [''] }], tax_demanded: '', type_of_penalty: '', penalty_demanded: '', tax_paid_cash: '', tax_paid_credit: '', interest_paid: '', penalty_paid: '' }],
-      document_details: [{ document_name: '', document_file: '' }]
+            show_cause_notice: {
+              scn_closure: '',
+              file_no: '',
+              scn_closure_no: '',
+              scn_closure_date: '',
+              gist: '',
+              issuing_authority: '',
+              adjudication_authority: '',
+              gst_offenders_records: [{ entity: [{ entity_id: [''] }], tax_demanded: '', type_of_penalty: '', penalty_demanded: '', tax_paid_cash: '', tax_paid_credit: '', interest_paid: '', penalty_paid: '' }],
+              document_details: [{ document_name: '', document_file: '' }]
+            },
+            order_in_original: {
+              file_no: '',
+              scn_no: [{ scn_no_id: '' }],
+              oio_no: '',
+              date_of_order: '',
+              gist: '',
+              is_confiscation_order_id: '',
+              value_confiscation_goods: '',
+              type_of_confiscation: '',
+              redemption_fine: '',
+              tax_implications: [{ entity: [{ entity_id: [''] }], status: '', tax: '', interest: '', penalty: '' }],
+              document_details: [{ document_name: '', document_file: '' }]
+            },
+            prosecution: {
+              file_no: '',
+              is_arrest_bail: '',
+              gist: '',
+              arrest_bails: [{ entity: [{ entity_id: [''] }], date_of_arrest: '', which_court_granted_bail_id: '', date_of_release: '' }],
+              prosecution_application: [{ charg_complaint_no: '', entity: [{ entity_id: [''] }], court_name: '', date_of_filing: '', court_case_no: '', gist_complaint: '', prosecution_order: [{ order_no: '', date_of_order: '', gist_of_order: '', status_id: '' }] }]
+            },
+            commissioner_appeals: {
+              filed_by_id: '',
+              file_no: '',
+              appeal_no: '',
+              date_of_filing: '',
+              appellant_name: [{ appellant_name_id: [''] }],
+              order_no: '',
+              date_of_order: '',
+              gist: '',
+              amount_involved: '',
+              status: '',
+              document_details: [{ document_name: '', document_file: '' }]
+            },
+            cestat_appeals: {
+              filed_by_id: '',
+              file_no: '',
+              appeal_no: '',
+              date_of_filing: '',
+              appellant_name: [{ appellant_name_id: [''] }],
+              order_no: '',
+              date_of_order: '',
+              gist: '',
+              amount_involved: '',
+              status: '',
+              document_details: [{ document_name: '', document_file: '' }]
+            },
+            high_court_appeals: {
+              filed_by_id: '',
+              file_no: '',
+              appeal_no: '',
+              date_of_filing: '',
+              appellant_name: [{ appellant_name_id: [''] }],
+              order_no: '',
+              date_of_order: '',
+              gist: '',
+              amount_involved: '',
+              status: '',
+              document_details: [{ document_name: '', document_file: '' }]
+            },
+            supreme_court_appeals: {
+              filed_by_id: '',
+              file_no: '',
+              appeal_no: '',
+              date_of_filing: '',
+              appellant_name: [{ appellant_name_id: [''] }],
+              order_no: '',
+              date_of_order: '',
+              gist: '',
+              amount_involved: '',
+              status: '',
+              document_details: [{ document_name: '', document_file: '' }]
+            }
     },
-    order_in_original: {
-      file_no: '',
-      scn_no: [{ scn_no_id: '' }],
-      oio_no: '',
-      date_of_order: '',
-      gist: '',
-      is_confiscation_order_id: '',
-      value_confiscation_goods: '',
-      type_of_confiscation: '',
-      redemption_fine: '',
-      tax_implications: [{ entity: [{ entity_id: [''] }], status: '', tax: '', interest: '', penalty: '' }],
-      document_details: [{ document_name: '', document_file: '' }]
-    },
-    prosecution: {
-      file_no: '',
-      is_arrest_bail: '',
-      gist: '',
-      arrest_bails: [{ entity: [{ entity_id: [''] }], date_of_arrest: '', which_court_granted_bail_id: '', date_of_release: '' }],
-      prosecution_application: [{ charg_complaint_no: '', entity: [{ entity_id: [''] }], court_name: '', date_of_filing: '', court_case_no: '', gist_complaint: '', prosecution_order: [{ order_no: '', date_of_order: '', gist_of_order: '', status_id: '' }] }]
-    },
-    commissioner_appeals: {
-      filed_by_id: '',
-      file_no: '',
-      appeal_no: '',
-      date_of_filing: '',
-      appellant_name: [{ appellant_name_id: [''] }],
-      order_no: '',
-      date_of_order: '',
-      gist: '',
-      amount_involved: '',
-      status: '',
-      document_details: [{ document_name: '', document_file: '' }]
-    },
-    cestat_appeals: {
-      filed_by_id: '',
-      file_no: '',
-      appeal_no: '',
-      date_of_filing: '',
-      appellant_name: [{ appellant_name_id: [''] }],
-      order_no: '',
-      date_of_order: '',
-      gist: '',
-      amount_involved: '',
-      status: '',
-      document_details: [{ document_name: '', document_file: '' }]
-    },
-    high_court_appeals: {
-      filed_by_id: '',
-      file_no: '',
-      appeal_no: '',
-      date_of_filing: '',
-      appellant_name: [{ appellant_name_id: [''] }],
-      order_no: '',
-      date_of_order: '',
-      gist: '',
-      amount_involved: '',
-      status: '',
-      document_details: [{ document_name: '', document_file: '' }]
-    },
-    supreme_court_appeals: {
-      filed_by_id: '',
-      file_no: '',
-      appeal_no: '',
-      date_of_filing: '',
-      appellant_name: [{ appellant_name_id: [''] }],
-      order_no: '',
-      date_of_order: '',
-      gist: '',
-      amount_involved: '',
-      status: '',
-      document_details: [{ document_name: '', document_file: '' }]
-    }
-  }
-
-  const CoordinatesData = {
     "pdf_coordinates": {
         "": {},
-        "DVG/NV/051/258/2023/89": [],
-        "BZU/49/2024-25": {
+        "DCG/NV/CST/AT/RRI/GA 22.05.2024 1782": [],
+        "Global Enterprises": {
             "page_number": 1,
             "width": 1786,
-            "height": 2526,
+            "height": 2552,
             "coordinates": [
                 [
-                    0.3563567329227324,
-                    0.3701171875
+                    0.13719554871220607,
+                    0.3212890625
                 ],
                 [
-                    0.7596628289473684,
-                    0.3857421875
+                    0.8209423992161254,
+                    0.3330078125
                 ]
             ]
         },
-        "Gurukrupa Enterprise": {
+        "22.05.2024": {
             "page_number": 1,
             "width": 1786,
-            "height": 2526,
+            "height": 2552,
             "coordinates": [
                 [
-                    0.4640891832306831,
-                    0.4140625
+                    0.13998635218365063,
+                    0.2294921875
                 ],
                 [
-                    0.935073357012878,
-                    0.431640625
+                    0.21952425111982082,
+                    0.2412109375
                 ]
             ]
         },
-        "24.06.2024": [],
-        "Entity": {
-            "page_number": 2,
-            "width": 1786,
-            "height": 2526,
-            "coordinates": [
-                [
-                    0.1118869418393057,
-                    0.140625
-                ],
-                [
-                    0.899162540243561,
-                    0.1591796875
-                ]
-            ]
-        },
+        "Entity": [],
         "GSTIN": {
             "page_number": 1,
             "width": 1786,
-            "height": 2526,
+            "height": 2552,
             "coordinates": [
                 [
-                    0.19475805746080627,
-                    0.2177734375
+                    0.13719554871220607,
+                    0.3525390625
                 ],
                 [
-                    0.8314844624860023,
-                    0.23828125
+                    0.1971978233482643,
+                    0.3681640625
                 ]
             ]
         },
-        "21GJGPB4527N128": {
-            "page_number": 1,
-            "width": 1786,
-            "height": 2526,
-            "coordinates": [
-                [
-                    0.46547036849104145,
-                    0.5009765625
-                ],
-                [
-                    0.6519303786394177,
-                    0.5146484375
-                ]
-            ]
-        },
-        "21GJGPB4527N1Z28": {
-            "page_number": 2,
-            "width": 1786,
-            "height": 2526,
-            "coordinates": [
-                [
-                    0.11326812709966405,
-                    0.2666015625
-                ],
-                [
-                    0.7223708269176932,
-                    0.28125
-                ]
-            ]
-        },
-        "21GJGPB4527N1Z8": {
-            "page_number": 2,
-            "width": 1786,
-            "height": 2526,
-            "coordinates": [
-                [
-                    0.11603049762038076,
-                    0.4931640625
-                ],
-                [
-                    0.9019249107642777,
-                    0.5078125
-                ]
-            ]
-        },
+        "07AATFG8429N1ZH": [],
         "Address Type (Business)": [],
-        "Business": {
-            "page_number": 2,
-            "width": 1786,
-            "height": 2526,
-            "coordinates": [
-                [
-                    0.11326812709966405,
-                    0.3037109375
-                ],
-                [
-                    0.9005437255039194,
-                    0.322265625
-                ]
-            ]
-        },
-        "Plot No-256": {
+        "Business": [],
+        "Khasra No. 81/173-174": {
             "page_number": 1,
             "width": 1786,
-            "height": 2526,
+            "height": 2552,
             "coordinates": [
                 [
-                    0.46547036849104145,
-                    0.4375
+                    0.13719554871220607,
+                    0.3212890625
                 ],
                 [
-                    0.9336921717525196,
-                    0.455078125
+                    0.8209423992161254,
+                    0.3330078125
                 ]
             ]
         },
-        "C/o-Jata Behera": {
+        "Village Bakoli": {
             "page_number": 1,
             "width": 1786,
-            "height": 2526,
+            "height": 2552,
             "coordinates": [
                 [
-                    0.46547036849104145,
-                    0.4375
+                    0.13719554871220607,
+                    0.3212890625
                 ],
                 [
-                    0.9336921717525196,
-                    0.455078125
+                    0.8209423992161254,
+                    0.3330078125
                 ]
             ]
         },
-        "Balanga": {
+        "Delhi": {
             "page_number": 1,
             "width": 1786,
-            "height": 2526,
+            "height": 2552,
             "coordinates": [
                 [
-                    0.46547036849104145,
-                    0.4375
+                    0.02695881159014557,
+                    0.0166015625
                 ],
                 [
-                    0.9336921717525196,
-                    0.455078125
+                    0.3660414333706607,
+                    0.0263671875
                 ]
             ]
         },
-        "Nuasantha": {
+        "110036": {
             "page_number": 1,
             "width": 1786,
-            "height": 2526,
+            "height": 2552,
             "coordinates": [
                 [
-                    0.46685155375139975,
-                    0.4619140625
+                    0.3199931760918253,
+                    0.333984375
                 ],
                 [
-                    0.8673952792553192,
-                    0.474609375
+                    0.4288345114781635,
+                    0.3515625
                 ]
             ]
         },
-        "752105": {
+        "India": {
             "page_number": 1,
             "width": 1786,
-            "height": 2526,
+            "height": 2552,
             "coordinates": [
                 [
-                    0.46685155375139975,
-                    0.4619140625
+                    0.31720237262038076,
+                    0.13671875
                 ],
                 [
-                    0.8673952792553192,
-                    0.474609375
+                    0.5613976763717805,
+                    0.150390625
                 ]
             ]
         },
-        "Puri": {
+        "Shakti Zarda Factory India Pvt Ltd": [],
+        "15": {
             "page_number": 1,
             "width": 1786,
-            "height": 2526,
+            "height": 2552,
             "coordinates": [
                 [
-                    0.46685155375139975,
-                    0.4619140625
+                    0.32557478303471443,
+                    0.4833984375
                 ],
                 [
-                    0.8673952792553192,
-                    0.474609375
+                    0.5502344624860023,
+                    0.498046875
                 ]
             ]
         },
-        "Odisha": {
+        "Rajasthani Udyog Nagar": {
             "page_number": 1,
             "width": 1786,
-            "height": 2526,
+            "height": 2552,
             "coordinates": [
                 [
-                    0.22652531844904816,
-                    0.2080078125
+                    0.13998635218365063,
+                    0.64453125
                 ],
                 [
-                    0.802479572018477,
-                    0.2236328125
-                ]
-            ]
-        },
-        "India": [],
-        "Individual": [],
-        "Guruprasad Behera": {
-            "page_number": 2,
-            "width": 1786,
-            "height": 2526,
-            "coordinates": [
-                [
-                    0.11603049762038076,
-                    0.3310546875
-                ],
-                [
-                    0.899162540243561,
-                    0.34765625
-                ]
-            ]
-        },
-        "Sandeep Mohanty": {
-            "page_number": 1,
-            "width": 1786,
-            "height": 2526,
-            "coordinates": [
-                [
-                    0.4682327390117581,
-                    0.8134765625
-                ],
-                [
-                    0.9226426896696529,
-                    0.826171875
-                ]
-            ]
-        },
-        "Aadhaar": [],
-        "782735389331": {
-            "page_number": 1,
-            "width": 1786,
-            "height": 2526,
-            "coordinates": [
-                [
-                    0.4682327390117581,
-                    0.8134765625
-                ],
-                [
-                    0.9226426896696529,
-                    0.826171875
+                    0.8251286044232923,
+                    0.65234375
                 ]
             ]
         },
         "GST": {
             "page_number": 1,
             "width": 1786,
-            "height": 2526,
+            "height": 2552,
             "coordinates": [
                 [
-                    0.19475805746080627,
-                    0.2177734375
+                    0.02695881159014557,
+                    0.0166015625
                 ],
                 [
-                    0.8314844624860023,
-                    0.23828125
+                    0.3660414333706607,
+                    0.0263671875
                 ]
             ]
         },
         "Central Goods and Services Tax Act, 2017": [],
-        "fraudulent Input Tax Credit": {
+        "Clandestine removal of goods to evade payment of tax": [],
+        "Clandestine removal of taxable goods to evade payment of tax": [],
+        "Evaded payment of appropriate GST": [],
+        "evaded payment of GST": [],
+        "Not Payment Of GST": [],
+        "Non payment of GST": [],
+        "Mis-declaring of stock to evade the payment of tax": [],
+        "Clandestine sale": [],
+        "Search": {
             "page_number": 1,
             "width": 1786,
-            "height": 2526,
+            "height": 2552,
             "coordinates": [
                 [
-                    0.5856334861422172,
-                    0.64453125
+                    0.20277943029115342,
+                    0.6083984375
                 ],
                 [
-                    0.8770635760778276,
-                    0.6591796875
+                    0.8265240061590146,
+                    0.62890625
                 ]
             ]
         },
-        "Availment of Fake ITC": [],
-        "Availment of ineligible ITC from non-existing / fake entity": [],
-        "Non-existent Entity": [],
-        "Non-existent Entity, obtained registration with false Information": [],
-        "Search": [],
-        "1,91,00,000": [],
+        "5.75 Crore": {
+            "page_number": 1,
+            "width": 1786,
+            "height": 2552,
+            "coordinates": [
+                [
+                    0.35069201427771557,
+                    0.3994140625
+                ],
+                [
+                    0.43022991321388576,
+                    0.4140625
+                ]
+            ]
+        },
         "No": {
             "page_number": 1,
             "width": 1786,
-            "height": 2526,
+            "height": 2552,
             "coordinates": [
                 [
-                    0.6394997112961927,
-                    0.0693359375
+                    0.13300934350503918,
+                    0.212890625
                 ],
                 [
-                    0.8673952792553192,
-                    0.0849609375
+                    0.46232415313549835,
+                    0.228515625
                 ]
             ]
         },
-        "<strong>Introduction</strong><br>\n<ul>\n    <li>Incident Report <b>BZU/49/2024-25</b> filed by Directorate General of Goods and Services Tax Intelligence (DGGI) against M/s. Gurukrupa Enterprise.</li>\n</ul>\n\n<strong>Entity Details</strong><br>\n<ul>\n    <li><b>Firm Name</b>: M/s. Gurukrupa Enterprise, <b>Proprietor</b>: Guruprasad Behera.</li>\n    <li><b>GSTINs</b>: Primary - 21GJGPB4527N128, Conflicting - 21GJGPB4527N1Z28, 21GJGPB4527N1Z8.</li>\n    <li><b>Declared Address</b>: Plot No-256, Balanga, Puri (found non-operational).</li>\n</ul>\n\n<strong>Case Summary</strong><br>\n<ul>\n    <li><b>Offense</b>: Fraudulent Input Tax Credit (ITC) claims without actual supply of goods.</li>\n    <li><b>Fraudulent Amount</b>: ₹1.91 crore via fake invoices.</li>\n    <li><b>Arrest</b>: Sandeep Mohanty (Aadhaar 782735389331) arrested.</li>\n</ul>\n\n<strong>Investigation & References</strong><br>\n<ul>\n    <li><b>Origin</b>: Intelligence developed by DGGI officers on 24 June 2024.</li>\n    <li><b>Registration Status</b>: Deemed fraudulent, no voluntary deposit made.</li>\n    <li><b>Case Status</b>: Ongoing under Bhubaneswar Zonal Unit.</li>\n    <li><b>References</b:;\n        <ul>\n            <li><b>File No.</b>: DVG/NV/051/258/2023/89.</li>\n            <li><b>Diary No.</b>: 3797387 (21/04/2024).</li>\n        </ul>\n    </li>\n</ul>\n\n<strong>Goods Involved</strong><br>\n<ul>\n    <li><b>Items</b>:\n        <ul>\n            <li>New Pneumatic Tyres (<b>HSN 4011</b>).</li>\n            <li>Ferrous Waste (<b>HSN 72044900</b>).</li>\n        </ul>\n    </li>\n</ul>": [],
+        "**Introduction**\n<ul>\n  <li>Subject: GST Evasion Case against M/s Global Enterprises</li>\n  <li>Investigating Body: Directorate General of GST Intelligence (DGGI)</li>\n</ul>\n\n**Case Details**\n<ul>\n  <li><strong>Evasion Amount</strong>: Approximately Rs. 5.75 crore</li>\n  <li><strong>Product Involved</strong>: Unmanufactured Tobacco (branded as SWAGAT/SWAGAT GOLD Khaini)</li>\n  <li><strong>Company Involved</strong>: M/s Global Enterprises (Manufacturer)</li>\n  <li><strong>Brand Owner</strong>: Shakti Zarda Factory India Pvt Ltd</li>\n</ul>\n\n**Investigation Findings**\n<ul>\n  <li>Unaccounted supplies to Global Enterprises uncovered at Shakti Zarda Factory India Pvt Ltd premises</li>\n  <li>Key persons, buyers, and suppliers admitted to:</li>\n    <ul>\n      <li>Evasion of GST</li>\n      <li>Use of cash transactions</li>\n      <li>Clandestine transportation methods</li>\n    </ul>\n  <li><strong>Investigation Status</strong>: Ongoing with further actions pending</li>\n</ul>\n\n**Case References & Signatories**\n<ul>\n  <li><strong>File No.</strong>: DCG/NV/CST/AT/RRI/GA 22.05.2024 1782</li>\n  <li><strong>Diary No.</strong>: 1781412</li>\n  <li><strong>Digit Entry No.</strong>: 20240607115451 478</li>\n  <li><strong>Signatories</strong>:\n    <ul>\n      <li>Brij Bhushan Gupta, Pr. Additional Director General (Document Date: 22/05/2024, Signature Date: 28/05/2024)</li>\n      <li>RNIBATRRE Chatterjee, Director (Signature Date: 29/05/2024)</li>\n    </ul>\n  </li>\n</ul>": [],
         "HSN/SAC": [],
         "Hsn_Sac_tariff_code_01": [],
-        "New pneumatic tyres (HSN 4011), Ferrous waste (HSN 72044900)": [],
+        "2401 - Unmanufactured Tobacco": [],
         "Search & seizure / Incident Report": [],
-        "https://ceibdev.php-staging.com/webroot/Default/upload_file/59485582419588790776198814186081994117_Grurukrapa.pdf": []
+        "https://ceibdev.php-staging.com/webroot/Default/upload_file/84103415387796291599440906432758269317_MS_GLOBAL_ENTERPRISES.pdf": []
     }
+}
+
+// Helper functions for date format conversion
+  const convertToInputFormat = (dateStr) => {
+    if (!dateStr) return '';
+    // If date is in DD/MM/YYYY format, convert to YYYY-MM-DD
+    if (dateStr.includes('/')) {
+      const [day, month, year] = dateStr.split('/');
+      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    }
+    return dateStr;
+  };
+
+  const convertToDisplayFormat = (dateStr) => {
+    if (!dateStr) return '';
+    // If date is in YYYY-MM-DD format, convert to DD/MM/YYYY
+    if (dateStr.includes('-')) {
+      const [year, month, day] = dateStr.split('-');
+      return `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`;
+    }
+    return dateStr;
+  };
+
+  const [activeTab, setActiveTab] = useState(1);
+  const [formData, setFormData] = useState({
+    "case_id": Data.case_id || "",
+    "file_no": Data.file_no || "",
+    "case_order_no": Data.case_order_no || "",
+    "case_name": Data.case_name || "",
+    "offence_date": Data.offence_date ? convertToInputFormat(Data.offence_date) : "",
+  });
+
+  const tabs = [
+    { id: 1, title: 'Case Identifiers', completed: true },
+    { id: 2, title: 'Entity Details', completed: false },
+    { id: 3, title: 'Case Attributes', completed: false },
+    { id: 4, title: 'Offence Details', completed: false }
+  ];
+
+  const handleTabClick = (tabId) => {
+    setActiveTab(tabId);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Form submitted:', formData);
+    const submissionData = {
+      ...formData,
+      offence_date: convertToDisplayFormat(formData.offence_date)
+    };
+    console.log('Converted data:', submissionData);
+  };
+
+  // Add your initial entity details data here
+  const initialEntityDetails = {
+     "offender_identity_informations": Data.offender_identity_informations || [],
+     "unknown_contact_informations": Data.unknown_contact_informations || [],
+  };
+
+  const initialCaseAttributesDetails={
+   "case_attributes": Data.case_attributes || [],
+  }
+
+  const initialDGGIDetails = Data.dggi || {};
+
+  const CoordinatesData = {
+    "pdf_coordinates": Data.pdf_coordinates || {},
     }
 
   const renderTabContent = () => {
@@ -1087,7 +965,7 @@ const SplitLayout = () => {
         {/* Right Panel - Canvas */}
         <div className={styles.rightPanel}>
           <div className={styles.canvasWrapper}>
-                <Canvas initialdata={CoordinatesData} />
+                <Canvas initialdata={Data} />
           </div>
         </div>
       </div>

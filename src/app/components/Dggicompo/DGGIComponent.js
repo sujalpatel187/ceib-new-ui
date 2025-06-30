@@ -68,7 +68,9 @@ const DGGIForm = ({ onSubmit, onReset, initialData }) => {
     onReset?.();
   };
 
-  const renderFormGroup = (label, name, type = 'text', options = [], required = false, section = activeTab) => (
+  const renderFormGroup = (label, name, type = 'text', options = [], required = false, section = activeTab) => {
+    // console.log(section)
+    return (
     <div className={styles.formGroup}>
       <label className={styles.label}>
         {label}
@@ -105,7 +107,7 @@ const DGGIForm = ({ onSubmit, onReset, initialData }) => {
         />
       )}
     </div>
-  );
+  )};
 const renderSearchSeizure = () => (
   <div className={styles.section}>
     <div className={styles.sectionHeader}>
@@ -143,8 +145,8 @@ const renderSearchSeizure = () => (
           + Add Supply Detail
         </button>
       </div>
-      
-      {formData.search_seizure.supply_details.map((item, index) => (
+      {/* {console.log(formData.search_seizure.supply_details)} */}
+      {formData.search_seizure && formData.search_seizure.supply_details.map((item, index) => (
         <div key={index} className={styles.arrayItem}>
           <div className={styles.arrayItemHeader}>
             <span className={styles.itemNumber}>Supply Detail {index + 1}</span>

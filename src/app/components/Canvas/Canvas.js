@@ -16,95 +16,212 @@ const PDFCanvasViewer = ({ pdfPath, initialdata }) => {
   const [pdfjsLib, setPdfjsLib] = useState(null);
   const [pageSize, setPageSize] = useState({ width: 0, height: 0 });
   const [showCoordinates, setShowCoordinates] = useState(true);
-  console.log(initialdata)
+  const [showMissingData, setShowMissingData] = useState(true);
+  const [dataStats, setDataStats] = useState({ withCoords: 0, withoutCoords: 0, missing: 0 });
+
+  // console.log(initialdata)
   const CoordinatesData = initialdata
 
   // Fixed canvas dimensions - vertical rectangle
   const CANVAS_WIDTH = 580;
   const CANVAS_HEIGHT = 800;
 
-  // Function to get coordinates for current page
-  const getCoordinatesForPage = useCallback((pageNumber) => {
-    const coordinates = [];
-    const coordData = CoordinatesData.pdf_coordinates;
+  // Function to extract all values from the main data object recursively
+  const extractAllValues = useCallback((obj, path = '') => {
+    const values = [];
     
-    Object.entries(coordData).forEach(([text, data]) => {
-      if (data && typeof data === 'object' && data.page_number === pageNumber && data.coordinates) {
-        coordinates.push({
-          text: text,
-          ...data
+    // Keys to exclude from iteration
+    const excludedKeys = [
+      'doc_status',
+      'doc_id', 
+      'deviceId',
+      'token',
+      'agency',
+      'sub_agency_id',
+      'sub_agency_id_level_2',
+      'sub_agency_id_level_3', 
+      'sub_agency_id_level_4',
+      'sub_agency_id_level_5',
+      'pdf_coordinates'
+    ];
+    
+    const traverse = (current, currentPath) => {
+      if (current === null || current === undefined || current === '') {
+        return;
+      }
+      
+      if (typeof current === 'string' || typeof current === 'number') {
+        const value = String(current).trim();
+        if (value && value !== '' && value !== '0' && !currentPath.includes('coordinates')) {
+          values.push({
+            value,
+            path: currentPath,
+            type: typeof current
+          });
+        }
+      } else if (Array.isArray(current)) {
+        current.forEach((item, index) => {
+          traverse(item, `${currentPath}[${index}]`);
         });
+      } else if (typeof current === 'object') {
+        Object.entries(current).forEach(([key, value]) => {
+          const newPath = currentPath ? `${currentPath}.${key}` : key;
+          // Skip excluded keys
+          if (!excludedKeys.includes(key)) {
+            traverse(value, newPath);
+          }
+        });
+      }
+    };
+    
+    traverse(obj, path);
+    return values;
+  }, []);
+
+  // Function to categorize data values based on coordinate availability
+  const categorizeDataValues = useCallback(() => {
+    const allValues = extractAllValues(CoordinatesData);
+    const coordData = CoordinatesData.pdf_coordinates || {};
+    
+    const categorized = {
+      withCoordinates: [], // Key exists and has coordinates
+      withoutCoordinates: [], // Key exists but no coordinates
+      missing: [] // Key doesn't exist in pdf_coordinates
+    };
+    
+    allValues.forEach(({ value, path, type }) => {
+      if (coordData.hasOwnProperty(value)) {
+        const coordEntry = coordData[value];
+        if (coordEntry && 
+            typeof coordEntry === 'object' && 
+            coordEntry.coordinates && 
+            Array.isArray(coordEntry.coordinates) && 
+            coordEntry.coordinates.length >= 2) {
+          categorized.withCoordinates.push({ value, path, type, coordData: coordEntry });
+        } else {
+          categorized.withoutCoordinates.push({ value, path, type, coordData: coordEntry });
+        }
+      } else {
+        categorized.missing.push({ value, path, type });
       }
     });
     
-    return coordinates;
-  }, []);
+    return categorized;
+  }, [CoordinatesData, extractAllValues]);
 
-  // Function to draw coordinate overlays
+  // Function to get coordinates for current page with categorization
+  const getCoordinatesForPage = useCallback((pageNumber) => {
+    const categorized = categorizeDataValues();
+    const pageCoordinates = {
+      withCoordinates: [],
+      withoutCoordinates: [],
+      missing: categorized.missing // Missing data doesn't have coordinates to display
+    };
+    
+    // Filter coordinates for current page
+    categorized.withCoordinates.forEach(item => {
+      if (item.coordData.page_number === pageNumber) {
+        pageCoordinates.withCoordinates.push(item);
+      }
+    });
+    
+    categorized.withoutCoordinates.forEach(item => {
+      if (item.coordData && item.coordData.page_number === pageNumber) {
+        pageCoordinates.withoutCoordinates.push(item);
+      }
+    });
+    
+    return pageCoordinates;
+  }, [categorizeDataValues]);
+
+  // Update stats whenever data changes
+  useEffect(() => {
+    const categorized = categorizeDataValues();
+    setDataStats({
+      withCoords: categorized.withCoordinates.length,
+      withoutCoords: categorized.withoutCoordinates.length,
+      missing: categorized.missing.length
+    });
+  }, [categorizeDataValues]);
+
+  // Function to draw coordinate overlays with color coding
   const drawCoordinateOverlays = useCallback(() => {
     if (!overlayCanvasRef.current) return;
 
     const overlayCanvas = overlayCanvasRef.current;
     const overlayCtx = overlayCanvas.getContext('2d');
 
-    // Clear overlay canvas first to remove any old coordinates
+    // Clear overlay canvas first
     overlayCtx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-    if (!showCoordinates) {
-      // If coordinates should not be shown, simply return
-      return;
-    }
+    if (!showCoordinates) return;
 
-    // Get coordinates for current page
+    // Get categorized coordinates for current page
     const pageCoordinates = getCoordinatesForPage(currentPage);
 
-    if (pageCoordinates.length === 0) return;
-
-    // Get page viewport for scaling
     if (!pdfDoc) return;
     
     pdfDoc.getPage(currentPage).then(page => {
       const viewport = page.getViewport({ scale });
       
-      // Calculate centering offset (same as PDF rendering)
+      // Calculate centering offset
       const offsetX = (CANVAS_WIDTH - viewport.width) / 2 + pan.x;
       const offsetY = (CANVAS_HEIGHT - viewport.height) / 2 + pan.y;
       
-      // Draw each coordinate
-      pageCoordinates.forEach((coordData, index) => {
-        if (coordData.coordinates && coordData.coordinates.length >= 2) {
-          // Extract percentage coordinates (0-1 range)
-          const [topLeftPercent, bottomRightPercent] = coordData.coordinates;
-          const [x1Percent, y1Percent] = topLeftPercent;    // Top-left corner percentages
-          const [x2Percent, y2Percent] = bottomRightPercent; // Bottom-right corner percentages
+      // Draw coordinates with green color (data available with coordinates)
+      pageCoordinates.withCoordinates.forEach((item) => {
+        if (item.coordData.coordinates && item.coordData.coordinates.length >= 2) {
+          const [topLeftPercent, bottomRightPercent] = item.coordData.coordinates;
+          const [x1Percent, y1Percent] = topLeftPercent;
+          const [x2Percent, y2Percent] = bottomRightPercent;
           
-          // Convert percentage coordinates to actual pixel coordinates on the viewport
           const x1 = (x1Percent * viewport.width) + offsetX;
           const y1 = (y1Percent * viewport.height) + offsetY;
           const x2 = (x2Percent * viewport.width) + offsetX;
           const y2 = (y2Percent * viewport.height) + offsetY;
           
-          // Calculate rectangle dimensions
           const rectWidth = x2 - x1;
           const rectHeight = y2 - y1;
           
-          // Only draw if the rectangle is within the visible area
           if (x2 > 0 && y2 > 0 && x1 < CANVAS_WIDTH && y1 < CANVAS_HEIGHT) {
-            // Fixed light yellow colors
-            const color = 'rgba(255, 255, 0, 0.1)'; // Light yellow with transparency
-            const borderColor = 'rgba(255, 255, 0, 0.8)'; // Brighter yellow border
-            
-            // Draw filled rectangle
-            overlayCtx.fillStyle = color;
+            // Green for data with coordinates
+            overlayCtx.fillStyle = 'rgba(34, 197, 94, 0.15)'; // Light green
             overlayCtx.fillRect(x1, y1, rectWidth, rectHeight);
             
-            // Draw border
-            overlayCtx.strokeStyle = borderColor;
+            overlayCtx.strokeStyle = 'rgba(34, 197, 94, 0.8)'; // Green border
             overlayCtx.lineWidth = 2;
             overlayCtx.strokeRect(x1, y1, rectWidth, rectHeight);
           }
         }
       });
+      
+      // Draw coordinates with yellow color (data available but no coordinates)
+      pageCoordinates.withoutCoordinates.forEach((item) => {
+        if (item.coordData && item.coordData.coordinates && item.coordData.coordinates.length >= 2) {
+          const [topLeftPercent, bottomRightPercent] = item.coordData.coordinates;
+          const [x1Percent, y1Percent] = topLeftPercent;
+          const [x2Percent, y2Percent] = bottomRightPercent;
+          
+          const x1 = (x1Percent * viewport.width) + offsetX;
+          const y1 = (y1Percent * viewport.height) + offsetY;
+          const x2 = (x2Percent * viewport.width) + offsetX;
+          const y2 = (y2Percent * viewport.height) + offsetY;
+          
+          const rectWidth = x2 - x1;
+          const rectHeight = y2 - y1;
+          
+          if (x2 > 0 && y2 > 0 && x1 < CANVAS_WIDTH && y1 < CANVAS_HEIGHT) {
+            // Yellow for data without proper coordinates
+            overlayCtx.fillStyle = 'rgba(255, 255, 0, 0.1)';
+            overlayCtx.fillRect(x1, y1, rectWidth, rectHeight);
+            
+            overlayCtx.strokeStyle = 'rgba(255, 255, 0, 0.8)';
+            overlayCtx.lineWidth = 2;
+            overlayCtx.strokeRect(x1, y1, rectWidth, rectHeight);
+          }
+        }
+      });
+      
     }).catch(err => {
       console.error('Error drawing coordinate overlays:', err);
     });
@@ -143,12 +260,11 @@ const PDFCanvasViewer = ({ pdfPath, initialdata }) => {
         const viewport = page.getViewport({ scale: 1 });
         setPageSize({ width: viewport.width, height: viewport.height });
         
-        // Calculate initial scale to fit the page in our fixed canvas
         const scaleX = CANVAS_WIDTH / viewport.width;
         const scaleY = CANVAS_HEIGHT / viewport.height;
-        const initialScale = Math.min(scaleX, scaleY) * 0.9; // 0.9 for some padding
+        const initialScale = Math.min(scaleX, scaleY) * 0.9;
         setScale(initialScale);
-        setPan({ x: 0, y: 0 }); // Center the content
+        setPan({ x: 0, y: 0 });
       } catch (err) {
         console.error('Error loading PDF from path:', err);
         setError(`Failed to load PDF from path: ${pdfPath}`);
@@ -176,21 +292,16 @@ const PDFCanvasViewer = ({ pdfPath, initialdata }) => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
         
-        // Set fixed canvas size
         canvas.width = CANVAS_WIDTH;
         canvas.height = CANVAS_HEIGHT;
         
-        // Clear canvas
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         
-        // Get page viewport
         const viewport = page.getViewport({ scale });
         
-        // Calculate centering offset
         const offsetX = (CANVAS_WIDTH - viewport.width) / 2 + pan.x;
         const offsetY = (CANVAS_HEIGHT - viewport.height) / 2 + pan.y;
         
-        // Save context and apply transforms
         ctx.save();
         ctx.translate(offsetX, offsetY);
 
@@ -205,7 +316,6 @@ const PDFCanvasViewer = ({ pdfPath, initialdata }) => {
         ctx.restore();
         renderTaskRef.current = null;
         
-        // Draw coordinate overlays after PDF is rendered
         setTimeout(() => drawCoordinateOverlays(), 100);
       } catch (err) {
         if (err.name !== 'RenderingCancelledException') {
@@ -226,7 +336,6 @@ const PDFCanvasViewer = ({ pdfPath, initialdata }) => {
     };
   }, [pdfDoc, currentPage, scale, pan, drawCoordinateOverlays]);
 
-  // Redraw overlays when relevant state changes
   useEffect(() => {
     drawCoordinateOverlays();
   }, [drawCoordinateOverlays]);
@@ -267,17 +376,19 @@ const PDFCanvasViewer = ({ pdfPath, initialdata }) => {
     setShowCoordinates(prev => !prev);
   };
 
+  const toggleMissingData = () => {
+    setShowMissingData(prev => !prev);
+  };
+
   const handleWheel = useCallback((e) => {
-    e.preventDefault(); // Always prevent default scroll behavior
+    e.preventDefault();
     
     if (e.ctrlKey || e.metaKey) {
-      // Zoom when Ctrl/Cmd is held
       const delta = e.deltaY;
       const zoomFactor = delta > 0 ? 0.9 : 1.1;
       const newScale = Math.min(Math.max(scale * zoomFactor, 0.2), 3);
       setScale(newScale);
     } else {
-      // Regular scroll wheel zoom (without Ctrl/Cmd)
       const delta = e.deltaY;
       const zoomFactor = delta > 0 ? 0.95 : 1.05;
       const newScale = Math.min(Math.max(scale * zoomFactor, 0.2), 3);
@@ -350,6 +461,11 @@ const PDFCanvasViewer = ({ pdfPath, initialdata }) => {
           e.preventDefault();
           toggleCoordinates();
           break;
+        case 'm':
+        case 'M':
+          e.preventDefault();
+          toggleMissingData();
+          break;
       }
     };
 
@@ -357,8 +473,12 @@ const PDFCanvasViewer = ({ pdfPath, initialdata }) => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [zoomIn, zoomOut, resetView, currentPage, totalPages, goToPrevPage, goToNextPage]);
 
-  // Get count of coordinates for current page
-  const currentPageCoordinatesCount = getCoordinatesForPage(currentPage).length;
+  // Get current page coordinates count
+  const currentPageCoords = getCoordinatesForPage(currentPage);
+  const currentPageStats = {
+    withCoords: currentPageCoords.withCoordinates.length,
+    withoutCoords: currentPageCoords.withoutCoordinates.length
+  };
 
   if (error) {
     return (
@@ -413,9 +533,20 @@ const PDFCanvasViewer = ({ pdfPath, initialdata }) => {
               📄 {pdfPath.split('/').pop()}
             </span>
           )}
-          {currentPageCoordinatesCount > 0 && (
-            <span style={styles.coordinateCount}>
-              📍 {currentPageCoordinatesCount} coordinates on page {currentPage}
+          <div style={styles.statsContainer}>
+            <span style={styles.statBadge}>
+              🟢 With Coords: {dataStats.withCoords}
+            </span>
+            <span style={styles.statBadgeYellow}>
+              🟡 Without Coords: {dataStats.withoutCoords}
+            </span>
+            <span style={styles.statBadgeRed}>
+              🔴 Missing: {dataStats.missing}
+            </span>
+          </div>
+          {(currentPageStats.withCoords > 0 || currentPageStats.withoutCoords > 0) && (
+            <span style={styles.pageStats}>
+              Page {currentPage}: {currentPageStats.withCoords + currentPageStats.withoutCoords} highlights
             </span>
           )}
         </div>
@@ -456,12 +587,30 @@ const PDFCanvasViewer = ({ pdfPath, initialdata }) => {
             }}
             title="Toggle Coordinates (H)"
           >
-            {showCoordinates ? '👁️ Hide' : '👁️ Show'} Coordinates
+            {showCoordinates ? '👁️ Hide' : '👁️ Show'} Highlights
           </button>
         </div>
       </div>
 
-      {/* Fixed Canvas Container */}
+      {/* Legend */}
+      {showCoordinates && (
+        <div style={styles.legend}>
+          <div style={styles.legendItem}>
+            <div style={styles.legendColorGreen}></div>
+            <span>Data with coordinates</span>
+          </div>
+          <div style={styles.legendItem}>
+            <div style={styles.legendColorYellow}></div>
+            <span>Data without coordinates</span>
+          </div>
+          <div style={styles.legendItem}>
+            <div style={styles.legendColorRed}></div>
+            <span>Missing data (not in PDF)</span>
+          </div>
+        </div>
+      )}
+
+      {/* Canvas Container */}
       <div style={styles.canvasWrapper}>
         <div
           ref={containerRef}
@@ -488,6 +637,27 @@ const PDFCanvasViewer = ({ pdfPath, initialdata }) => {
         </div>
       </div>
 
+      {/* Missing Data Panel */}
+      {showMissingData && dataStats.missing > 0 && (
+        <div style={styles.missingDataPanel}>
+          <div style={styles.missingHeader}>
+            <h4>Missing Data Items ({dataStats.missing})</h4>
+            <button onClick={toggleMissingData} style={styles.closeButton}>×</button>
+          </div>
+          <div style={styles.missingList}>
+            {categorizeDataValues().missing.slice(0, 10).map((item, index) => (
+              <div key={index} style={styles.missingItem}>
+                <span style={styles.missingValue}>{item.value}</span>
+                <span style={styles.missingPath}>{item.path}</span>
+              </div>
+            ))}
+            {dataStats.missing > 10 && (
+              <div style={styles.moreItems}>...and {dataStats.missing - 10} more items</div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Navigation Bar */}
       <div style={styles.navigationBar}>
         <button 
@@ -495,10 +665,8 @@ const PDFCanvasViewer = ({ pdfPath, initialdata }) => {
           disabled={currentPage <= 1} 
           style={{
             ...styles.navButton,
-            ...(currentPage <= 1 ? styles.navButtonDisabled : {}),
-            pointerEvents: currentPage <= 1 ? 'none' : 'auto'
+            ...(currentPage <= 1 ? styles.navButtonDisabled : {})
           }}
-          title={currentPage <= 1 ? "No previous page" : "Previous Page (←)"}
         >
           ← Previous
         </button>
@@ -512,10 +680,8 @@ const PDFCanvasViewer = ({ pdfPath, initialdata }) => {
           disabled={currentPage >= totalPages} 
           style={{
             ...styles.navButton,
-            ...(currentPage >= totalPages ? styles.navButtonDisabled : {}),
-            pointerEvents: currentPage >= totalPages ? 'none' : 'auto'
+            ...(currentPage >= totalPages ? styles.navButtonDisabled : {})
           }}
-          title={currentPage >= totalPages ? "No next page" : "Next Page (→)"}
         >
           Next →
         </button>
@@ -526,7 +692,7 @@ const PDFCanvasViewer = ({ pdfPath, initialdata }) => {
 
 // Demo component
 const Canvas = ({initialdata}) => {
-  const [pdfPath] = useState("59485582419588790776198814186081994117_Grurukrapa.pdf");
+  const [pdfPath] = useState("MS_GLOBAL_ENTERPRISES.pdf");
 
   return (
     <div style={styles.demo}>
@@ -535,7 +701,7 @@ const Canvas = ({initialdata}) => {
   );
 };
 
-// Styles object
+// Enhanced styles object
 const styles = {
   demo: {
     height: '90vh',
@@ -556,7 +722,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '0 0 20px 0',
+    padding: '0 0 10px 0',
     backgroundColor: 'white',
     borderBottomWidth: '1px',
     borderBottomStyle: 'solid',
@@ -578,16 +744,180 @@ const styles = {
     color: '#374151',
   },
   
-  coordinateCount: {
+  statsContainer: {
+    display: 'flex',
+    gap: '0.5rem',
+    flexWrap: 'wrap',
+  },
+  
+  statBadge: {
+    fontSize: '0.75rem',
+    fontWeight: '500',
+    color: '#065f46',
+    backgroundColor: '#d1fae5',
+    padding: '0.25rem 0.5rem',
+    borderRadius: '6px',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: '#a7f3d0',
+  },
+  
+  statBadgeYellow: {
+    fontSize: '0.75rem',
+    fontWeight: '500',
+    color: '#92400e',
+    backgroundColor: '#fef3c7',
+    padding: '0.25rem 0.5rem',
+    borderRadius: '6px',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: '#fcd34d',
+  },
+  
+  statBadgeRed: {
+    fontSize: '0.75rem',
+    fontWeight: '500',
+    color: '#991b1b',
+    backgroundColor: '#fee2e2',
+    padding: '0.25rem 0.5rem',
+    borderRadius: '6px',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: '#fca5a5',
+  },
+  
+  pageStats: {
     fontSize: '0.8rem',
     fontWeight: '500',
     color: '#059669',
     backgroundColor: '#ecfdf5',
     padding: '0.25rem 0.5rem',
     borderRadius: '6px',
+  },
+  
+  legend: {
+    display: 'flex',
+    gap: '1rem',
+    padding: '0.5rem 1rem',
+    backgroundColor: '#f8fafc',
+    borderBottomWidth: '1px',
+    borderBottomStyle: 'solid',
+    borderBottomColor: '#e2e8f0',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  
+  legendItem: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    fontSize: '0.8rem',
+    color: '#374151',
+  },
+  
+  legendColorGreen: {
+    width: '16px',
+    height: '16px',
+    backgroundColor: 'rgba(34, 197, 94, 0.3)',
+    borderWidth: '2px',
+    borderStyle: 'solid',
+    borderColor: 'rgba(34, 197, 94, 0.8)',
+    borderRadius: '3px',
+  },
+  
+  legendColorYellow: {
+    width: '16px',
+    height: '16px',
+    backgroundColor: 'rgba(255, 255, 0, 0.2)',
+    borderWidth: '2px',
+    borderStyle: 'solid',
+    borderColor: 'rgba(255, 255, 0, 0.8)',
+    borderRadius: '3px',
+  },
+  
+  legendColorRed: {
+    width: '16px',
+    height: '16px',
+    backgroundColor: 'rgba(239, 68, 68, 0.2)',
+    borderWidth: '2px',
+    borderStyle: 'solid',
+    borderColor: 'rgba(239, 68, 68, 0.8)',
+    borderRadius: '3px',
+  },
+  
+  missingDataPanel: {
+    position: 'absolute',
+    top: '50%',
+    right: '20px',
+    transform: 'translateY(-50%)',
+    width: '300px',
+    maxHeight: '400px',
+    backgroundColor: 'white',
+    borderRadius: '8px',
+    boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15)',
     borderWidth: '1px',
     borderStyle: 'solid',
-    borderColor: '#a7f3d0',
+    borderColor: '#e5e7eb',
+    zIndex: 1000,
+  },
+  
+  missingHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '1rem',
+    borderBottomWidth: '1px',
+    borderBottomStyle: 'solid',
+    borderBottomColor: '#e5e7eb',
+  },
+  
+  closeButton: {
+    background: 'none',
+    border: 'none',
+    fontSize: '1.5rem',
+    cursor: 'pointer',
+    color: '#6b7280',
+    padding: '0',
+    lineHeight: '1',
+  },
+  
+  missingList: {
+    maxHeight: '300px',
+    overflowY: 'auto',
+    padding: '1rem',
+  },
+  
+  missingItem: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.25rem',
+    padding: '0.5rem',
+    marginBottom: '0.5rem',
+    backgroundColor: '#fef2f2',
+    borderRadius: '6px',
+    borderLeftWidth: '4px',
+    borderLeftStyle: 'solid',
+    borderLeftColor: '#ef4444',
+  },
+  
+  missingValue: {
+    fontSize: '0.85rem',
+    fontWeight: '600',
+    color: '#dc2626',
+  },
+  
+  missingPath: {
+    fontSize: '0.75rem',
+    color: '#6b7280',
+    fontFamily: 'monospace',
+  },
+  
+  moreItems: {
+    textAlign: 'center',
+    padding: '0.5rem',
+    fontSize: '0.8rem',
+    color: '#6b7280',
+    fontStyle: 'italic',
   },
   
   controls: {
@@ -672,6 +1002,7 @@ const styles = {
     alignItems: 'center',
     padding: '1rem',
     background: 'linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)',
+    position: 'relative',
   },
   
   canvasContainer: {
